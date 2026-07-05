@@ -60,7 +60,7 @@
         </div>
 
         <!-- Index Level Indicator and Status -->
-        <div class="flex flex-wrap items-center gap-4 text-sm">
+        <div class="flex flex-wrap items-center gap-3 text-sm">
             <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-full px-4 py-1.5">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                 <span class="text-slate-300 font-medium">加權指數：</span>
@@ -70,6 +70,10 @@
             <button id="ai-global-sync" onclick="triggerAISync()" class="flex items-center gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-slate-950 font-semibold px-4 py-1.5 rounded-full shadow-lg transition duration-200">
                 <i class="fa-solid fa-wand-magic-sparkles"></i>
                 <span>AI 聯網同步</span>
+            </button>
+            <button onclick="openApiKeyModal()" class="flex items-center justify-center bg-slate-900 border border-slate-800 text-slate-300 hover:text-white p-2.5 rounded-full transition duration-200 relative" title="設定 Gemini API Key">
+                <i class="fa-solid fa-key text-xs"></i>
+                <span id="key-badge" class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-rose-500"></span>
             </button>
         </div>
     </nav>
@@ -387,7 +391,7 @@
                                 您好！我是您的台股 AI 金融分析師。我能透過 Google Search 實時查詢台股最新的法人評等、盈餘預測與大盤本益比修正趨勢。
                             </p>
                             <p class="text-slate-400 mt-2 text-[10px]">
-                                請在下方選擇快速調研主題，或直接於下方輸入問題查詢。
+                                請先點擊右上角 <i class="fa-solid fa-key"></i> 圖示設定您的 Gemini API Key 後，即可啟用實時聯網分析。
                             </p>
                         </div>
                     </div>
@@ -479,6 +483,38 @@
         </div>
     </div>
 
+    <!-- API Key Settings Modal -->
+    <div id="api-key-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="glassmorphism p-6 rounded-2xl border border-slate-800 w-full max-w-md mx-4 shadow-2xl relative">
+            <button onclick="closeApiKeyModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-100 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h4 class="text-base font-bold text-slate-100 mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-key text-teal-400"></i> 設定 Gemini API 金鑰
+            </h4>
+            <p class="text-xs text-slate-400 mb-4 leading-relaxed">
+                此金鑰僅會保存在您當前的手機或電腦瀏覽器中（LocalStorage），絕不會上傳至任何不安全的第三方伺服器，您可以安心使用。
+            </p>
+            
+            <div class="space-y-4">
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-300 flex justify-between">
+                        <span>Gemini API Key</span>
+                        <a href="https://aistudio.google.com/" target="_blank" class="text-teal-400 hover:underline flex items-center gap-1">
+                            點此免費申請 <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </label>
+                    <input type="password" id="gemini-api-key-input" placeholder="填入 AI Studio 取得的 AIzaSy... 金鑰" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-sm text-slate-100 tracking-wider focus:outline-none focus:border-teal-500">
+                </div>
+
+                <div class="pt-2 flex gap-3">
+                    <button onclick="clearApiKey()" class="flex-1 bg-rose-950/40 border border-rose-900/50 hover:bg-rose-900/40 text-rose-300 font-bold py-2 px-4 rounded-lg transition text-sm">清除金鑰</button>
+                    <button onclick="saveApiKey()" class="flex-1 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-slate-950 font-bold py-2 px-4 rounded-lg transition text-sm">保存設定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Original 30 biggest stocks representing 71.74% of weighted index
         let stocks = [
@@ -540,7 +576,7 @@
                 weightedEarningsYield2027 += w * (s.eps_2027 / s.price);
             });
 
-            // Rescale index components to absolute aggregate EPS representation
+            // Rescale index components to aggregate EPS representation
             const indexEPS2025 = currentTaiexPrice * weightedEarningsYield2025 * scalingFactor;
             const indexEPS2026 = currentTaiexPrice * weightedEarningsYield2026 * scalingFactor;
             const indexEPS2027 = currentTaiexPrice * weightedEarningsYield2027 * scalingFactor;
@@ -602,6 +638,7 @@
             document.getElementById("sim-target-index").innerText = Math.round(targetIndexVal).toLocaleString() + " 點";
         }
 
+        // Sector growth controller
         function updateSectorGrowth(sector, value) {
             simulatedGrowthRates[sector] = parseFloat(value);
             let suffix = value >= 0 ? "+" : "";
@@ -706,6 +743,55 @@
 
             closeEditModal();
             calculateIndexMetrics();
+        }
+
+        // --- LocalStorage API Key Managers ---
+        function getSavedApiKey() {
+            return localStorage.getItem("gemini_api_key") || "";
+        }
+
+        function updateKeyBadge() {
+            const hasKey = getSavedApiKey().trim().length > 0;
+            const badge = document.getElementById("key-badge");
+            if (hasKey) {
+                badge.className = "absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500";
+            } else {
+                badge.className = "absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse";
+            }
+        }
+
+        function openApiKeyModal() {
+            document.getElementById("gemini-api-key-input").value = getSavedApiKey();
+            document.getElementById("api-key-modal").classList.remove("hidden");
+        }
+
+        function closeApiKeyModal() {
+            document.getElementById("api-key-modal").classList.add("hidden");
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById("gemini-api-key-input").value.trim();
+            localStorage.setItem("gemini_api_key", key);
+            updateKeyBadge();
+            closeApiKeyModal();
+
+            // Append success notice to log
+            const feed = document.getElementById("ai-output-feed");
+            const div = document.createElement("div");
+            div.className = "bg-emerald-950/20 text-emerald-300 rounded-xl p-3 border border-emerald-900/50 text-[11px] mt-2";
+            div.innerHTML = `<i class="fa-solid fa-circle-check mr-1.5"></i>API Key 已安全儲存於您的瀏覽器！現在您可以正常使用 AI 同步功能。`;
+            feed.appendChild(div);
+            feed.scrollTop = feed.scrollHeight;
+
+            // Save completed, trigger a sync now
+            triggerAISync();
+        }
+
+        function clearApiKey() {
+            localStorage.removeItem("gemini_api_key");
+            document.getElementById("gemini-api-key-input").value = "";
+            updateKeyBadge();
+            closeApiKeyModal();
         }
 
         function renderPERiverChart() {
@@ -887,6 +973,12 @@
 
         // Send standard prompt to Gemini with Search Grounding
         async function runGeminiQuery(queryText, systemPrompt, outputElementId) {
+            const apiKey = getSavedApiKey().trim();
+            if (!apiKey) {
+                openApiKeyModal();
+                return;
+            }
+
             const outputFeed = document.getElementById(outputElementId);
             const loadingDiv = document.createElement("div");
             loadingDiv.className = "bg-slate-900/40 rounded-xl p-3 border border-slate-800 text-xs italic text-slate-400 animate-pulse";
@@ -894,7 +986,6 @@
             outputFeed.appendChild(loadingDiv);
             outputFeed.scrollTop = outputFeed.scrollHeight;
 
-            const apiKey = ""; // Let Canvas handle token authentication injection automatically at runtime
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
             const payload = {
@@ -958,7 +1049,7 @@
                 console.error(error);
                 const errorCard = document.createElement("div");
                 errorCard.className = "bg-rose-950/20 text-rose-300 rounded-xl p-3 border border-rose-900/50";
-                errorCard.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5"></i>呼叫 Gemini 發生異常，請重試。`;
+                errorCard.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5"></i>呼叫 Gemini 發生異常，請確認您的 API Key 是否正確且有效。`;
                 outputFeed.appendChild(errorCard);
             }
             outputFeed.scrollTop = outputFeed.scrollHeight;
@@ -993,6 +1084,12 @@
 
         // Global Sync action to automatically pull down live prices of Top 5 stocks
         async function triggerAISync() {
+            const apiKey = getSavedApiKey().trim();
+            if (!apiKey) {
+                openApiKeyModal();
+                return;
+            }
+
             const outputFeed = document.getElementById("ai-output-feed");
             const loadingDiv = document.createElement("div");
             loadingDiv.className = "bg-slate-900/40 rounded-xl p-3 border border-slate-800 text-xs italic text-slate-400 animate-pulse";
@@ -1000,7 +1097,6 @@
             outputFeed.appendChild(loadingDiv);
             outputFeed.scrollTop = outputFeed.scrollHeight;
 
-            const apiKey = "";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
             const syncQuery = "搜尋2026年最新台股加權指數實際點數，以及台積電(2330)、聯發科(2454)、台達電(2308)、鴻海(2317)等核心大股的當前最新股價與2026預期EPS。請務必完全以 JSON 格式回傳，格式：{\"taiex_price\": 34500, \"updates\": [{\"code\": \"2330\", \"price\": 2650, \"eps_2026\": 99.84}, {\"code\": \"2454\", \"price\": 1450, \"eps_2026\": 125.56}, {\"code\": \"2308\", \"price\": 420, \"eps_2026\": 19.8}, {\"code\": \"2317\", \"price\": 220, \"eps_2026\": 17.68}]}";
@@ -1059,7 +1155,7 @@
                 console.error(error);
                 const errorCard = document.createElement("div");
                 errorCard.className = "bg-rose-950/20 text-rose-300 rounded-xl p-3 border border-rose-900/50";
-                errorCard.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5"></i>AI 連線同步失敗，請稍候重試。`;
+                errorCard.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5"></i>AI 連線同步失敗，請確認 API 金鑰有效並稍候重試。`;
                 outputFeed.appendChild(errorCard);
             }
             outputFeed.scrollTop = outputFeed.scrollHeight;
@@ -1067,7 +1163,21 @@
 
         // Initialize calculations and charts on first load
         window.onload = function() {
+            // 1. 初始化頁面上的靜態圖表與估值計算
+            updateKeyBadge();
             calculateIndexMetrics();
+
+            // 2. 檢測 LocalStorage 是否存有金鑰
+            const apiKey = getSavedApiKey().trim();
+            if (!apiKey) {
+                // 沒有金鑰，自動彈出金鑰設定視窗，導引使用者進行設定
+                setTimeout(() => {
+                    openApiKeyModal();
+                }, 500); // 延遲半秒提供更平滑的視覺效果
+            } else {
+                // 有金鑰，自動在背景觸發一次實時同步
+                triggerAISync();
+            }
         };
     </script>
 </body>
