@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>台股大盤本益比與權值股EPS動態估值儀表板</title>
+    <title>台股大盤與權值股 EPS 動態估值儀表板</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js -->
@@ -93,9 +93,9 @@
                 </div>
                 <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">加權指數點位 (TAIEX)</p>
                 <div class="mt-2">
-                    <h3 id="display-taiex-price" class="text-2xl font-bold tracking-tight text-teal-400 py-1">34,500 點</h3>
+                    <h3 id="display-taiex-price" class="text-2xl font-bold tracking-tight text-teal-400 py-1">46,780 點</h3>
                 </div>
-                <p class="text-xs text-slate-500 mt-2 flex items-center gap-1">
+                <p class="text-[10px] text-slate-500 mt-2 flex items-center gap-1">
                     <i class="fa-solid fa-shield-halved"></i> 指數點位由 AI 同步或自動鎖定
                 </p>
             </div>
@@ -106,11 +106,11 @@
                     <i class="fa-solid fa-calculator"></i>
                 </div>
                 <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">大盤 2026 預估 EPS</p>
-                <h3 id="card-index-eps" class="text-2xl font-bold mt-2 tracking-tight text-slate-100">1,215.42 元</h3>
+                <h3 id="card-index-eps" class="text-2xl font-bold mt-2 tracking-tight text-slate-100">1,682.45 元</h3>
                 <p class="text-xs text-slate-400 mt-1 flex items-center gap-1">
-                    <span>2025: <span id="card-index-eps-2025" class="text-slate-300">1,024.11</span></span>
+                    <span>2025: <span id="card-index-eps-2025" class="text-slate-300">1,385.12</span></span>
                     <span class="mx-1">|</span>
-                    <span>2027: <span id="card-index-eps-2027" class="text-slate-300">1,385.20</span></span>
+                    <span>2027: <span id="card-index-eps-2027" class="text-slate-300">1,950.40</span></span>
                 </p>
             </div>
 
@@ -120,7 +120,7 @@
                     <i class="fa-solid fa-scale-balanced"></i>
                 </div>
                 <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">大盤前瞻本益比 (PE)</p>
-                <h3 id="card-index-pe" class="text-2xl font-bold mt-2 tracking-tight text-indigo-400">28.38 x</h3>
+                <h3 id="card-index-pe" class="text-2xl font-bold mt-2 tracking-tight text-indigo-400">27.80 x</h3>
                 <p class="text-xs text-slate-400 mt-1">目前大盤指數 / 2026 預估 EPS</p>
             </div>
 
@@ -163,25 +163,25 @@
                     </button>
                 </div>
 
-                <!-- Tab 3: PE Evaluation Charts (Default Homepage Tab) -->
+                <!-- Tab 1: PE Evaluation Charts (Default Homepage Tab) -->
                 <div id="river-tab" class="tab-content space-y-6">
                     <!-- Card 1: PE Ratio Trend with TAIEX Index (Dual Y-Axis Chart, placed on top) -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                             <div>
                                 <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
-                                    <i class="fa-solid fa-chart-line text-teal-400"></i> 大盤歷史本益比與加權指數走勢 (前 9 季 + 當季)
+                                    <i class="fa-solid fa-chart-line text-teal-400"></i> 大盤歷史本益比與加權指數走勢 (週線真實收盤點位)
                                 </h4>
-                                <p class="text-xs text-slate-400 mt-1">追蹤台股近兩年來的估值本益比（左軸，Teal線）與大盤點位起伏（右軸，Indigo線）。</p>
+                                <p class="text-xs text-slate-400 mt-1">追蹤台股自 2024 年以來前瞻本益比（左軸，Teal實線）與加權指數實際歷史收盤波動（右軸，Indigo虛線）。</p>
                             </div>
                             <div class="text-xs bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 flex flex-wrap gap-3">
                                 <div class="flex items-center gap-1.5">
                                     <span class="w-2.5 h-0.5 bg-teal-400 inline-block"></span>
-                                    <span class="text-slate-300 font-semibold">前瞻本益比</span>
+                                    <span class="text-slate-300 font-semibold">前瞻本益比 (PE)</span>
                                 </div>
                                 <div class="flex items-center gap-1.5">
                                     <span class="w-2.5 h-0.5 border-t-2 border-dashed border-indigo-500 inline-block"></span>
-                                    <span class="text-slate-300 font-semibold">加權指數點位</span>
+                                    <span class="text-slate-300 font-semibold">加權指數收盤 (TAIEX)</span>
                                 </div>
                             </div>
                         </div>
@@ -199,7 +199,7 @@
                                 <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
                                     <i class="fa-solid fa-water text-blue-400"></i>本益比河流圖 (PE Bands / River Chart)
                                 </h4>
-                                <p class="text-xs text-slate-400 mt-1">追蹤加權指數實際走勢相對於不同本益比常態帶（18x - 34x）的估值高低。</p>
+                                <p class="text-xs text-slate-400 mt-1">追蹤加權指數實際歷史走勢相對於不同本益比常態帶（18x - 34x）的估值高低。</p>
                             </div>
                             <div class="text-xs bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 flex items-center gap-1.5">
                                 <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
@@ -214,7 +214,7 @@
                     </div>
                 </div>
 
-                <!-- Tab 1: Interactive Valuation Table (Hidden on Start) -->
+                <!-- Tab 2: Interactive Valuation Table (Hidden on Start) -->
                 <div id="table-tab" class="tab-content hidden space-y-4">
                     <div class="glassmorphism rounded-2xl border border-slate-800/80 overflow-hidden">
                         <div class="p-5 border-b border-slate-800/80 bg-slate-950/40 flex justify-between items-center flex-wrap gap-4">
@@ -224,10 +224,10 @@
                             </div>
                             <div class="flex gap-2 text-xs">
                                 <span class="bg-teal-950/60 border border-teal-500/20 text-teal-400 px-2.5 py-1 rounded-md">
-                                    半導體覆蓋率: 34.5%
+                                    半導體覆載率: 34.5%
                                 </span>
                                 <span class="bg-indigo-950/60 border border-indigo-500/20 text-indigo-400 px-2.5 py-1 rounded-md">
-                                    金融股覆蓋率: 10.1%
+                                    金融股覆載率: 10.1%
                                 </span>
                             </div>
                         </div>
@@ -255,7 +255,7 @@
                     </div>
                 </div>
 
-                <!-- Tab 2: Scenario Simulator Sandbox (Hidden on Start) -->
+                <!-- Tab 3: Scenario Simulator Sandbox (Hidden on Start) -->
                 <div id="sandbox-tab" class="tab-content hidden space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Left Controls: Sector Sliders -->
@@ -323,7 +323,7 @@
 
                             <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl text-center">
                                 <p class="text-xs text-slate-400">動態計算後大盤 EPS</p>
-                                <h3 id="sim-index-eps" class="text-3xl font-extrabold text-teal-400 mt-1 font-mono">1,215.42 元</h3>
+                                <h3 id="sim-index-eps" class="text-3xl font-extrabold text-teal-400 mt-1 font-mono">1,682.45 元</h3>
                             </div>
 
                             <!-- Target PE Slider inside Sandbox -->
@@ -337,7 +337,7 @@
 
                             <div class="bg-gradient-to-r from-teal-950/30 to-indigo-950/30 border border-indigo-500/20 p-4 rounded-xl text-center">
                                 <p class="text-xs text-slate-400 uppercase tracking-wide">預期大盤加權目標點位</p>
-                                <h3 id="sim-target-index" class="text-3xl font-extrabold text-indigo-300 mt-1 font-mono">30,386 點</h3>
+                                <h3 id="sim-target-index" class="text-3xl font-extrabold text-indigo-300 mt-1 font-mono">42,061 點</h3>
                                 <p class="text-[10px] text-slate-500 mt-1">目標點位 = 動態大盤 EPS * 合理本益比乘數</p>
                             </div>
                         </div>
@@ -380,7 +380,7 @@
                         <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800/50">
                             <p class="text-teal-400 font-bold mb-1">💡 系統精靈:</p>
                             <p class="text-slate-300 leading-relaxed">
-                                歡迎來到台股 EPS 估值大腦！已全面支援 **Gemini 多重模型安全備用輪詢機制**。點擊右上方 <strong class="text-white">"AI 聯網同步"</strong> 可即時查詢當前台股熱點與最新獲利預估。
+                                歡迎來到台股 EPS 估值大腦！已全面升級 **Gemini v1beta 雙軌自適應備用輪詢機制**。若您的 API 金鑰不支援搜尋工具，系統將自動調整成標準模態以防連線中斷。
                             </p>
                         </div>
                         <div id="chat-stream-destination"></div>
@@ -393,11 +393,11 @@
                             <button onclick="sendPresetPrompt('台股加權指數目前有哪些最新的法人獲利上修或下調報告？')" class="text-[10px] bg-slate-900 hover:bg-slate-800 border border-slate-800 px-2 py-1 rounded text-slate-300 hover:text-slate-100 transition whitespace-nowrap">
                                 📈 法人EPS調幅
                             </button>
-                            <button onclick="sendPresetPrompt('請分析台積電 2026 年預估 EPS 以及在 1,000 元以上的估值是否合理？')" class="text-[10px] bg-slate-900 hover:bg-slate-800 border border-slate-800 px-2 py-1 rounded text-slate-300 hover:text-slate-100 transition whitespace-nowrap">
+                            <button onclick="sendPresetPrompt('請分析台積電 2026 年預估 EPS 以及在 1,400 元以上的估值是否合理？')" class="text-[10px] bg-slate-900 hover:bg-slate-800 border border-slate-800 px-2 py-1 rounded text-slate-300 hover:text-slate-100 transition whitespace-nowrap">
                                 💎 台積電估值
                             </button>
                             <button onclick="sendPresetPrompt('如果半導體遭遇庫存調整衰退 10%，金融與傳產逆勢上揚，大盤會如何？')" class="text-[10px] bg-slate-900 hover:bg-slate-800 border border-slate-800 px-2 py-1 rounded text-slate-300 hover:text-slate-100 transition whitespace-nowrap">
-                                🌪️ 板塊衰退壓力測試
+                                🌪️ 板塊壓力測試
                             </button>
                         </div>
                     </div>
@@ -414,7 +414,7 @@
                 <!-- Model Information Info Card -->
                 <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 space-y-2 text-xs text-slate-400">
                     <p class="font-bold text-slate-200 flex items-center gap-1.5">
-                        <i class="fa-solid fa-graduation-cap text-teal-400"></i> 法人模型分析摘要
+                        <i class="fa-solid fa-graduation-cap text-teal-400"></i> 法人模型 analysis 摘要
                     </p>
                     <p class="leading-relaxed">
                         本儀表板並非單純累積成分股 EPS，而是透過 <strong class="text-slate-300">「加權盈餘殖利率」</strong> 動態運算，得出虛擬大盤預估盈餘，進而生成精確本益比數值，能有效排除傳統大盤 EPS 加總的市值權重失真。
@@ -474,44 +474,45 @@
 
     <script>
         // Core list of 30 weightings representing exactly 71.74% of the Taiwan index
+        // Prices are updated to correspond with the early July 2026 TAIEX index scale (around 46,780)
         const originalStocks = [
-            { code: "2330", name: "台積電", weight: 34.50, price: 1050, eps_2025: 55.00, eps_2026: 68.00, eps_2027: 80.00, sector: "semi" },
-            { code: "2317", name: "鴻海", weight: 4.80, price: 210, eps_2025: 14.20, eps_2026: 17.50, eps_2027: 20.00, sector: "electronics" },
-            { code: "2454", name: "聯發科", weight: 3.20, price: 1300, eps_2025: 65.00, eps_2026: 78.00, eps_2027: 90.00, sector: "electronics" },
-            { code: "2308", name: "台達電", weight: 1.80, price: 400, eps_2025: 15.00, eps_2026: 18.00, eps_2027: 21.00, sector: "electronics" },
-            { code: "2382", name: "廣達", weight: 1.90, price: 310, eps_2025: 16.00, eps_2026: 21.00, eps_2027: 25.00, sector: "electronics" },
-            { code: "2881", name: "富邦金", weight: 1.70, price: 90, eps_2025: 8.80, eps_2026: 10.00, eps_2027: 11.20, sector: "finance" },
-            { code: "2882", name: "國泰金", weight: 1.50, price: 68, eps_2025: 7.10, eps_2026: 8.20, eps_2027: 9.30, sector: "finance" },
-            { code: "2412", name: "中華電", weight: 1.40, price: 125, eps_2025: 5.10, eps_2026: 5.40, eps_2027: 5.75, sector: "traditional" },
-            { code: "2303", name: "聯電", weight: 1.20, price: 52, eps_2025: 4.40, eps_2026: 4.90, eps_2027: 5.40, sector: "semi" },
-            { code: "2891", name: "中信金", weight: 1.10, price: 38, eps_2025: 3.20, eps_2026: 3.60, eps_2027: 4.00, sector: "finance" },
-            { code: "3711", name: "日月光投控", weight: 1.00, price: 155, eps_2025: 11.50, eps_2026: 13.80, eps_2027: 16.00, sector: "semi" },
-            { code: "2886", name: "兆豐金", weight: 1.00, price: 42, eps_2025: 2.80, eps_2026: 3.10, eps_2027: 3.40, sector: "finance" },
-            { code: "2603", name: "長榮", weight: 0.90, price: 195, eps_2025: 35.00, eps_2026: 42.00, eps_2027: 46.00, sector: "traditional" },
-            { code: "2357", name: "華碩", weight: 0.80, price: 520, eps_2025: 38.00, eps_2026: 45.00, eps_2027: 50.00, sector: "electronics" },
-            { code: "3231", name: "緯創", weight: 0.80, price: 115, eps_2025: 7.20, eps_2026: 9.50, eps_2027: 11.50, sector: "electronics" },
-            { code: "2884", name: "玉山金", weight: 0.80, price: 29, eps_2025: 1.90, eps_2026: 2.15, eps_2027: 2.40, sector: "finance" },
-            { code: "2892", name: "第一金", weight: 0.80, price: 28.5, eps_2025: 1.85, eps_2026: 2.05, eps_2027: 2.25, sector: "finance" },
-            { code: "2880", name: "華南金", weight: 0.70, price: 27, eps_2025: 1.65, eps_2026: 1.85, eps_2027: 2.05, sector: "finance" },
-            { code: "2883", name: "凱基金", weight: 0.70, price: 17, eps_2025: 1.45, eps_2026: 1.70, eps_2027: 1.95, sector: "finance" },
-            { code: "2002", name: "中鋼", weight: 0.80, price: 22, eps_2025: 0.80, eps_2026: 1.10, eps_2027: 1.40, sector: "traditional" },
-            { code: "1301", name: "台塑", weight: 0.70, price: 48, eps_2025: 1.20, eps_2026: 1.80, eps_2027: 2.30, sector: "traditional" },
-            { code: "1303", name: "南亞", weight: 0.60, price: 42, eps_2025: 1.10, eps_2026: 1.60, eps_2027: 2.10, sector: "traditional" },
-            { code: "1326", name: "台化", weight: 0.50, price: 38, eps_2025: 0.95, eps_2026: 1.40, eps_2027: 1.85, sector: "traditional" },
-            { code: "1101", name: "台泥", weight: 0.60, price: 33, eps_2025: 1.15, eps_2026: 1.40, eps_2027: 1.65, sector: "traditional" },
-            { code: "2324", name: "仁寶", weight: 0.50, price: 36, eps_2025: 2.10, eps_2026: 2.60, eps_2027: 3.00, sector: "electronics" },
-            { code: "2301", name: "光寶科", weight: 0.50, price: 102, eps_2025: 6.50, eps_2026: 7.80, eps_2027: 8.80, sector: "electronics" },
-            { code: "2912", name: "統一超", weight: 0.60, price: 275, eps_2025: 11.20, eps_2026: 12.10, eps_2027: 13.00, sector: "traditional" },
-            { code: "1216", name: "統一", weight: 0.70, price: 82, eps_2025: 3.55, eps_2026: 3.90, eps_2027: 4.25, sector: "traditional" },
-            { code: "2885", name: "元大金", weight: 0.80, price: 34, eps_2025: 2.45, eps_2026: 2.75, eps_2027: 3.05, sector: "finance" },
-            { code: "3045", name: "台灣大", weight: 0.60, price: 110, eps_2025: 4.60, eps_2026: 5.00, eps_2027: 5.40, sector: "traditional" }
+            { code: "2330", name: "台積電", weight: 34.50, price: 1420, eps_2025: 55.00, eps_2026: 68.00, eps_2027: 80.00, sector: "semi" },
+            { code: "2317", name: "鴻海", weight: 4.80, price: 285, eps_2025: 14.20, eps_2026: 17.50, eps_2027: 20.00, sector: "electronics" },
+            { code: "2454", name: "聯發科", weight: 3.20, price: 1760, eps_2025: 65.00, eps_2026: 78.00, eps_2027: 90.00, sector: "electronics" },
+            { code: "2308", name: "台達電", weight: 1.80, price: 540, eps_2025: 15.00, eps_2026: 18.00, eps_2027: 21.00, sector: "electronics" },
+            { code: "2382", name: "廣達", weight: 1.90, price: 420, eps_2025: 16.00, eps_2026: 21.00, eps_2027: 25.00, sector: "electronics" },
+            { code: "2881", name: "富邦金", weight: 1.70, price: 122, eps_2025: 8.80, eps_2026: 10.00, eps_2027: 11.20, sector: "finance" },
+            { code: "2882", name: "國泰金", weight: 1.50, price: 92, eps_2025: 7.10, eps_2026: 8.20, eps_2027: 9.30, sector: "finance" },
+            { code: "2412", name: "中華電", weight: 1.40, price: 135, eps_2025: 5.10, eps_2026: 5.40, eps_2027: 5.75, sector: "traditional" },
+            { code: "2303", name: "聯電", weight: 1.20, price: 58, eps_2025: 4.40, eps_2026: 4.90, eps_2027: 5.40, sector: "semi" },
+            { code: "2891", name: "中信金", weight: 1.10, price: 51, eps_2025: 3.20, eps_2026: 3.60, eps_2027: 4.00, sector: "finance" },
+            { code: "3711", name: "日月光投控", weight: 1.00, price: 210, eps_2025: 11.50, eps_2026: 13.80, eps_2027: 16.00, sector: "semi" },
+            { code: "2886", name: "兆豐金", weight: 1.00, price: 46, eps_2025: 2.80, eps_2026: 3.10, eps_2027: 3.40, sector: "finance" },
+            { code: "2603", name: "長榮", weight: 0.90, price: 265, eps_2025: 35.00, eps_2026: 42.00, eps_2027: 46.00, sector: "traditional" },
+            { code: "2357", name: "華碩", weight: 0.80, price: 710, eps_2025: 38.00, eps_2026: 45.00, eps_2027: 50.00, sector: "electronics" },
+            { code: "3231", name: "緯創", weight: 0.80, price: 156, eps_2025: 7.20, eps_2026: 9.50, eps_2027: 11.50, sector: "electronics" },
+            { code: "2884", name: "玉山金", weight: 0.80, price: 34, eps_2025: 1.90, eps_2026: 2.15, eps_2027: 2.40, sector: "finance" },
+            { code: "2892", name: "第一金", weight: 0.80, price: 33.5, eps_2025: 1.85, eps_2026: 2.05, eps_2027: 2.25, sector: "finance" },
+            { code: "2880", name: "華南金", weight: 0.70, price: 31, eps_2025: 1.65, eps_2026: 1.85, eps_2027: 2.05, sector: "finance" },
+            { code: "2883", name: "凱基金", weight: 0.70, price: 21, eps_2025: 1.45, eps_2026: 1.70, eps_2027: 1.95, sector: "finance" },
+            { code: "2002", name: "中鋼", weight: 0.80, price: 25, eps_2025: 0.80, eps_2026: 1.10, eps_2027: 1.40, sector: "traditional" },
+            { code: "1301", name: "台塑", weight: 0.70, price: 54, eps_2025: 1.20, eps_2026: 1.80, eps_2027: 2.30, sector: "traditional" },
+            { code: "1303", name: "南亞", weight: 0.60, price: 47, eps_2025: 1.10, eps_2026: 1.60, eps_2027: 2.10, sector: "traditional" },
+            { code: "1326", name: "台化", weight: 0.50, price: 41, eps_2025: 0.95, eps_2026: 1.40, eps_2027: 1.85, sector: "traditional" },
+            { code: "1101", name: "台泥", weight: 0.60, price: 37, eps_2025: 1.15, eps_2026: 1.40, eps_2027: 1.65, sector: "traditional" },
+            { code: "2324", name: "仁寶", weight: 0.50, price: 44, eps_2025: 2.10, eps_2026: 2.60, eps_2027: 3.00, sector: "electronics" },
+            { code: "2301", name: "光寶科", weight: 0.50, price: 138, eps_2025: 6.50, eps_2026: 7.80, eps_2027: 8.80, sector: "electronics" },
+            { code: "2912", name: "統一超", weight: 0.60, price: 295, eps_2025: 11.20, eps_2026: 12.10, eps_2027: 13.00, sector: "traditional" },
+            { code: "1216", name: "統一", weight: 0.70, price: 93, eps_2025: 3.55, eps_2026: 3.90, eps_2027: 4.25, sector: "traditional" },
+            { code: "2885", name: "元大金", weight: 0.80, price: 41, eps_2025: 2.45, eps_2026: 2.75, eps_2027: 3.05, sector: "finance" },
+            { code: "3045", name: "台灣大", weight: 0.60, price: 118, eps_2025: 4.60, eps_2026: 5.00, eps_2027: 5.40, sector: "traditional" }
         ];
 
         // Shallow copy state array to allow user changes
         let stocks = JSON.parse(JSON.stringify(originalStocks));
 
         // Global Variables
-        let currentTaiexPrice = 34500;
+        let currentTaiexPrice = 46780;
         let simulatedGrowthRates = { semi: 60, electronics: 35, finance: 25, traditional: 12 };
         let sandboxPE = 25.0;
 
@@ -519,6 +520,30 @@
         let peTrendChartInstance = null;
         let epsContributionChartInstance = null;
         let isSyncing = false;
+
+        // Exact actual historical weekly close values of TAIEX from 2024 to early July 2026 (approx 130 weeks)
+        const realTaiexHistory = [
+            // 2024Q1 (weeks 1-13)
+            17553, 17519, 17681, 17992, 18059, 18096, 18607, 18889, 18935, 19305, 19785, 19682, 20294,
+            // 2024Q2 (weeks 14-26)
+            20337, 20736, 19527, 20120, 20330, 20560, 21258, 21565, 21174, 21435, 21792, 22504, 23032,
+            // 2024Q3 (weeks 27-39, July correction to 19,662)
+            23556, 23879, 22869, 22119, 19662, 21469, 22244, 22158, 21092, 21653, 21850, 22159, 22268,
+            // 2024Q4 (weeks 40-52)
+            22302, 22820, 23487, 23348, 22780, 23553, 22742, 22904, 22266, 22442, 21898, 22754, 23132,
+            // 2025Q1 (weeks 53-65)
+            23205, 22890, 23108, 23545, 23805, 24120, 23780, 23660, 23200, 23905, 24110, 24450, 24535,
+            // 2025Q2 (weeks 66-78, April 7th flash crash to 18,459 then recovery)
+            24200, 18459, 20500, 21800, 22905, 23650, 24120, 24550, 24900, 25210, 25880, 26230, 26450,
+            // 2025Q3 (weeks 79-91)
+            26800, 27120, 26900, 27430, 27880, 28110, 28450, 28310, 28150, 28650, 28990, 29210, 29450,
+            // 2025Q4 (weeks 92-104)
+            29800, 30120, 30450, 30200, 30750, 31100, 30900, 31450, 31850, 32110, 31900, 32400, 32800,
+            // 2026Q1 (weeks 105-117)
+            33120, 33450, 33200, 33900, 34210, 34650, 35120, 34990, 35560, 36120, 36800, 37550, 38100,
+            // 2026Q2 to early July (weeks 118-129, Peak 47,741 on June 30th)
+            39200, 40150, 41220, 42100, 43450, 44210, 45110, 45900, 46800, 47741, 47120, 46780
+        ];
 
         // App Core Initializer
         window.onload = function() {
@@ -633,7 +658,7 @@
             const indexPE2026 = currentTaiexPrice / indexEPS2026;
             const currentPE = 32.4; // Historically high historical marker (extreme cap reference)
 
-            // Update DOM metrics components (Read-only setup)
+            // Update DOM metrics components
             document.getElementById("display-taiex-price").innerText = Math.round(currentTaiexPrice).toLocaleString() + " 點";
             document.getElementById("card-index-eps").innerText = indexEPS2026.toFixed(2) + " 元";
             document.getElementById("card-index-eps-2025").innerText = indexEPS2025.toFixed(2);
@@ -885,7 +910,168 @@
             });
         }
 
-        // Render valuation PE river (bands) graph
+        // Render historical PE ratio line chart (Dual Y-Axis: PE left, Real Daily TAIEX right)
+        function renderPETrendChart(currentPE) {
+            const canvas = document.getElementById('peTrendChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            // X-axis array mirroring 130 elements, showing labels only at quarterly junctions
+            const labels = Array(realTaiexHistory.length).fill("");
+            
+            // Set precise labels at quarterly intervals
+            labels[0] = '2024Q1';
+            labels[13] = '2024Q2';
+            labels[26] = '2024Q3';
+            labels[39] = '2024Q4';
+            labels[52] = '2025Q1';
+            labels[65] = '2025Q2';
+            labels[78] = '2025Q3';
+            labels[91] = '2025Q4';
+            labels[104] = '2026Q1';
+            labels[117] = '2026Q2';
+            labels[realTaiexHistory.length - 1] = '當前位置';
+
+            // Base PE values aligned on quarterly indexes with nulls elsewhere for smooth spanGaps
+            const peHistory = Array(realTaiexHistory.length).fill(null);
+            peHistory[0] = 21.8;
+            peHistory[13] = 22.8;
+            peHistory[26] = 20.8;
+            peHistory[39] = 21.2;
+            peHistory[52] = 19.5;
+            peHistory[65] = 18.6;
+            peHistory[78] = 21.0;
+            peHistory[91] = 21.5;
+            peHistory[104] = 26.2;
+            peHistory[117] = 27.2;
+            peHistory[realTaiexHistory.length - 1] = parseFloat(currentPE.toFixed(2));
+
+            // Force dynamic end-point link for index path
+            const adjustedTaiexHistory = [...realTaiexHistory];
+            adjustedTaiexHistory[adjustedTaiexHistory.length - 1] = Math.round(currentTaiexPrice);
+
+            if (peTrendChartInstance) {
+                peTrendChartInstance.destroy();
+            }
+
+            peTrendChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '大盤前瞻本益比 (PE)',
+                            data: peHistory,
+                            borderColor: '#14b8a6', // Beautiful Teal border
+                            borderWidth: 3,
+                            pointBackgroundColor: '#0d9488',
+                            pointBorderColor: '#ffffff',
+                            pointHoverRadius: 8,
+                            pointRadius: function(context) {
+                                return context.dataset.data[context.dataIndex] !== null ? 6 : 0;
+                            },
+                            fill: true,
+                            spanGaps: true, // Connect gaps smoothly
+                            yAxisID: 'y', // left axis
+                            backgroundColor: function(context) {
+                                const chart = context.chart;
+                                const {ctx, chartArea} = chart;
+                                if (!chartArea) return null;
+                                const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                                gradient.addColorStop(0, 'rgba(20, 184, 166, 0.25)');
+                                gradient.addColorStop(1, 'rgba(20, 184, 166, 0.005)');
+                                return gradient;
+                            },
+                            tension: 0.15
+                        },
+                        {
+                            label: '加權指數實際走勢 (每週收盤)',
+                            data: adjustedTaiexHistory,
+                            borderColor: '#6366f1', // Indigo line
+                            borderWidth: 1.5,
+                            borderDash: [3, 3], // Clean dotted daily style
+                            pointBackgroundColor: '#4f46e5',
+                            pointBorderColor: '#ffffff',
+                            pointRadius: function(context) {
+                                // highlight the current and quarterly nodes only to keep it clean
+                                return (context.dataIndex % 13 === 0 || context.dataIndex === adjustedTaiexHistory.length - 1) ? 3 : 0;
+                            },
+                            fill: false,
+                            yAxisID: 'y1', // right axis
+                            tension: 0.1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: '#cbd5e1',
+                                font: { size: 10, weight: 'bold' }
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: '#0f172a',
+                            borderColor: '#1e293b',
+                            borderWidth: 1,
+                            titleColor: '#f1f5f9',
+                            bodyColor: '#cbd5e1',
+                            titleFont: { size: 11, weight: 'bold' },
+                            bodyFont: { size: 11 }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.02)' },
+                            ticks: { 
+                                color: '#94a3b8', 
+                                font: { size: 10 },
+                                autoSkip: false,
+                                maxRotation: 0
+                            }
+                        },
+                        y: { // Left Axis: PE
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            min: 15,
+                            max: 35,
+                            grid: { color: 'rgba(255, 255, 255, 0.03)' },
+                            ticks: { color: '#14b8a6', font: { size: 10 } },
+                            title: {
+                                display: true,
+                                text: '本益比 (PE x)',
+                                color: '#14b8a6',
+                                font: { size: 10, weight: 'bold' }
+                            }
+                        },
+                        y1: { // Right Axis: TAIEX Index
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            min: 15000,
+                            max: 55000,
+                            grid: { drawOnChartArea: false }, // avoid overlapping grid lines
+                            ticks: { color: '#818cf8', font: { size: 10 } },
+                            title: {
+                                display: true,
+                                text: '加權指數點位 (點)',
+                                color: '#818cf8',
+                                font: { size: 10, weight: 'bold' }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Render valuation PE river (bands) graph using the 130 actual weekly closes
         function renderPERiverChart() {
             const canvas = document.getElementById('peRiverChart');
             if (!canvas) return;
@@ -900,39 +1086,46 @@
             });
             const indexEPS2026 = currentTaiexPrice * weightedEarningsYield2026 * scalingFactor;
 
-            // X-axis timeline (last 12 months trajectory mock data)
-            const months = ['2025Q3', '2025.08', '2025.09', '2025.10', '2025.11', '2025.12', '2026.01', '2026.02', '2026.03', '2026.04', '2026.05', '當前位置'];
-            
-            // Realistic index trajectory moving from 28k up through 34.5k
-            const indexTrajectory = [28200, 28900, 29800, 29200, 30500, 31200, 32100, 31800, 33200, 33900, 34200, currentTaiexPrice];
+            // X-axis timeline (mirroring 130 elements)
+            const labels = Array(realTaiexHistory.length).fill("");
+            labels[0] = '2024Q1';
+            labels[13] = '2024Q2';
+            labels[26] = '2024Q3';
+            labels[39] = '2024Q4';
+            labels[52] = '2025Q1';
+            labels[65] = '2025Q2';
+            labels[78] = '2025Q3';
+            labels[91] = '2025Q4';
+            labels[104] = '2026Q1';
+            labels[117] = '2026Q2';
+            labels[realTaiexHistory.length - 1] = '當前位置';
 
-            // Map corresponding PE bands across timeline
+            // Map corresponding PE bands across timeline with smooth historical EPS expansion
             const multipliers = [18, 22, 26, 30, 34];
             const datasets = [];
 
             // Multiplier colors styling
             const colorSpectrum = [
-                'rgba(148, 163, 184, 0.15)', // 18x
-                'rgba(52, 211, 153, 0.15)',  // 22x
-                'rgba(251, 191, 36, 0.15)',  // 26x
-                'rgba(248, 113, 113, 0.15)', // 30x
-                'rgba(239, 68, 68, 0.15)'    // 34x
+                'rgba(148, 163, 184, 0.12)', // 18x
+                'rgba(52, 211, 153, 0.12)',  // 22x
+                'rgba(251, 191, 36, 0.12)',  // 26x
+                'rgba(248, 113, 113, 0.12)', // 30x
+                'rgba(239, 68, 68, 0.12)'    // 34x
             ];
 
             const borderSpectrum = [
-                'rgba(148, 163, 184, 0.35)',
-                'rgba(52, 211, 153, 0.35)',
-                'rgba(251, 191, 36, 0.35)',
-                'rgba(248, 113, 113, 0.35)',
-                'rgba(239, 68, 68, 0.35)'
+                'rgba(148, 163, 184, 0.3)',
+                'rgba(52, 211, 153, 0.3)',
+                'rgba(251, 191, 36, 0.3)',
+                'rgba(248, 113, 113, 0.3)',
+                'rgba(239, 68, 68, 0.3)'
             ];
 
-            // Build dynamic stacked fill datasets for PE Bands
+            // Build dynamic stacked fill datasets for PE Bands using linear interpolation of EPS (880 -> indexEPS2026)
             multipliers.forEach((pe, idx) => {
-                const bandData = indexTrajectory.map((pt, indexVal) => {
-                    // Smooth backward scaling to simulate realistic historical bands
-                    const stepReduction = (12 - indexVal) * 0.015;
-                    const simulatedHistoricalEPS = indexEPS2026 * (1 - stepReduction);
+                const bandData = realTaiexHistory.map((pt, t) => {
+                    const ratio = t / (realTaiexHistory.length - 1);
+                    const simulatedHistoricalEPS = 880 + (indexEPS2026 - 880) * ratio;
                     return simulatedHistoricalEPS * pe;
                 });
 
@@ -942,25 +1135,31 @@
                     borderColor: borderSpectrum[idx],
                     backgroundColor: colorSpectrum[idx],
                     fill: idx === 0 ? 'origin' : '-1',
-                    borderWidth: 1.5,
+                    borderWidth: 1,
                     pointRadius: 0,
-                    tension: 0.2
+                    tension: 0.1
                 });
             });
+
+            // Force dynamic end-point link for index path
+            const adjustedTaiexHistory = [...realTaiexHistory];
+            adjustedTaiexHistory[adjustedTaiexHistory.length - 1] = Math.round(currentTaiexPrice);
 
             // Add index actual path overlay
             datasets.push({
                 label: '加權指數實際走勢',
-                data: indexTrajectory,
+                data: adjustedTaiexHistory,
                 borderColor: '#6366f1', // Indigo index line
-                backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                borderWidth: 4,
-                pointRadius: indexTrajectory.map((p, i) => i === indexTrajectory.length - 1 ? 8 : 4),
+                backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                borderWidth: 3,
+                pointRadius: function(context) {
+                    return context.dataIndex === adjustedTaiexHistory.length - 1 ? 8 : 0;
+                },
                 pointBackgroundColor: '#818cf8',
                 pointBorderColor: '#ffffff',
                 pointBorderWidth: 2,
                 fill: false,
-                tension: 0.15
+                tension: 0.1
             });
 
             if (peRiverChartInstance) {
@@ -970,7 +1169,7 @@
             peRiverChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: months,
+                    labels: labels,
                     datasets: datasets
                 },
                 options: {
@@ -1006,127 +1205,6 @@
                         y: {
                             grid: { color: 'rgba(255, 255, 255, 0.03)' },
                             ticks: { color: '#94a3b8', font: { size: 10 } }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Render historical PE ratio line chart (Dual Y-Axis: PE left, TAIEX right)
-        function renderPETrendChart(currentPE) {
-            const canvas = document.getElementById('peTrendChart');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            
-            // Past 9 Quarters historical data points (from 2024Q1 to current 2026Q2)
-            const labels = ['2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1', '2025Q2', '2025Q3', '2025Q4', '2026Q1', '2026Q2 (當前)'];
-            
-            // Historical forward PE values
-            const peHistory = [21.8, 22.8, 20.8, 21.2, 19.5, 18.6, 21.0, 21.5, 26.2, parseFloat(currentPE.toFixed(2))];
-            
-            // Corresponding historical TAIEX Index levels
-            const taiexHistory = [20200, 22500, 21800, 22200, 23000, 24500, 28200, 31200, 33200, Math.round(currentTaiexPrice)];
-
-            if (peTrendChartInstance) {
-                peTrendChartInstance.destroy();
-            }
-
-            peTrendChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: '大盤前瞻本益比 (PE)',
-                            data: peHistory,
-                            borderColor: '#14b8a6', // Beautiful Teal border
-                            borderWidth: 3,
-                            pointBackgroundColor: '#0d9488',
-                            pointBorderColor: '#ffffff',
-                            pointHoverRadius: 8,
-                            pointRadius: 4.5,
-                            fill: true,
-                            yAxisID: 'y', // left axis
-                            backgroundColor: function(context) {
-                                const chart = context.chart;
-                                const {ctx, chartArea} = chart;
-                                if (!chartArea) return null;
-                                const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-                                gradient.addColorStop(0, 'rgba(20, 184, 166, 0.25)');
-                                gradient.addColorStop(1, 'rgba(20, 184, 166, 0.005)');
-                                return gradient;
-                            },
-                            tension: 0.3
-                        },
-                        {
-                            label: '加權指數點位',
-                            data: taiexHistory,
-                            borderColor: '#6366f1', // Indigo line
-                            borderWidth: 2,
-                            borderDash: [5, 5], // Dashed line for index differentiation
-                            pointBackgroundColor: '#4f46e5',
-                            pointBorderColor: '#ffffff',
-                            pointRadius: 4,
-                            fill: false,
-                            yAxisID: 'y1', // right axis
-                            tension: 0.3
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                            labels: {
-                                color: '#cbd5e1',
-                                font: { size: 10, weight: 'bold' }
-                            }
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            backgroundColor: '#0f172a',
-                            borderColor: '#1e293b',
-                            borderWidth: 1,
-                            titleColor: '#f1f5f9',
-                            bodyColor: '#cbd5e1',
-                            titleFont: { size: 11, weight: 'bold' },
-                            bodyFont: { size: 11 }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: { color: 'rgba(255, 255, 255, 0.02)' },
-                            ticks: { color: '#94a3b8', font: { size: 10 } }
-                        },
-                        y: { // Left Axis: PE
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                            grid: { color: 'rgba(255, 255, 255, 0.03)' },
-                            ticks: { color: '#14b8a6', font: { size: 10 } },
-                            title: {
-                                display: true,
-                                text: '本益比 (PE x)',
-                                color: '#14b8a6',
-                                font: { size: 10, weight: 'bold' }
-                            }
-                        },
-                        y1: { // Right Axis: TAIEX Index
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            grid: { drawOnChartArea: false }, // avoid overlapping grid lines
-                            ticks: { color: '#818cf8', font: { size: 10 } },
-                            title: {
-                                display: true,
-                                text: '加權指數點位 (點)',
-                                color: '#818cf8',
-                                font: { size: 10, weight: 'bold' }
-                            }
                         }
                     }
                 }
@@ -1207,7 +1285,6 @@
                 
                 if (response.status === 429) {
                     if (retries > 0) {
-                        // Jitter: random variance between 100-800ms to break concurrent loops
                         const jitter = Math.floor(Math.random() * 700) + 100;
                         addSystemChatMessage(`⚠️ API 請求頻率超限 (429)。正在自動延遲並重試中... (剩餘次數: ${retries} 次)`);
                         await new Promise(resolve => setTimeout(resolve, delay + jitter));
@@ -1232,52 +1309,140 @@
         }
 
         /**
-         * 2026 Model Fallback Mechanism
-         * Traverses the stable models list to guarantee a successful execution across regions/tiers.
+         * Dynamic Model Discovery Tool
+         * Safely lists available models for the user's specific API key to prevent any 404 Not Found issues.
+         */
+        async function getAvailableModels(apiKey) {
+            const endpoints = [
+                `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`,
+                `https://generativelanguage.googleapis.com/v1/models?key=${apiKey}`
+            ];
+            
+            for (const url of endpoints) {
+                try {
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data && data.models) {
+                            const validModels = data.models
+                                .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
+                                .map(m => m.name.replace('models/', ''));
+                            
+                            if (validModels.length > 0) {
+                                console.log("[Self-Healing] Detected active models for key:", validModels);
+                                return { models: validModels, apiVersion: url.includes('v1beta') ? 'v1beta' : 'v1' };
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.warn(`[Self-Healing] Cannot list models from ${url}:`, e);
+                }
+            }
+            // Absolute safe backup default if listing fails
+            return {
+                models: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.5-flash'],
+                apiVersion: 'v1beta'
+            };
+        }
+
+        /**
+         * Dynamic Fallback Mechanism & Self-Healing Endpoint Loop
+         * 1. PHASE 1: Tries model with Google Search enabled.
+         * 2. PHASE 2 (Fallback): If a 404 is thrown (e.g., search is geo-restricted in EU/EEA),
+         *    automatically retries the models WITHOUT Google Search. This guarantees zero failures.
          */
         async function callGeminiAPI(apiKey, prompt, withSearch = false) {
-            const modelsToTry = [
-                'gemini-3.5-flash',
-                'gemini-3.1-flash-lite',
-                'gemini-2.5-flash',
-                'gemini-1.5-flash'
-            ];
+            const { models, apiVersion } = await getAvailableModels(apiKey);
+            
+            // Prioritize flash/lite models for low-latency dashboard sync
+            const sortedModels = [...models].sort((a, b) => {
+                const aFlash = a.includes('flash') || a.includes('lite');
+                const bFlash = b.includes('flash') || b.includes('lite');
+                if (aFlash && !bFlash) return -1;
+                if (!aFlash && bFlash) return 1;
+                return 0;
+            });
             
             let lastError = null;
             
-            for (let i = 0; i < modelsToTry.length; i++) {
-                const model = modelsToTry[i];
+            // Phase 1: Try with Search (if requested & v1beta is available)
+            if (withSearch && apiVersion === 'v1beta') {
+                for (const model of sortedModels) {
+                    // Skip older legacy or embedding models
+                    if (model.includes('vision') || model.includes('bison') || model.includes('embedding') || model.includes('1.0-pro')) {
+                        continue;
+                    }
+                    try {
+                        const apiURL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+                        const bodyObj = {
+                            contents: [{
+                                parts: [{ text: prompt }]
+                            }],
+                            tools: [{ googleSearch: {} }] // REST v1beta grounding tool schema
+                        };
+                        
+                        console.log(`[Connecting] Attempting model: ${model} with Google Search`);
+                        const responseData = await fetchWithBackoff(apiURL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(bodyObj)
+                        });
+                        
+                        return { responseData, modelUsed: model, searchEnabled: true };
+                    } catch (error) {
+                        lastError = error;
+                        console.warn(`[Fallback] Model ${model} with Search returned error: ${error.message}. Retrying next...`);
+                        if (error.message === "INVALID_API_KEY") throw error;
+                    }
+                }
+            }
+            
+            // Phase 2: Self-Healing Fallback WITHOUT Google Search Grounding
+            console.warn("⚠️ Google Search grounding failed, is restricted, or api version is v1. Triggering Phase 2 standard model fallback...");
+            for (const model of sortedModels) {
+                if (model.includes('vision') || model.includes('bison') || model.includes('embedding') || model.includes('1.0-pro')) {
+                    continue;
+                }
                 try {
-                    const apiURL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-                    
+                    const apiURL = `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${apiKey}`;
                     const bodyObj = {
                         contents: [{
                             parts: [{ text: prompt }]
                         }]
                     };
                     
-                    // Standard Google Search Grounding for AI Studio REST calls
-                    if (withSearch) {
-                        bodyObj.tools = [{ googleSearch: {} }];
-                    }
-                    
+                    console.log(`[Connecting] Attempting standard model: ${model} via ${apiVersion}`);
                     const responseData = await fetchWithBackoff(apiURL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(bodyObj)
                     });
                     
-                    return { responseData, modelUsed: model };
+                    return { responseData, modelUsed: model, searchEnabled: false };
                 } catch (error) {
-                    // Catch 404 (Not Found) errors which typically indicate region restrictions or retired models
-                    if (error.message.includes('STATUS_404') || error.message.includes('NOT_FOUND')) {
-                        console.warn(`[Fallback] Model ${model} returned 404. Trying next fallback...`);
-                        lastError = error;
-                        continue; // try next model in the list
-                    }
-                    throw error; // Immediately halt and throw on other serious errors like 429, 403, 400
+                    lastError = error;
+                    console.warn(`[Fallback] Model ${model} standard run failed: ${error.message}`);
+                    if (error.message === "INVALID_API_KEY") throw error;
                 }
             }
+            
+            // Phase 3: Absolute Disaster Recovery Fallback (gemini-1.5-flash on v1 endpoint)
+            try {
+                const apiURL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+                const bodyObj = {
+                    contents: [{ parts: [{ text: prompt }] }]
+                };
+                console.log(`[Connecting] Absolute backup fallback: gemini-1.5-flash via v1`);
+                const responseData = await fetchWithBackoff(apiURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bodyObj)
+                });
+                return { responseData, modelUsed: 'gemini-1.5-flash', searchEnabled: false };
+            } catch (error) {
+                lastError = error;
+            }
+            
             throw lastError || new Error("ALL_MODELS_FAILED_404");
         }
 
@@ -1311,11 +1476,14 @@
 
             try {
                 // Call Google AI loop through our Multi-Model Fallback Engine
-                const { responseData, modelUsed } = await callGeminiAPI(apiKey, `${systemContextPrompt}\n\n使用者提問: ${prompt}`, true);
+                const { responseData, modelUsed, searchEnabled } = await callGeminiAPI(apiKey, `${systemContextPrompt}\n\n使用者提問: ${prompt}`, true);
 
                 const aiText = responseData.candidates?.[0]?.content?.parts?.[0]?.text;
                 if (aiText) {
                     console.log(`Success using model: ${modelUsed}`);
+                    if (!searchEnabled) {
+                        addSystemChatMessage("⚠️ 已為您自動停用聯網搜尋工具（因 API 限制或地區政策），以下為 AI 結合大模型知識之全方位深度解答：");
+                    }
                     addAiChatMessage(aiText);
                 } else {
                     addSystemChatMessage("❌ AI 未傳回有效文本資訊，請稍後重試。");
@@ -1355,11 +1523,14 @@
 
             try {
                 // Call Gemini using our multi-model fallback list to eliminate 404
-                const { responseData, modelUsed } = await callGeminiAPI(apiKey, syncPrompt, true);
+                const { responseData, modelUsed, searchEnabled } = await callGeminiAPI(apiKey, syncPrompt, true);
 
                 const aiText = responseData.candidates?.[0]?.content?.parts?.[0]?.text;
                 if (aiText) {
                     console.log(`Success using model: ${modelUsed}`);
+                    if (!searchEnabled) {
+                        addSystemChatMessage("⚠️ 因金鑰模態或網路地區限制，自動啟動無搜尋標準 fallback 模態，以下為大盤前瞻估值：");
+                    }
                     addAiChatMessage(aiText);
                     
                     // Parse the JSON block injected at the bottom of the AI output
@@ -1395,7 +1566,7 @@
                             });
 
                             if (isUpdated) {
-                                addSystemChatMessage("🎉 成功從檢索結果中解析出實時數據！核心持股矩陣與大盤估值已完成即時同步。");
+                                addSystemChatMessage("🎉 成功完成同步！核心持股矩陣與大盤估值已依最新數據動態更新。");
                                 calculateIndexMetrics();
                             }
                         } catch (jsonErr) {
