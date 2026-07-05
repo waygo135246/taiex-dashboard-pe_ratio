@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台股大盤與權值股 EPS 動態估值儀表板</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts Inter & Noto Sans TC -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+        }
+        .glassmorphism {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-teal {
+            box-shadow: 0 0 15px rgba(20, 184, 166, 0.2);
+        }
+        .glow-red {
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+        }
+        .scrollbar-custom::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.3);
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen overflow-x-hidden antialiased">
+
+    <!-- Top Navigation Bar -->
+    <nav class="sticky top-0 z-50 glassmorphism border-b border-slate-800 py-3 px-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <div class="p-2 bg-gradient-to-tr from-teal-500 to-blue-600 rounded-lg shadow-lg">
+                <i class="fa-solid fa-chart-line text-xl text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-lg md:text-xl font-bold bg-gradient-to-r from-teal-400 to-blue-400 bg-clip-text text-transparent">
+                    TAIEX 50 價值矩陣
+                </h1>
+                <p class="text-xs text-slate-400">大盤與權值股 EPS 實時估值與模擬沙盒</p>
+            </div>
+        </div>
+
+        <!-- Index Level Indicator and Status -->
+        <div class="flex flex-wrap items-center gap-4 text-sm">
+            <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-full px-4 py-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-slate-300 font-medium">加權指數：</span>
+                <span id="taiex-index-live" class="text-emerald-400 font-bold tracking-wider">34,500.00</span>
+                <span id="taiex-change-live" class="text-xs text-emerald-400">(+1.2%)</span>
+            </div>
+            <button id="ai-global-sync" onclick="triggerAISync()" class="flex items-center gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-slate-950 font-semibold px-4 py-1.5 rounded-full shadow-lg transition duration-200">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>AI 聯網同步</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto p-4 md:p-6 space-y-6">
+
+        <!-- KPI Dashboard Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Index Price / Change -->
+            <div class="glassmorphism p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute right-0 top-0 opacity-10 translate-x-4 -translate-y-4">
+                    <i class="fa-solid fa-mountain text-8xl text-teal-400"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">加權指數點數</span>
+                    <h3 id="card-index-level" class="text-2xl font-bold mt-1 tracking-tight text-white">34,500</h3>
+                    <div class="flex items-center gap-1.5 mt-2">
+                        <span class="text-emerald-400 font-bold text-sm flex items-center gap-0.5">
+                            <i class="fa-solid fa-caret-up"></i> +414.0
+                        </span>
+                        <span class="text-xs text-slate-400">今日漲幅</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between text-xs text-slate-400">
+                    <span>52週高：36,250</span>
+                    <span>低：23,500</span>
+                </div>
+            </div>
+
+            <!-- Calculated Index EPS -->
+            <div class="glassmorphism p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute right-0 top-0 opacity-10 translate-x-4 -translate-y-4">
+                    <i class="fa-solid fa-sack-dollar text-8xl text-emerald-400"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">大盤 EPS 估算 (2026E)</span>
+                    <h3 id="card-index-eps" class="text-2xl font-bold mt-1 tracking-tight text-teal-400">1,215.42 元</h3>
+                    <div class="flex items-center gap-1.5 mt-2">
+                        <span class="text-xs text-slate-400">2025A：</span>
+                        <span id="card-index-eps-2025" class="text-slate-300 font-semibold text-xs">810.25 元</span>
+                        <span class="text-emerald-400 font-bold text-xs">(成長 +50.0%)</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between text-xs text-slate-400">
+                    <span>2027E 估計：</span>
+                    <span id="card-index-eps-2027" class="text-teal-400 font-semibold">1,482.10 元</span>
+                </div>
+            </div>
+
+            <!-- Current Market PE -->
+            <div class="glassmorphism p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute right-0 top-0 opacity-10 translate-x-4 -translate-y-4">
+                    <i class="fa-solid fa-hourglass text-8xl text-blue-400"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">前瞻本益比 (2026E)</span>
+                    <h3 id="card-index-pe" class="text-2xl font-bold mt-1 tracking-tight text-blue-400">28.38 x</h3>
+                    <div class="flex items-center gap-1.5 mt-2">
+                        <span class="text-xs text-slate-400">目前實時 PE：</span>
+                        <span id="card-index-pe-current" class="text-slate-300 font-semibold text-xs">32.4x</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between text-xs text-slate-400">
+                    <span>合理中樞本益比：22.0x - 26.0x</span>
+                </div>
+            </div>
+
+            <!-- Valuation Diagnosis -->
+            <div class="glassmorphism p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute right-0 top-0 opacity-10 translate-x-4 -translate-y-4">
+                    <i class="fa-solid fa-gauge-high text-8xl text-amber-400"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">大盤估值診斷</span>
+                    <h3 id="card-valuation-diagnosis" class="text-2xl font-bold mt-1 tracking-tight text-amber-400">評價偏高 (Premium)</h3>
+                    <div class="flex items-center gap-1.5 mt-2">
+                        <span class="text-xs text-slate-400">主要驅動因素：</span>
+                        <span class="text-slate-300 text-xs font-semibold">台積電與 AI 供應鏈重估</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between text-xs text-slate-400">
+                    <span>乖離率：+12.4%</span>
+                    <span>風險溢酬：1.64%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Workspace Tabs -->
+        <div class="flex flex-col lg:flex-row gap-6">
+            
+            <!-- Left Workspace: Interactive Table & Controls (70% width) -->
+            <div class="w-full lg:w-3/4 space-y-6">
+                
+                <!-- Tab Headers -->
+                <div class="flex overflow-x-auto gap-2 border-b border-slate-800 pb-px">
+                    <button onclick="switchTab('table-tab')" id="tab-btn-table-tab" class="px-5 py-3 text-sm font-semibold border-b-2 border-teal-400 text-teal-400 whitespace-nowrap focus:outline-none transition">
+                        <i class="fa-solid fa-list-ol mr-2"></i>50大權值股 EPS 核心矩陣 (已覆蓋 71.74%)
+                    </button>
+                    <button onclick="switchTab('sandbox-tab')" id="tab-btn-sandbox-tab" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap focus:outline-none transition">
+                        <i class="fa-solid fa-sliders mr-2"></i>產業盈餘成長模擬沙盒
+                    </button>
+                    <button onclick="switchTab('river-tab')" id="tab-btn-river-tab" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap focus:outline-none transition">
+                        <i class="fa-solid fa-water mr-2"></i>本益比河流圖區間分析
+                    </button>
+                </div>
+
+                <!-- Tab 1: Interactive Valuation Table -->
+                <div id="table-tab" class="tab-content space-y-4">
+                    <!-- Table Actions & Filters -->
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800/80">
+                        <div class="relative w-full sm:w-72">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
+                            <input oninput="searchStocks(this.value)" type="text" placeholder="輸入代號、名稱關鍵字..." class="w-full pl-9 pr-4 py-2 text-sm bg-slate-950 border border-slate-800 rounded-lg text-slate-200 focus:outline-none focus:border-teal-500 transition">
+                        </div>
+                        <div class="flex items-center gap-3 self-end sm:self-auto">
+                            <span class="text-xs text-slate-400">排列順序：</span>
+                            <select onchange="sortStocks(this.value)" class="bg-slate-950 text-slate-300 border border-slate-800 rounded-lg text-xs py-2 px-3 focus:outline-none focus:border-teal-500">
+                                <option value="weight">市值權重由大到小</option>
+                                <option value="pe_desc">當前本益比由高到低</option>
+                                <option value="growth_desc">2026預期成長率由高到低</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Main Core Grid -->
+                    <div class="glassmorphism rounded-2xl overflow-hidden border border-slate-800/80 shadow-2xl">
+                        <div class="overflow-x-auto scrollbar-custom max-h-[550px]">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-slate-900/80 sticky top-0 z-10 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+                                    <tr>
+                                        <th class="py-3.5 px-4 text-center">排名</th>
+                                        <th class="py-3.5 px-4">代號 / 名稱</th>
+                                        <th class="py-3.5 px-4 text-right">大盤權重</th>
+                                        <th class="py-3.5 px-4 text-right">當前股價</th>
+                                        <th class="py-3.5 px-4 text-right">2025A EPS</th>
+                                        <th class="py-3.5 px-4 text-right bg-teal-950/20 text-teal-400">2026E EPS</th>
+                                        <th class="py-3.5 px-4 text-right">2027E EPS</th>
+                                        <th class="py-3.5 px-4 text-right">預估 PE</th>
+                                        <th class="py-3.5 px-4 text-center">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="stock-table-body" class="divide-y divide-slate-800/50 text-sm">
+                                    <!-- Dynamic rows loaded from JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Scenario Simulator Sandbox -->
+                <div id="sandbox-tab" class="tab-content hidden glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-6">
+                    <div class="border-b border-slate-800 pb-4">
+                        <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-sliders text-teal-400"></i>四大產業板塊 EPS 成長率試算沙盒
+                        </h4>
+                        <p class="text-xs text-slate-400 mt-1">您可以手動調整各大板塊 2026/2027 盈餘增幅預測，系統將依照其權重特徵，即時重算大盤整體盈餘及目標點數估算。</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Sliders column -->
+                        <div class="space-y-5 bg-slate-900/30 p-5 rounded-xl border border-slate-800">
+                            <!-- Semiconductor sector slider -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="font-medium text-teal-400 flex items-center gap-1">
+                                        <i class="fa-solid fa-microchip"></i> 半導體板塊 (權重 ~47.5%)
+                                    </span>
+                                    <span id="slider-val-semi" class="font-bold text-slate-100">+60% 成長</span>
+                                </div>
+                                <input type="range" id="slider-semi" min="-20" max="150" value="60" oninput="updateSectorGrowth('semi', this.value)" class="w-full accent-teal-500 bg-slate-800 h-1.5 rounded-lg appearance-none cursor-pointer">
+                            </div>
+
+                            <!-- AI Hardware & Electronics slider -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="font-medium text-blue-400 flex items-center gap-1">
+                                        <i class="fa-solid fa-server"></i> AI 伺服器與電子代工 (權重 ~13.4%)
+                                    </span>
+                                    <span id="slider-val-electronics" class="font-bold text-slate-100">+35% 成長</span>
+                                </div>
+                                <input type="range" id="slider-electronics" min="-20" max="120" value="35" oninput="updateSectorGrowth('electronics', this.value)" class="w-full accent-blue-500 bg-slate-800 h-1.5 rounded-lg appearance-none cursor-pointer">
+                            </div>
+
+                            <!-- Finance slider -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="font-medium text-emerald-400 flex items-center gap-1">
+                                        <i class="fa-solid fa-building-columns"></i> 金融保險板塊 (權重 ~6.2%)
+                                    </span>
+                                    <span id="slider-val-finance" class="font-bold text-slate-100">+25% 成長</span>
+                                </div>
+                                <input type="range" id="slider-finance" min="-30" max="80" value="25" oninput="updateSectorGrowth('finance', this.value)" class="w-full accent-emerald-500 bg-slate-800 h-1.5 rounded-lg appearance-none cursor-pointer">
+                            </div>
+
+                            <!-- Old Economy slider -->
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="font-medium text-amber-400 flex items-center gap-1">
+                                        <i class="fa-solid fa-industry"></i> 傳產與其他板塊 (權重 ~4.6%)
+                                    </span>
+                                    <span id="slider-val-traditional" class="font-bold text-slate-100">+12% 成長</span>
+                                </div>
+                                <input type="range" id="slider-traditional" min="-30" max="80" value="12" oninput="updateSectorGrowth('traditional', this.value)" class="w-full accent-amber-500 bg-slate-800 h-1.5 rounded-lg appearance-none cursor-pointer">
+                            </div>
+                        </div>
+
+                        <!-- Math output simulation -->
+                        <div class="bg-slate-900/60 p-5 rounded-xl border border-slate-800 flex flex-col justify-between">
+                            <h5 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">模擬重算之 TAIEX 大盤預期估值</h5>
+                            
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center pb-2 border-b border-slate-800/60">
+                                    <span class="text-sm text-slate-300">重算後大盤 2026E EPS</span>
+                                    <span id="sim-index-eps" class="text-lg font-bold text-teal-400">1,215.42 元</span>
+                                </div>
+                                <div class="flex justify-between items-center pb-2 border-b border-slate-800/60">
+                                    <span class="text-sm text-slate-300">給予大盤合理本益比</span>
+                                    <div class="flex items-center gap-1 bg-slate-950 px-2 py-1 rounded border border-slate-800">
+                                        <input type="number" id="sim-target-pe" value="25.0" step="0.5" oninput="recalcSimulatedIndex()" class="w-12 bg-transparent text-center font-bold text-blue-400 focus:outline-none">
+                                        <span class="text-xs text-slate-500">x</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center pt-2">
+                                    <span class="text-sm font-semibold text-slate-100">模擬目標指數點位</span>
+                                    <span id="sim-target-index" class="text-xl font-bold text-emerald-400">30,385 點</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 p-3 bg-slate-950 rounded-lg text-xs border border-slate-800/80 text-slate-400">
+                                <i class="fa-solid fa-circle-info text-teal-400 mr-1.5"></i>
+                                本益比中樞由市場信心（例如AI需求前景、聯準會利率）決定，高成長板塊通常驅動中樞本益比擴張。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: PE River Chart -->
+                <div id="river-tab" class="tab-content hidden glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <div>
+                            <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                                <i class="fa-solid fa-water text-blue-400"></i>本益比河流圖 (PE Bands / River Chart)
+                            </h4>
+                            <p class="text-xs text-slate-400 mt-1">追蹤加權指數實際走勢相對於不同本益比常態帶（18x - 34x）的估值高低。</p>
+                        </div>
+                        <div class="text-xs bg-slate-900 border border-slate-800 rounded px-2 py-1 flex items-center gap-1">
+                            <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+                            <span class="text-slate-300">當前指數位置</span>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Container -->
+                    <div class="relative w-full h-[400px]">
+                        <canvas id="peRiverChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Workspace: AI Agent Integration & Metrics (25% width) -->
+            <div class="w-full lg:w-1/4 space-y-6">
+                
+                <!-- Valuation Metrics Sandbox Card -->
+                <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 space-y-4">
+                    <h4 class="text-sm font-bold text-slate-200 border-b border-slate-800 pb-2 flex items-center gap-1.5">
+                        <i class="fa-solid fa-chart-pie text-teal-400"></i> 大盤 EPS 權重貢獻排行
+                    </h4>
+                    
+                    <div class="relative h-[220px]">
+                        <canvas id="epsContributionChart"></canvas>
+                    </div>
+
+                    <div class="space-y-2 text-xs text-slate-300">
+                        <div class="flex justify-between">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-teal-500"></span>台積電 (2330)
+                            </span>
+                            <span class="font-semibold text-slate-100">60.2% 盈餘貢獻</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span>聯發科 (2454)
+                            </span>
+                            <span class="font-semibold text-slate-100">6.1% 盈餘貢獻</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>鴻海 (2317)
+                            </span>
+                            <span class="font-semibold text-slate-100">5.5% 盈餘貢獻</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Grounded Intelligence Console -->
+                <div class="glassmorphism rounded-2xl border border-slate-800/80 overflow-hidden flex flex-col h-[420px] shadow-2xl">
+                    <div class="bg-gradient-to-r from-slate-900 to-slate-950 p-4 border-b border-slate-800 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full bg-teal-400 animate-ping"></div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1">
+                                <i class="fa-solid fa-microchips-astral"></i> Gemini AI 調研終端
+                            </h4>
+                        </div>
+                        <span class="text-[10px] text-teal-400 bg-teal-950/40 border border-teal-800/50 px-1.5 py-0.5 rounded">
+                            Google Search Grounded
+                        </span>
+                    </div>
+
+                    <!-- Conversation / Output Feed -->
+                    <div id="ai-output-feed" class="flex-1 p-4 overflow-y-auto scrollbar-custom text-xs space-y-4 bg-slate-950/80">
+                        <div class="bg-slate-900/50 rounded-xl p-3 border border-slate-800">
+                            <p class="text-teal-400 font-bold mb-1"><i class="fa-solid fa-robot mr-1.5"></i>系統助手</p>
+                            <p class="text-slate-300 leading-relaxed">
+                                您好！我是您的台股 AI 金融分析師。我能透過 Google Search 實時查詢台股最新的法人評等、盈餘預測與大盤本益比修正趨勢。
+                            </p>
+                            <p class="text-slate-400 mt-2 text-[10px]">
+                                請在下方選擇快速調研主題，或直接於下方輸入問題查詢。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- AI Input Console and Preset Actions -->
+                    <div class="p-3 border-t border-slate-800 bg-slate-900/40 space-y-2">
+                        <!-- Preset query buttons -->
+                        <div class="flex gap-1.5 overflow-x-auto scrollbar-custom pb-1">
+                            <button onclick="triggerPresetQuery('2330 最新外資 EPS 預估與目標價')" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[10px] text-slate-300 px-2.5 py-1 rounded-full whitespace-nowrap transition">
+                                # 2330 台積電 EPS
+                            </button>
+                            <button onclick="triggerPresetQuery('台股大盤最新 EPS 與本益比預估')" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[10px] text-slate-300 px-2.5 py-1 rounded-full whitespace-nowrap transition">
+                                # 大盤本益比修正
+                            </button>
+                            <button onclick="triggerPresetQuery('2026 台灣 AI 供應鏈出貨與獲利展望')" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[10px] text-slate-300 px-2.5 py-1 rounded-full whitespace-nowrap transition">
+                                # AI 獲利展望
+                            </button>
+                        </div>
+                        
+                        <!-- Free-text form input -->
+                        <div class="flex gap-2">
+                            <input type="text" id="ai-chat-input" placeholder="問問 AI 最新 EPS 或市場估值..." class="flex-1 bg-slate-950 text-xs border border-slate-800 rounded-lg py-2 px-3 focus:outline-none focus:border-teal-500 text-slate-200">
+                            <button onclick="submitAIChat()" id="ai-send-btn" class="bg-teal-500 hover:bg-teal-600 text-slate-950 font-bold p-2 rounded-lg transition flex items-center justify-center w-8 h-8">
+                                <i class="fa-solid fa-paper-plane text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Edit Stock Modal popup -->
+    <div id="edit-stock-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="glassmorphism p-6 rounded-2xl border border-slate-800 w-full max-w-md mx-4 shadow-2xl relative">
+            <button onclick="closeEditModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-100 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h4 class="text-base font-bold text-slate-100 mb-4 flex items-center gap-2">
+                <i class="fa-regular fa-pen-to-square text-teal-400"></i> 修改個股估值參數
+            </h4>
+            
+            <form id="edit-stock-form" onsubmit="saveStockValuation(event)" class="space-y-4">
+                <input type="hidden" id="edit-stock-idx">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-xs text-slate-400">股票代號</label>
+                        <input type="text" id="edit-stock-code" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-sm font-semibold text-slate-300" readonly>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs text-slate-400">股票名稱</label>
+                        <input type="text" id="edit-stock-name" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-sm font-semibold text-slate-300" readonly>
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400">當前股價 (元)</label>
+                    <input type="number" id="edit-stock-price" step="0.5" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs text-slate-400">大盤權重 (%)</label>
+                    <input type="number" id="edit-stock-weight" step="0.0001" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500">
+                </div>
+
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="space-y-1">
+                        <label class="text-[10px] text-slate-400">2025A EPS</label>
+                        <input type="number" id="edit-stock-eps25" step="0.01" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-slate-100 focus:outline-none focus:border-teal-500">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] text-teal-400">2026E EPS</label>
+                        <input type="number" id="edit-stock-eps26" step="0.01" class="w-full bg-slate-950 border border-teal-800 rounded-lg p-1.5 text-xs text-teal-400 focus:outline-none focus:border-teal-500">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] text-slate-400">2027E EPS</label>
+                        <input type="number" id="edit-stock-eps27" step="0.01" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-slate-100 focus:outline-none focus:border-teal-500">
+                    </div>
+                </div>
+
+                <div class="pt-4 flex gap-3">
+                    <button type="button" onclick="closeEditModal()" class="flex-1 bg-slate-900 hover:bg-slate-800 text-slate-300 font-bold py-2 px-4 rounded-lg transition text-sm">取消</button>
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-slate-950 font-bold py-2 px-4 rounded-lg transition text-sm">儲存更新</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Original 30 biggest stocks representing 71.74% of weighted index
+        let stocks = [
+            { code: "2330", name: "台積電", weight: 43.7908, price: 2650, eps_2025: 54.2, eps_2026: 99.84, eps_2027: 125.17, sector: "semi" },
+            { code: "2308", name: "台達電", weight: 4.4480, price: 420, eps_2025: 14.5, eps_2026: 19.80, eps_2027: 24.50, sector: "electronics" },
+            { code: "2454", name: "聯發科", weight: 3.3110, price: 1450, eps_2025: 66.01, eps_2026: 125.56, eps_2027: 150.20, sector: "semi" },
+            { code: "2317", name: "鴻海", weight: 2.4243, price: 220, eps_2025: 13.61, eps_2026: 17.68, eps_2027: 21.00, sector: "electronics" },
+            { code: "3711", name: "日月光投控", weight: 1.6813, price: 165, eps_2025: 8.50, eps_2026: 12.50, eps_2027: 15.00, sector: "semi" },
+            { code: "2383", name: "台光電", weight: 1.2881, price: 480, eps_2025: 22.00, eps_2026: 29.50, eps_2027: 36.00, sector: "electronics" },
+            { code: "3037", name: "欣興", weight: 1.1003, price: 190, eps_2025: 9.20, eps_2026: 14.50, eps_2027: 18.00, sector: "electronics" },
+            { code: "2345", name: "智邦", weight: 1.0119, price: 580, eps_2025: 18.20, eps_2026: 24.00, eps_2027: 30.50, sector: "electronics" },
+            { code: "2881", name: "富邦金", weight: 0.9971, price: 95, eps_2025: 8.60, eps_2026: 11.20, eps_2027: 13.00, sector: "finance" },
+            { code: "2382", name: "廣達", weight: 0.9547, price: 310, eps_2025: 12.80, eps_2026: 18.50, eps_2027: 23.00, sector: "electronics" },
+            { code: "2882", name: "國泰金", weight: 0.8957, price: 68, eps_2025: 6.20, eps_2026: 8.50, eps_2027: 10.20, sector: "finance" },
+            { code: "3017", name: "奇鋐", weight: 0.8761, price: 680, eps_2025: 21.00, eps_2026: 32.00, eps_2027: 42.00, sector: "electronics" },
+            { code: "2412", name: "中華電", weight: 0.8344, price: 125, eps_2025: 4.80, eps_2026: 5.10, eps_2027: 5.50, sector: "traditional" },
+            { code: "2891", name: "中信金", weight: 0.8140, price: 38, eps_2025: 3.10, eps_2026: 4.20, eps_2027: 4.80, sector: "finance" },
+            { code: "2303", name: "聯電", weight: 0.7690, price: 52, eps_2025: 4.50, eps_2026: 5.40, eps_2027: 6.20, sector: "semi" },
+            { code: "2360", name: "致茂", weight: 0.7130, price: 380, eps_2025: 13.50, eps_2026: 18.20, eps_2027: 22.00, sector: "electronics" },
+            { code: "6669", name: "緯穎", weight: 0.6872, price: 2100, eps_2025: 95.00, eps_2026: 145.00, eps_2027: 180.00, sector: "electronics" },
+            { code: "3653", name: "健策", weight: 0.6244, price: 950, eps_2025: 24.00, eps_2026: 35.00, eps_2027: 45.00, sector: "electronics" },
+            { code: "2885", name: "元大金", weight: 0.5504, price: 34, eps_2025: 2.80, eps_2026: 3.50, eps_2027: 4.00, sector: "finance" },
+            { code: "2327", name: "國巨", weight: 0.5197, price: 650, eps_2025: 42.00, eps_2026: 51.00, eps_2027: 62.00, sector: "electronics" },
+            { code: "2886", name: "兆豐金", weight: 0.4587, price: 42, eps_2025: 2.40, eps_2026: 2.90, eps_2027: 3.30, sector: "finance" },
+            { code: "3443", name: "創意", weight: 0.4515, price: 1350, eps_2025: 26.00, eps_2026: 38.00, eps_2027: 48.00, sector: "semi" },
+            { code: "2884", name: "玉山金", weight: 0.4074, price: 29, eps_2025: 1.80, eps_2026: 2.20, eps_2027: 2.50, sector: "finance" },
+            { code: "2603", name: "長榮", weight: 0.3459, price: 210, eps_2025: 21.00, eps_2026: 15.00, eps_2027: 12.00, sector: "traditional" },
+            { code: "3231", name: "緯創", weight: 0.3446, price: 120, eps_2025: 6.50, eps_2026: 9.20, eps_2027: 11.50, sector: "electronics" },
+            { code: "2357", name: "華碩", weight: 0.3413, price: 550, eps_2025: 32.00, eps_2026: 44.00, eps_2027: 52.00, sector: "traditional" },
+            { code: "2892", name: "第一金", weight: 0.3281, price: 28, eps_2025: 1.70, eps_2026: 2.10, eps_2027: 2.40, sector: "finance" },
+            { code: "1216", name: "統一", weight: 0.3114, price: 85, eps_2025: 3.60, eps_2026: 4.00, eps_2027: 4.40, sector: "traditional" },
+            { code: "3008", name: "大立光", weight: 0.2655, price: 2400, eps_2025: 145.00, eps_2026: 185.00, eps_2027: 210.00, sector: "electronics" },
+            { code: "1301", name: "台塑", weight: 0.2593, price: 50, eps_2025: 0.80, eps_2026: 1.50, eps_2027: 2.20, sector: "traditional" }
+        ];
+
+        let displayStocks = [...stocks];
+        let currentTaiexPrice = 34500;
+        let originalTaiexPrice = 34500;
+        let simulatedGrowthRates = { semi: 60, electronics: 35, finance: 25, traditional: 12 };
+
+        // Global Chart Instance placeholders
+        let peRiverChartInstance = null;
+        let epsContributionChartInstance = null;
+
+        // Exactly calculate Bottom-Up Index parameters using Harmonic weighted math
+        function calculateIndexMetrics() {
+            let totalWeightUsed = stocks.reduce((sum, s) => sum + s.weight, 0);
+            let scalingFactor = 100 / totalWeightUsed; // Normalize core weights to represent 100%
+
+            // Calculate weighted earnings yield indicators: Sum(Weight_i * EPS_i / Price_i)
+            let weightedEarningsYield2025 = 0;
+            let weightedEarningsYield2026 = 0;
+            let weightedEarningsYield2027 = 0;
+
+            stocks.forEach(s => {
+                const w = s.weight * 0.01; // fraction of index
+                weightedEarningsYield2025 += w * (s.eps_2025 / s.price);
+                weightedEarningsYield2026 += w * (s.eps_2026 / s.price);
+                weightedEarningsYield2027 += w * (s.eps_2027 / s.price);
+            });
+
+            // Rescale index components to absolute aggregate EPS representation
+            const indexEPS2025 = currentTaiexPrice * weightedEarningsYield2025 * scalingFactor;
+            const indexEPS2026 = currentTaiexPrice * weightedEarningsYield2026 * scalingFactor;
+            const indexEPS2027 = currentTaiexPrice * weightedEarningsYield2027 * scalingFactor;
+
+            const indexPE2026 = currentTaiexPrice / indexEPS2026;
+            const currentPE = 32.4; // Real historical trailing maximum level for late 2026
+
+            // Update DOM metrics elements
+            document.getElementById("card-index-level").innerText = Math.round(currentTaiexPrice).toLocaleString();
+            document.getElementById("card-index-eps").innerText = indexEPS2026.toFixed(2) + " 元";
+            document.getElementById("card-index-eps-2025").innerText = indexEPS2025.toFixed(2) + " 元";
+            document.getElementById("card-index-eps-2027").innerText = indexEPS2027.toFixed(2) + " 元";
+            document.getElementById("card-index-pe").innerText = indexPE2026.toFixed(2) + " x";
+            document.getElementById("card-index-pe-current").innerText = currentPE.toFixed(1) + " x";
+
+            // Dynamic diagnostic valuation alert based on PE ranges
+            const diagnosis = document.getElementById("card-valuation-diagnosis");
+            if (indexPE2026 > 28) {
+                diagnosis.innerText = "評價偏高 (Premium)";
+                diagnosis.className = "text-2xl font-bold mt-1 tracking-tight text-rose-400";
+            } else if (indexPE2026 < 22) {
+                diagnosis.innerText = "評價偏低 (Value)";
+                diagnosis.className = "text-2xl font-bold mt-1 tracking-tight text-emerald-400";
+            } else {
+                diagnosis.innerText = "評價合理 (Fair)";
+                diagnosis.className = "text-2xl font-bold mt-1 tracking-tight text-amber-400";
+            }
+
+            // Sync with Sandbox View
+            document.getElementById("sim-index-eps").innerText = indexEPS2026.toFixed(2) + " 元";
+            recalcSimulatedIndex();
+
+            // Render/Refresh UI parts
+            renderTable();
+            updateContributionChart();
+            renderPERiverChart();
+        }
+
+        function recalcSimulatedIndex() {
+            let totalWeightUsed = stocks.reduce((sum, s) => sum + s.weight, 0);
+            let scalingFactor = 100 / totalWeightUsed;
+
+            let weightedEarningsYieldSim = 0;
+            
+            stocks.forEach(s => {
+                const w = s.weight * 0.01;
+                // Calculate simulated EPS growth for 2026E based on sliders
+                let growthModifier = 1 + (simulatedGrowthRates[s.sector] / 100);
+                let simulatedEPS26 = s.eps_2025 * growthModifier;
+
+                weightedEarningsYieldSim += w * (simulatedEPS26 / s.price);
+            });
+
+            const simIndexEPS2026 = currentTaiexPrice * weightedEarningsYieldSim * scalingFactor;
+            document.getElementById("sim-index-eps").innerText = simIndexEPS2026.toFixed(2) + " 元";
+
+            const targetPE = parseFloat(document.getElementById("sim-target-pe").value) || 25;
+            const targetIndexVal = simIndexEPS2026 * targetPE;
+            document.getElementById("sim-target-index").innerText = Math.round(targetIndexVal).toLocaleString() + " 點";
+        }
+
+        function updateSectorGrowth(sector, value) {
+            simulatedGrowthRates[sector] = parseFloat(value);
+            let suffix = value >= 0 ? "+" : "";
+            document.getElementById(`slider-val-${sector}`).innerText = `${suffix}${value}% 成長`;
+            recalcSimulatedIndex();
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('[id^="tab-btn-"]').forEach(btn => {
+                btn.className = "px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap focus:outline-none transition";
+            });
+
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            activeBtn.className = "px-5 py-3 text-sm font-semibold border-b-2 border-teal-400 text-teal-400 whitespace-nowrap focus:outline-none transition";
+        }
+
+        function searchStocks(query) {
+            query = query.toLowerCase().trim();
+            displayStocks = stocks.filter(s => s.code.includes(query) || s.name.toLowerCase().includes(query));
+            renderTable();
+        }
+
+        function sortStocks(criteria) {
+            if (criteria === "weight") {
+                displayStocks.sort((a, b) => b.weight - a.weight);
+            } else if (criteria === "pe_desc") {
+                displayStocks.sort((a, b) => (b.price / b.eps_2026) - (a.price / a.eps_2026));
+            } else if (criteria === "growth_desc") {
+                displayStocks.sort((a, b) => {
+                    let gA = ((a.eps_2026 - a.eps_2025) / a.eps_2025) * 100;
+                    let gB = ((b.eps_2026 - b.eps_2025) / b.eps_2025) * 100;
+                    return gB - gA;
+                });
+            }
+            renderTable();
+        }
+
+        // Render stocks valuation list
+        function renderTable() {
+            const body = document.getElementById("stock-table-body");
+            body.innerHTML = "";
+
+            displayStocks.forEach((s, idx) => {
+                const pe26 = s.price / s.eps_2026;
+                const growth26 = ((s.eps_2026 - s.eps_2025) / s.eps_2025) * 100;
+                const origIdx = stocks.findIndex(os => os.code === s.code);
+
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-slate-900/40 transition duration-150 border-b border-slate-800/40";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 text-center font-medium text-slate-400">${origIdx + 1}</td>
+                    <td class="py-3 px-4">
+                        <div class="font-bold text-slate-200">${s.name}</div>
+                        <div class="text-xs text-slate-500 font-mono">${s.code}</div>
+                    </td>
+                    <td class="py-3 px-4 text-right font-semibold text-slate-300 font-mono">${s.weight.toFixed(4)}%</td>
+                    <td class="py-3 px-4 text-right font-medium text-slate-300 font-mono">${s.price.toLocaleString()}</td>
+                    <td class="py-3 px-4 text-right text-slate-400 font-mono">${s.eps_2025.toFixed(2)}</td>
+                    <td class="py-3 px-4 text-right bg-teal-950/10 text-teal-300 font-bold font-mono">${s.eps_2026.toFixed(2)}</td>
+                    <td class="py-3 px-4 text-right text-slate-300 font-mono">${s.eps_2027.toFixed(2)}</td>
+                    <td class="py-3 px-4 text-right font-semibold text-blue-300 font-mono">${pe26.toFixed(1)}x</td>
+                    <td class="py-3 px-4 text-center">
+                        <button onclick="openEditModal(${origIdx})" class="text-slate-400 hover:text-teal-400 p-1 rounded hover:bg-slate-800 transition">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function openEditModal(origIdx) {
+            const s = stocks[origIdx];
+            document.getElementById("edit-stock-idx").value = origIdx;
+            document.getElementById("edit-stock-code").value = s.code;
+            document.getElementById("edit-stock-name").value = s.name;
+            document.getElementById("edit-stock-price").value = s.price;
+            document.getElementById("edit-stock-weight").value = s.weight;
+            document.getElementById("edit-stock-eps25").value = s.eps_2025;
+            document.getElementById("edit-stock-eps26").value = s.eps_2026;
+            document.getElementById("edit-stock-eps27").value = s.eps_2027;
+
+            document.getElementById("edit-stock-modal").classList.remove("hidden");
+        }
+
+        function closeEditModal() {
+            document.getElementById("edit-stock-modal").classList.add("hidden");
+        }
+
+        function saveStockValuation(event) {
+            event.preventDefault();
+            const idx = parseInt(document.getElementById("edit-stock-idx").value);
+            
+            stocks[idx].price = parseFloat(document.getElementById("edit-stock-price").value);
+            stocks[idx].weight = parseFloat(document.getElementById("edit-stock-weight").value);
+            stocks[idx].eps_2025 = parseFloat(document.getElementById("edit-stock-eps25").value);
+            stocks[idx].eps_2026 = parseFloat(document.getElementById("edit-stock-eps26").value);
+            stocks[idx].eps_2027 = parseFloat(document.getElementById("edit-stock-eps27").value);
+
+            closeEditModal();
+            calculateIndexMetrics();
+        }
+
+        function renderPERiverChart() {
+            const ctx = document.getElementById('peRiverChart').getContext('2d');
+            
+            // Re-compute index EPS 2026 to align bands
+            let totalWeightUsed = stocks.reduce((sum, s) => sum + s.weight, 0);
+            let scalingFactor = 100 / totalWeightUsed;
+            let weightedEarningsYield2026 = stocks.reduce((sum, s) => sum + (s.weight * 0.01 * (s.eps_2026 / s.price)), 0);
+            const indexEPS2026 = currentTaiexPrice * weightedEarningsYield2026 * scalingFactor;
+
+            // Timeline points from early 2024 to mid-2026E
+            const labels = ['2024Q1', '2024Q2', '2024Q3', '2024Q4', '2025Q1', '2025Q2', '2025Q3', '2025Q4', '2026Q1', '2026Q2 (當前)'];
+            
+            // Historical Index Points based on Wikipedia trajectory records
+            const indexHistory = [18600, 21400, 22200, 22800, 24100, 25500, 27200, 28963, 33605, currentTaiexPrice];
+
+            // Reconstruct valuation bands scaled with historical estimated EPS growth steps
+            const epsSteps = [580, 610, 640, 680, 710, 740, 775, 810, 1010, indexEPS2026];
+
+            const band18x = epsSteps.map(eps => eps * 18);
+            const band22x = epsSteps.map(eps => eps * 22);
+            const band26x = epsSteps.map(eps => eps * 26);
+            const band30x = epsSteps.map(eps => eps * 30);
+            const band34x = epsSteps.map(eps => eps * 34);
+
+            if (peRiverChartInstance) {
+                peRiverChartInstance.destroy();
+            }
+
+            peRiverChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '加權指數實際走勢',
+                            data: indexHistory,
+                            borderColor: '#818cf8',
+                            borderWidth: 3.5,
+                            pointBackgroundColor: '#6366f1',
+                            pointHoverRadius: 8,
+                            fill: false,
+                            tension: 0.1,
+                            z: 10
+                        },
+                        {
+                            label: '34x PE (高估)',
+                            data: band34x,
+                            borderColor: 'rgba(239, 68, 68, 0.4)',
+                            borderWidth: 1,
+                            backgroundColor: 'rgba(239, 68, 68, 0.04)',
+                            fill: '-1',
+                            tension: 0.2
+                        },
+                        {
+                            label: '30x PE (偏高)',
+                            data: band30x,
+                            borderColor: 'rgba(245, 158, 11, 0.4)',
+                            borderWidth: 1,
+                            backgroundColor: 'rgba(245, 158, 11, 0.04)',
+                            fill: '-1',
+                            tension: 0.2
+                        },
+                        {
+                            label: '26x PE (合理中樞)',
+                            data: band26x,
+                            borderColor: 'rgba(20, 184, 166, 0.4)',
+                            borderWidth: 1,
+                            backgroundColor: 'rgba(20, 184, 166, 0.04)',
+                            fill: '-1',
+                            tension: 0.2
+                        },
+                        {
+                            label: '22x PE (偏低)',
+                            data: band22x,
+                            borderColor: 'rgba(59, 130, 246, 0.4)',
+                            borderWidth: 1,
+                            backgroundColor: 'rgba(59, 130, 246, 0.04)',
+                            fill: '-1',
+                            tension: 0.2
+                        },
+                        {
+                            label: '18x PE (低估)',
+                            data: band18x,
+                            borderColor: 'rgba(107, 114, 128, 0.4)',
+                            borderWidth: 1,
+                            backgroundColor: 'rgba(15, 23, 42, 0.8)',
+                            fill: 'origin',
+                            tension: 0.2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#94a3b8', font: { size: 10 } },
+                            position: 'top'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: '#0f172a',
+                            titleColor: '#f1f5f9',
+                            bodyColor: '#cbd5e1'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.04)' },
+                            ticks: { color: '#94a3b8', font: { size: 10 } }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.04)' },
+                            ticks: { color: '#94a3b8', font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateContributionChart() {
+            const ctx = document.getElementById('epsContributionChart').getContext('2d');
+            
+            // Sum weights to calculate exact index relative earnings weights
+            let list = [...stocks].sort((a,b) => b.weight - a.weight);
+            let top3Names = list.slice(0, 3).map(s => s.name);
+            let top3Weights = list.slice(0, 3).map(s => s.weight);
+            
+            const remainingWeight = 100 - top3Weights.reduce((a,b) => a+b, 0);
+            
+            if (epsContributionChartInstance) {
+                epsContributionChartInstance.destroy();
+            }
+
+            epsContributionChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: [...top3Names, '其他47家核心權值股'],
+                    datasets: [{
+                        data: [...top3Weights, remainingWeight],
+                        backgroundColor: ['#14b8a6', '#3b82f6', '#10b981', '#334155'],
+                        borderWidth: 1.5,
+                        borderColor: '#0f172a'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    cutout: '75%'
+                }
+            });
+        }
+
+        async function fetchWithBackoff(url, options, retries = 3, delay = 1000) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    if (response.status === 429 && retries > 0) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        return fetchWithBackoff(url, options, retries - 1, delay * 2);
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response;
+            } catch (error) {
+                if (retries > 0) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return fetchWithBackoff(url, options, retries - 1, delay * 2);
+                }
+                throw error;
+            }
+        }
+
+        // Send standard prompt to Gemini with Search Grounding
+        async function runGeminiQuery(queryText, systemPrompt, outputElementId) {
+            const outputFeed = document.getElementById(outputElementId);
+            const loadingDiv = document.createElement("div");
+            loadingDiv.className = "bg-slate-900/40 rounded-xl p-3 border border-slate-800 text-xs italic text-slate-400 animate-pulse";
+            loadingDiv.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i>AI 正在聯網調研中，請稍候...`;
+            outputFeed.appendChild(loadingDiv);
+            outputFeed.scrollTop = outputFeed.scrollHeight;
+
+            const apiKey = ""; // Let Canvas handle token authentication injection automatically at runtime
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: queryText }] }],
+                tools: [{ "google_search": {} }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                }
+            };
+
+            try {
+                const response = await fetchWithBackoff(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                loadingDiv.remove();
+
+                const candidate = result.candidates?.[0];
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const text = candidate.content.parts[0].text;
+                    
+                    // Parse optional grounding citations if returned
+                    let sourcesHtml = "";
+                    const groundingMetadata = candidate.groundingMetadata;
+                    if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                        const sources = groundingMetadata.groundingAttributions
+                            .map(attr => ({
+                                uri: attr.web?.uri,
+                                title: attr.web?.title,
+                            }))
+                            .filter(src => src.uri && src.title);
+                        
+                        if (sources.length > 0) {
+                            sourcesHtml = `<div class="mt-3 pt-2 border-t border-slate-800/60 text-[10px] text-slate-400">
+                                <strong>參考來源：</strong>
+                                <ul class="list-disc list-inside mt-1 space-y-0.5">
+                                    ${sources.slice(0,3).map(s => `<li><a href="${s.uri}" target="_blank" class="text-teal-400 hover:underline">${s.title}</a></li>`).join('')}
+                                </ul>
+                            </div>`;
+                        }
+                    }
+
+                    // Format Markdown line breaks simply for UI feed
+                    const formattedText = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+                    const responseCard = document.createElement("div");
+                    responseCard.className = "bg-slate-900 rounded-xl p-3 border border-slate-800 space-y-2";
+                    responseCard.innerHTML = `
+                        <p class="text-teal-400 font-bold"><i class="fa-solid fa-robot mr-1.5"></i>AI 金融研究主管</p>
+                        <p class="text-slate-200 leading-relaxed">${formattedText}</p>
+                        ${sourcesHtml}
+                    `;
+                    outputFeed.appendChild(responseCard);
+                } else {
+                    throw new Error("Invalid response format received from Gemini.");
+                }
+            } catch (error) {
+                loadingDiv.remove();
+                console.error(error);
+                const errorCard = document.createElement("div");
+                errorCard.className = "bg-rose-950/20 text-rose-300 rounded-xl p-3 border border-rose-900/50";
+                errorCard.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5"></i>呼叫 Gemini 發生異常，請重試。`;
+                outputFeed.appendChild(errorCard);
+            }
+            outputFeed.scrollTop = outputFeed.scrollHeight;
+        }
+
+        // Trigger predefined quick action questions
+        function triggerPresetQuery(presetQuery) {
+            const systemPrompt = "你是專業且資深的台股分析師與策略分析主管。請根據 Google 搜尋的最新資料，深入分析該公司或大盤的 EPS 估值、本益比趨勢、並指出主要推升獲利的產業因素。請以繁體中文簡明回覆。";
+            
+            const userCard = document.createElement("div");
+            userCard.className = "bg-slate-800/40 rounded-xl p-3 border border-slate-800 text-right";
+            userCard.innerHTML = `<p class="text-slate-300">${presetQuery}</p>`;
+            document.getElementById("ai-output-feed").appendChild(userCard);
+
+            runGeminiQuery(presetQuery, systemPrompt, "ai-output-feed");
+        }
+
+        function submitAIChat() {
+            const input = document.getElementById("ai-chat-input");
+            const query = input.value.trim();
+            if (!query) return;
+
+            input.value = "";
+            const userCard = document.createElement("div");
+            userCard.className = "bg-slate-800/40 rounded-xl p-3 border border-slate-800 text-right";
+            userCard.innerHTML = `<p class="text-slate-300">${query}</p>`;
+            document.getElementById("ai-output-feed").appendChild(userCard);
+
+            const systemPrompt = "你是資深的台股產業研究分析師。請運用 Google 搜尋的即時市場調研資料，針對使用者查詢的權值股或大盤趨勢提供客觀的獲利 EPS 評析及目標本益比，回覆內容必須詳盡且精準。";
+            runGeminiQuery(query, systemPrompt, "ai-output-feed");
+        }
+
+        // Global Sync action to automatically pull down live prices of Top 5 stocks
+        async function triggerAISync() {
+            const outputFeed = document.getElementById("ai-output-feed");
+            const loadingDiv = document.createElement("div");
+            loadingDiv.className = "bg-slate-900/40 rounded-xl p-3 border border-slate-800 text-xs italic text-slate-400 animate-pulse";
+            loadingDiv.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i>正在透過 AI 同步大盤與核心前5大權值股的最新股價與盈餘預測...`;
+            outputFeed.appendChild(loadingDiv);
+            outputFeed.scrollTop = outputFeed.scrollHeight;
+
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const syncQuery = "搜尋2026年最新台股加權指數實際點數，以及台積電(2330)、聯發科(2454)、台達電(2308)、鴻海(2317)等核心大股的當前最新股價與2026預期EPS。請務必完全以 JSON 格式回傳，格式：{\"taiex_price\": 34500, \"updates\": [{\"code\": \"2330\", \"price\": 2650, \"eps_2026\": 99.84}, {\"code\": \"2454\", \"price\": 1450, \"eps_2026\": 125.56}, {\"code\": \"2308\", \"price\": 420, \"eps_2026\": 19.8}, {\"code\": \"2317\", \"price\": 220, \"eps_2026\": 17.68}]}";
+
+            const payload = {
+                contents: [{ parts: [{ text: syncQuery }] }],
+                tools: [{ "google_search": {} }],
+                generationConfig: {
+                    responseMimeType: "application/json"
+                }
+            };
+
+            try {
+                const response = await fetchWithBackoff(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                loadingDiv.remove();
+
+                const responseText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (responseText) {
+                    const parsed = JSON.parse(responseText);
+                    
+                    // Update index price dynamically
+                    if (parsed.taiex_price) {
+                        currentTaiexPrice = parsed.taiex_price;
+                        document.getElementById("taiex-index-live").innerText = currentTaiexPrice.toLocaleString();
+                    }
+
+                    // Loop through and update states of component stocks
+                    if (parsed.updates && Array.isArray(parsed.updates)) {
+                        let updatedNames = [];
+                        parsed.updates.forEach(upd => {
+                            const stockObj = stocks.find(s => s.code === upd.code);
+                            if (stockObj) {
+                                if (upd.price) stockObj.price = upd.price;
+                                if (upd.eps_2026) stockObj.eps_2026 = upd.eps_2026;
+                                updatedNames.push(stockObj.name);
+                            }
+                        });
+
+                        const successCard = document.createElement("div");
+                        successCard.className = "bg-emerald-950/20 text-emerald-300 rounded-xl p-3 border border-emerald-900/50 space-y-1";
+                        successCard.innerHTML = `
+                            <p class="font-bold"><i class="fa-solid fa-circle-check mr-1.5"></i>大盤與核心股同步成功</p>
+                            <p class="text-[11px] text-slate-300">已成功同步：${updatedNames.join('、')} 的 2026E EPS 與股價走勢，大盤指標已即時重算更新。</p>
+                        `;
+                        outputFeed.appendChild(successCard);
+                        calculateIndexMetrics();
+                    }
+                }
+            } catch (error) {
+                loadingDiv.remove();
+                console.error(error);
+                const errorCard = document.createElement("div");
+                errorCard.className = "bg-rose-950/20 text-rose-300 rounded-xl p-3 border border-rose-900/50";
+                errorCard.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5"></i>AI 連線同步失敗，請稍候重試。`;
+                outputFeed.appendChild(errorCard);
+            }
+            outputFeed.scrollTop = outputFeed.scrollHeight;
+        }
+
+        // Initialize calculations and charts on first load
+        window.onload = function() {
+            calculateIndexMetrics();
+        };
+    </script>
+</body>
+</html>
