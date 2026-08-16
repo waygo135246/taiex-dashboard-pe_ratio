@@ -134,8 +134,8 @@
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
                 <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">市場脆弱度風險指數</p>
-                <h3 id="card-risk-score" class="text-2xl font-bold mt-2 tracking-tight text-amber-400">45 / 100</h3>
-                <p id="card-risk-level" class="text-xs text-amber-400 mt-1 font-semibold">🟡 中度防禦關注 (Moderate)</p>
+                <h3 id="card-risk-score" class="text-2xl font-bold mt-2 tracking-tight text-rose-400">73 / 100</h3>
+                <p id="card-risk-level" class="text-xs text-rose-400 mt-1 font-bold animate-pulse">🔴 極高極致風暴警戒 (High Risk)</p>
             </div>
         </div>
 
@@ -185,7 +185,7 @@
                         </div>
                         <div class="flex items-center gap-3 bg-slate-900/80 border border-slate-800 p-3 rounded-xl shrink-0">
                             <span class="text-xs text-slate-400">當前建議資產配置:</span>
-                            <span id="risk-recommended-cash" class="text-xs font-bold text-amber-400 font-mono">現金 30% / 股票 70%</span>
+                            <span id="risk-recommended-cash" class="text-xs font-bold text-rose-400 font-mono">現金 60% / 防禦避險 40%</span>
                         </div>
                     </div>
 
@@ -197,7 +197,7 @@
                         
                         <div class="grid grid-cols-1 gap-6">
                             <!-- Indicator Card 1 -->
-                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -218,15 +218,15 @@
                             </div>
 
                             <!-- Indicator Card 2 -->
-                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">2. 勞動市場「薩姆規則」(Sahm Rule)</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">當前最新數值: <span class="text-emerald-400 font-mono font-bold">0.58%</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前最新數值: <span class="text-rose-400 font-mono font-bold">0.58%</span></p>
                                         </div>
-                                        <span id="status-btn-sahm_rule" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 select-none shrink-0">
-                                            🟢 安全正常 (< 0.5%)
+                                        <span id="status-btn-sahm_rule" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none shrink-0">
+                                            🔴 觸發衰退警戒 (≥ 0.5%)
                                         </span>
                                     </div>
                                     <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
@@ -239,7 +239,7 @@
                             </div>
 
                             <!-- Indicator Card 3 -->
-                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -247,7 +247,7 @@
                                             <p class="text-[11px] text-slate-400 mt-1">當前美元/日圓: <span class="text-amber-400 font-mono font-bold">141.2 JPY</span></p>
                                         </div>
                                         <span id="status-btn-yen_carry" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none shrink-0">
-                                            🟡 波動加劇 (Volatility)
+                                            🟡 波動升值 (< 145 JPY)
                                         </span>
                                     </div>
                                     <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
@@ -260,7 +260,7 @@
                             </div>
 
                             <!-- Indicator Card 4 -->
-                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -290,7 +290,7 @@
                         
                         <div class="grid grid-cols-1 gap-6">
                             <!-- Indicator Card 5 -->
-                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -298,7 +298,7 @@
                                             <p class="text-[11px] text-slate-400 mt-1">高於 200MA 個股: <span class="text-rose-400 font-mono font-bold">28 %</span></p>
                                         </div>
                                         <span id="status-btn-breadth_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none shrink-0">
-                                            🔴 廣度背離 (Only Big Tech)
+                                            🔴 廣度嚴重背離 (< 50%)
                                         </span>
                                     </div>
                                     <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
@@ -311,15 +311,15 @@
                             </div>
 
                             <!-- Indicator Card 6 -->
-                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">6. VIX 恐慌指數異象與 SKEW</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">當前 VIX 指數: <span class="text-emerald-400 font-mono font-bold">26.0</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前 VIX 指數: <span class="text-amber-400 font-mono font-bold">26.0</span></p>
                                         </div>
-                                        <span id="status-btn-vix_anomaly" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 select-none shrink-0">
-                                            🟢 溫和區間 (Normal)
+                                        <span id="status-btn-vix_anomaly" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none shrink-0">
+                                            🟡 避險升溫 (≥ 25.0)
                                         </span>
                                     </div>
                                     <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
@@ -332,15 +332,15 @@
                             </div>
 
                             <!-- Indicator Card 7 -->
-                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">7. 看漲期權爆量與極致槓桿 (台股融資餘額)</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">當前融資餘額: <span class="text-amber-400 font-mono font-bold">3,200 億元</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前融資餘額: <span class="text-emerald-400 font-mono font-bold">3,200 億元</span></p>
                                         </div>
-                                        <span id="status-btn-margin_leverage" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none shrink-0">
-                                            🟡 融資偏高 (High Margin)
+                                        <span id="status-btn-margin_leverage" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 select-none shrink-0">
+                                            🟢 融資回降/健康 (< 3500億)
                                         </span>
                                     </div>
                                     <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
@@ -362,7 +362,7 @@
                         
                         <div class="grid grid-cols-1 gap-6">
                             <!-- Indicator Card 8 -->
-                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -383,15 +383,15 @@
                             </div>
 
                             <!-- Indicator Card 9 -->
-                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">9. 季/年線極端正乖離率</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">當前年線正乖離: <span class="text-rose-400 font-mono font-bold">+1.2 %</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前年線正乖離: <span class="text-emerald-400 font-mono font-bold">+1.2 %</span></p>
                                         </div>
-                                        <span id="status-btn-extreme_bias" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none shrink-0">
-                                            🔴 乖離過大 (> 18%)
+                                        <span id="status-btn-extreme_bias" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 select-none shrink-0">
+                                            🟢 乖離平穩收斂 (+1.2%)
                                         </span>
                                     </div>
                                     <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
@@ -427,7 +427,7 @@
                         <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800/50">
                             <p class="text-teal-400 font-bold mb-1">💡 風控系統精靈:</p>
                             <p class="text-slate-300 leading-relaxed">
-                                已全面升級 **「展開式 24 個月風控趨勢圖」**！點擊「全球大跌前兆風控雷達」頁籤，可直接比對全部 9 大風控指標的數值與警示紅線。
+                                已全面升級 **「展開式單欄 24 個月風控趨勢圖」**！切換至風控雷達頁籤，可逐一查看 9 大核心指標的月度走勢與警示紅線。
                             </p>
                         </div>
                         <div id="chat-stream-destination"></div>
@@ -534,17 +534,17 @@
         let stocks = JSON.parse(JSON.stringify(originalStocks));
         let currentTaiexPrice = 46780;
 
-        // Dynamic Risk Indicator State
+        // Dynamic Read-Only Risk State (0: Green, 1: Yellow, 2: Red)
         let riskIndicatorState = {
-            yield_uninversion: 1, // 0: green, 1: yellow, 2: red
-            sahm_rule: 0,
-            yen_carry: 1,
-            buffett_indicator: 2,
-            breadth_divergence: 2,
-            vix_anomaly: 0,
-            margin_leverage: 1,
-            rsi_divergence: 1,
-            extreme_bias: 2
+            yield_uninversion: 1, // 🟡 密切關注 (+0.82%)
+            sahm_rule: 2,         // 🔴 觸發衰退 (0.58%)
+            yen_carry: 1,         // 🟡 波動升值 (141.2 JPY)
+            buffett_indicator: 2, // 🔴 極致過熱 (232%)
+            breadth_divergence: 2, // 🔴 廣度嚴重背離 (28%)
+            vix_anomaly: 1,       // 🟡 避險升溫 (26.0)
+            margin_leverage: 0,   // 🟢 融資回降健康 (3,200 億)
+            rsi_divergence: 1,    // 🟡 頂背離顯現
+            extreme_bias: 0       // 🟢 乖離平穩收斂 (+1.2%)
         };
 
         let peTrendChartInstance = null;
@@ -562,30 +562,6 @@
             33120, 33450, 33200, 33900, 34210, 34650, 35120, 34990, 35560, 36120, 36800, 37550, 38100,
             39200, 40150, 41220, 42100, 43450, 44210, 45110, 45900, 46800, 47741, 47120, 46780
         ];
-
-        // Explicit Global Attachment for Tab Switching
-        window.switchTab = function switchTab(tabId) {
-            document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
-            document.querySelectorAll("[id^='tab-btn-']").forEach(el => {
-                el.classList.remove("border-teal-400", "text-teal-400", "font-semibold");
-                el.classList.add("border-transparent", "text-slate-400", "hover:text-slate-200", "font-medium");
-            });
-
-            const targetTab = document.getElementById(tabId);
-            const targetBtn = document.getElementById(`tab-btn-${tabId}`);
-            
-            if (targetTab) targetTab.classList.remove("hidden");
-            if (targetBtn) {
-                targetBtn.classList.add("border-teal-400", "text-teal-400", "font-semibold");
-                targetBtn.classList.remove("border-transparent", "text-slate-400", "font-medium");
-            }
-
-            if (tabId === "river-tab") {
-                setTimeout(() => { calculateIndexMetrics(); }, 50);
-            } else if (tabId === "risk-tab") {
-                setTimeout(() => { renderAllIndicatorCharts(); }, 50);
-            }
-        };
 
         window.onload = function() {
             initApp();
@@ -752,6 +728,33 @@
             renderPETrendChart(indexPE2026);
         }
 
+        // Global Tab Switcher Function bound explicitly to window
+        window.switchTab = function(tabId) {
+            document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
+            document.querySelectorAll("[id^='tab-btn-']").forEach(el => {
+                el.classList.remove("border-teal-400", "text-teal-400", "font-semibold");
+                el.classList.add("border-transparent", "text-slate-400", "hover:text-slate-200", "font-medium");
+            });
+
+            const targetTab = document.getElementById(tabId);
+            const targetBtn = document.getElementById(`tab-btn-${tabId}`);
+            
+            if (targetTab) targetTab.classList.remove("hidden");
+            if (targetBtn) {
+                targetBtn.classList.add("border-teal-400", "text-teal-400", "font-semibold");
+                targetBtn.classList.remove("border-transparent", "text-slate-400", "font-medium");
+            }
+
+            // Render charts AFTER the tab container becomes visible in DOM
+            setTimeout(() => {
+                if (tabId === "river-tab") {
+                    calculateIndexMetrics();
+                } else if (tabId === "risk-tab") {
+                    renderAllIndicatorCharts();
+                }
+            }, 60);
+        };
+
         function renderAllIndicatorCharts() {
             const months = [
                 '24/08', '24/09', '24/10', '24/11', '24/12', 
@@ -771,7 +774,7 @@
                     title: "薩姆規則失業率 (%)",
                     data: [0.43, 0.42, 0.40, 0.39, 0.38, 0.40, 0.42, 0.38, 0.35, 0.34, 0.32, 0.31, 0.30, 0.29, 0.28, 0.32, 0.35, 0.38, 0.41, 0.44, 0.47, 0.51, 0.54, 0.58],
                     threshold: 0.5,
-                    color: "#10b981"
+                    color: "#f43f5e"
                 },
                 'usdjpy': {
                     title: "USD/JPY 匯率",
@@ -795,13 +798,13 @@
                     title: "VIX 恐慌指數",
                     data: [38.5, 22.0, 16.2, 17.0, 18.5, 20.2, 22.0, 18.5, 14.5, 14.0, 13.8, 14.2, 15.2, 15.8, 16.8, 17.5, 18.2, 19.5, 21.0, 24.5, 28.2, 35.0, 32.5, 26.0],
                     threshold: 25.0,
-                    color: "#10b981"
+                    color: "#f59e0b"
                 },
                 'margin_leverage': {
                     title: "融資餘額 (億元)",
                     data: [2850, 2880, 2920, 3010, 3100, 3180, 3250, 3320, 3420, 3510, 3600, 3680, 3780, 3850, 3950, 3980, 4020, 4080, 4120, 4150, 4180, 3950, 3450, 3200],
                     threshold: 3500.0,
-                    color: "#ec4899"
+                    color: "#10b981"
                 },
                 'rsi_divergence': {
                     title: "14-RSI 動能指數",
@@ -813,7 +816,7 @@
                     title: "200MA 正乖離率 (%)",
                     data: [15.2, 13.5, 12.1, 9.8, 8.4, 9.2, 10.5, 12.8, 14.8, 15.5, 16.2, 17.8, 19.5, 21.0, 22.4, 21.5, 20.2, 22.8, 24.5, 23.0, 18.5, 8.2, -2.5, 1.2],
                     threshold: 18.0,
-                    color: "#a855f7"
+                    color: "#10b981"
                 }
             };
 
