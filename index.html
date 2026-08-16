@@ -47,6 +47,8 @@
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col pb-12">
 
+    <!-- STREAMING_CHUNK:Rendering navigation header... -->
+    <!-- Navigation & Branding Header -->
     <header class="border-b border-slate-800/80 bg-slate-950/60 sticky top-0 z-30 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
@@ -75,6 +77,8 @@
         </div>
     </header>
 
+    <!-- STREAMING_CHUNK:Rendering core top KPI metrics... -->
+    <!-- Core Market Metrics Summary Cards (5 Cards) -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 flex-grow w-full space-y-6">
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -137,10 +141,11 @@
             </div>
         </div>
 
+        <!-- Main Workspace Split Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             
             <div class="lg:col-span-3 space-y-6">
-                <!-- Navigation Tabs -->
+                <!-- Navigation Tabs (4 Tabs) -->
                 <div class="flex overflow-x-auto gap-2 border-b border-slate-800 pb-px no-scrollbar">
                     <button onclick="switchTab('river-tab')" id="tab-btn-river-tab" class="px-5 py-3 text-sm font-semibold border-b-2 border-teal-400 text-teal-400 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
                         <i class="fa-solid fa-water"></i>本益比河流與走勢分析
@@ -156,6 +161,8 @@
                     </button>
                 </div>
 
+                <!-- STREAMING_CHUNK:Rendering Tab 1 (PE Charts)... -->
+                <!-- Tab 1: PE Evaluation Charts -->
                 <div id="river-tab" class="tab-content space-y-6">
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -186,9 +193,11 @@
                     </div>
                 </div>
 
+                <!-- STREAMING_CHUNK:Rendering Tab 2 (Expanded Risk Radar Cards)... -->
+                <!-- Tab 2: Global Crash Warning Risk Radar Tab (Expanded Inline Charts) -->
                 <div id="risk-tab" class="tab-content hidden space-y-6">
                     
-                    <!-- Strategy Advice Banner -->
+                    <!-- Top Strategy Advice Banner -->
                     <div class="glassmorphism p-5 rounded-2xl border border-rose-500/20 bg-gradient-to-r from-slate-950 via-rose-950/20 to-slate-950 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div class="space-y-1">
                             <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
@@ -204,181 +213,226 @@
                         </div>
                     </div>
 
-                    <!-- 24-Month Monthly Risk Indicator Trend Card -->
-                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
-                            <div>
-                                <h4 class="text-sm font-bold text-slate-100 flex items-center gap-2 uppercase tracking-wider">
-                                    <i class="fa-solid fa-chart-area text-rose-400"></i> 風控核心指標近 2 年月線動態趨勢 (24-Month Risk Trend Explorer)
-                                </h4>
-                                <p class="text-xs text-slate-400 mt-1">追蹤 2024 年 8 月至 2026 年 7 月近 24 個月細化軌跡，精準對照警戒紅線判斷趨勢轉折。</p>
-                            </div>
-                            <div class="flex items-center gap-2 w-full sm:w-auto">
-                                <label for="risk-metric-select" class="text-xs font-semibold text-slate-400 whitespace-nowrap">選擇觀察指標:</label>
-                                <select id="risk-metric-select" onchange="renderRiskTrendChart(this.value)" class="bg-slate-900 border border-slate-700 text-teal-400 text-xs rounded-lg px-3 py-1.5 focus:outline-none focus:border-teal-500 font-mono w-full sm:w-auto">
-                                    <option value="yield_spread">1. 美債 10Y-2Y 殖利率利差 (%)</option>
-                                    <option value="usdjpy">2. 美元兌日圓匯率 (USD/JPY)</option>
-                                    <option value="sahm">3. 薩姆規則失業率差值 (%)</option>
-                                    <option value="buffett_indicator">4. 巴菲特指標 (股市總市值/GDP %)</option>
-                                    <option value="breadth_divergence">5. 股價廣度：高於200MA個股比例 (%)</option>
-                                    <option value="vix">6. VIX 恐慌指數 (Volatility)</option>
-                                    <option value="margin_leverage">7. 台股融資餘額 (億元)</option>
-                                    <option value="rsi_divergence">8. 台股週線 14-RSI 動能指數</option>
-                                    <option value="taiex_bias">9. 台股年線(200MA)正乖離率 (%)</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="relative w-full h-[280px]">
-                            <canvas id="riskTrendChart"></canvas>
-                        </div>
-                        <div id="risk-metric-description" class="p-3 bg-slate-900/60 border border-slate-800/80 rounded-xl text-xs text-slate-300 font-mono leading-relaxed">
-                            <!-- Dynamic metric explanation populated by JS -->
-                        </div>
-                    </div>
-
+                    <!-- Dimension 1: Macro & Liquidity Warning Indicators -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
                             <i class="fa-solid fa-globe text-teal-400"></i> 一、 宏觀經濟與資金流動指標 (Macro & Liquidity)
                         </h4>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <!-- Indicator 1 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs font-bold text-slate-100">1. 美債殖利率曲線「解倒掛」</span>
-                                    <span id="status-btn-yield_uninversion" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none cursor-default">
-                                        🟡 密切關注 (Un-inverting)
-                                    </span>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Indicator Card 1 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
+                                        <div>
+                                            <h5 class="text-xs font-bold text-slate-100">1. 美債殖利率曲線「解倒掛」</h5>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前最新點位: <span class="text-amber-400 font-mono font-bold">+0.82%</span></p>
+                                        </div>
+                                        <span id="status-btn-yield_uninversion" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none shrink-0">
+                                            🟡 密切關注 (Un-inverting)
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
+                                        10Y-2Y 長短天期公債殖利率結束長期倒掛快速轉正（> 0%），通常預告經濟衰退與資金拋售風險。
+                                    </p>
                                 </div>
-                                <p class="text-[11px] text-slate-400 leading-relaxed">
-                                    10Y-2Y 長短天期公債殖利率結束長期倒掛快速轉正，通常預告經濟衰退與資金拋售風險。
-                                </p>
+                                <div class="relative w-full h-[180px] pt-2">
+                                    <canvas id="chart-yield_spread"></canvas>
+                                </div>
                             </div>
 
-                            <!-- Indicator 2 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs font-bold text-slate-100">2. 勞動市場「薩姆規則」(Sahm Rule)</span>
-                                    <span id="status-btn-sahm_rule" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 select-none cursor-default">
-                                        🟢 安全正常 (< 0.5%)
-                                    </span>
+                            <!-- Indicator Card 2 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
+                                        <div>
+                                            <h5 class="text-xs font-bold text-slate-100">2. 勞動市場「薩姆規則」(Sahm Rule)</h5>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前最新數值: <span class="text-emerald-400 font-mono font-bold">0.58%</span></p>
+                                        </div>
+                                        <span id="status-btn-sahm_rule" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 select-none shrink-0">
+                                            🟢 安全正常 (< 0.5%)
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
+                                        失業率 3 個月均值較近一年低點高出 0.5%，準確度極高的美國經濟硬著陸警訊。
+                                    </p>
                                 </div>
-                                <p class="text-[11px] text-slate-400 leading-relaxed">
-                                    失業率 3 個月均值較近一年低點高出 0.5%，準確度極高的美國經濟硬著陸警訊。
-                                </p>
+                                <div class="relative w-full h-[180px] pt-2">
+                                    <canvas id="chart-sahm"></canvas>
+                                </div>
                             </div>
 
-                            <!-- Indicator 3 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs font-bold text-slate-100">3. 日圓套利平倉 (FX Carry Unwind)</span>
-                                    <span id="status-btn-yen_carry" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none cursor-default">
-                                        🟡 波動加劇 (Volatility)
-                                    </span>
+                            <!-- Indicator Card 3 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
+                                        <div>
+                                            <h5 class="text-xs font-bold text-slate-100">3. 日圓套利平倉 (FX Carry Unwind)</h5>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前美元/日圓: <span class="text-amber-400 font-mono font-bold">141.2 JPY</span></p>
+                                        </div>
+                                        <span id="status-btn-yen_carry" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none shrink-0">
+                                            🟡 波動加劇 (Volatility)
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
+                                        日圓急速升值（升破 145/140）逼使跨國槓桿資金拋售台股半導體與美股科技股以平倉還債。
+                                    </p>
                                 </div>
-                                <p class="text-[11px] text-slate-400 leading-relaxed">
-                                    日圓急速升值逼使跨國槓桿資金拋售台股半導體與美股科技股以平倉還債。
-                                </p>
+                                <div class="relative w-full h-[180px] pt-2">
+                                    <canvas id="chart-usdjpy"></canvas>
+                                </div>
                             </div>
 
-                            <!-- Indicator 4 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs font-bold text-slate-100">4. 巴菲特指標與估值天花板</span>
-                                    <span id="status-btn-buffett_indicator" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none cursor-default">
-                                        🔴 極致過熱 (> 200%)
-                                    </span>
+                            <!-- Indicator Card 4 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
+                                        <div>
+                                            <h5 class="text-xs font-bold text-slate-100">4. 巴菲特指標與估值天花板</h5>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前股市/GDP: <span class="text-rose-400 font-mono font-bold">232 %</span></p>
+                                        </div>
+                                        <span id="status-btn-buffett_indicator" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none shrink-0">
+                                            🔴 極致過熱 (> 200%)
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
+                                        股市總市值/GDP 超過歷史常態 +2σ（> 200%），市場容錯率極低，微小利空即誘發修正。
+                                    </p>
                                 </div>
-                                <p class="text-[11px] text-slate-400 leading-relaxed">
-                                    股市總市值/GDP 超過歷史常態 +2σ，市場容錯率極低，微小利空即誘發修正。
-                                </p>
+                                <div class="relative w-full h-[180px] pt-2">
+                                    <canvas id="chart-buffett_indicator"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Dimension 2: Market Microstructure & Sentiment -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
                             <i class="fa-solid fa-users text-indigo-400"></i> 二、 市場結構與情緒槓桿指標 (Structure & Sentiment)
                         </h4>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <!-- Indicator 5 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs font-bold text-slate-100">5. 股價廣度背離 (Breadth Divergence)</span>
-                                    <span id="status-btn-breadth_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none cursor-default">
-                                        🔴 廣度背離 (Only Big Tech)
-                                    </span>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Indicator Card 5 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
+                                        <div>
+                                            <h5 class="text-xs font-bold text-slate-100">5. 股價廣度背離 (Breadth Divergence)</h5>
+                                            <p class="text-[11px] text-slate-400 mt-1">高於 200MA 個股: <span class="text-rose-400 font-mono font-bold">28 %</span></p>
+                                        </div>
+                                        <span id="status-btn-breadth_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none shrink-0">
+                                            🔴 廣度背離 (Only Big Tech)
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
+                                        指數創高但超過半數個股已步入空頭（< 50%），僅靠台積電等少數權值股獨撐大局。
+                                    </p>
                                 </div>
-                                <p class="text-[11px] text-slate-400 leading-relaxed">
-                                    指數創高但超過半數個股已步入空頭，僅靠台積電等少數權值股獨撐大局。
-                                </p>
+                                <div class="relative w-full h-[180px] pt-2">
+                                    <canvas id="chart-breadth_divergence"></canvas>
+                                </div>
                             </div>
 
-                            <!-- Indicator 6 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs font-bold text-slate-100">6. VIX 恐慌指數異象與 SKEW</span>
-                                    <span id="status-btn-vix_anomaly" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 select-none cursor-default">
-                                        🟢 溫和區間 (Normal)
-                                    </span>
+                            <!-- Indicator Card 6 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
+                                        <div>
+                                            <h5 class="text-xs font-bold text-slate-100">6. VIX 恐慌指數異象與 SKEW</h5>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前 VIX 指數: <span class="text-emerald-400 font-mono font-bold">26.0</span></p>
+                                        </div>
+                                        <span id="status-btn-vix_anomaly" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 select-none shrink-0">
+                                            🟢 溫和區間 (Normal)
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
+                                        指數創高同時 VIX 不跌反升，代表 Smart Money 在高位大量買入 Put 期權避險。
+                                    </p>
                                 </div>
-                                <p class="text-[11px] text-slate-400 leading-relaxed">
-                                    指數創高同時 VIX 不跌反升，代表 Smart Money 在高位大量買入 Put 期權避險。
-                                </p>
+                                <div class="relative w-full h-[180px] pt-2">
+                                    <canvas id="chart-vix"></canvas>
+                                </div>
                             </div>
 
-                            <!-- Indicator 7 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs font-bold text-slate-100">7. 看漲期權爆量與極致槓桿</span>
-                                    <span id="status-btn-margin_leverage" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none cursor-default">
-                                        🟡 融資偏高 (High Margin)
-                                    </span>
+                            <!-- Indicator Card 7 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between lg:col-span-2">
+                                <div>
+                                    <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
+                                        <div>
+                                            <h5 class="text-xs font-bold text-slate-100">7. 看漲期權爆量與極致槓桿 (台股融資餘額)</h5>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前融資餘額: <span class="text-amber-400 font-mono font-bold">3,200 億元</span></p>
+                                        </div>
+                                        <span id="status-btn-margin_leverage" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none shrink-0">
+                                            🟡 融資偏高 (High Margin)
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
+                                        散戶追高 Call 與融資餘額突破 3,500 億高檔，過度積累的槓桿使得指數拉回時極易爆發斷頭踩踏。
+                                    </p>
                                 </div>
-                                <p class="text-[11px] text-slate-400 leading-relaxed">
-                                    散戶追高 Call 與融資餘額創新高，造市商對沖盤一旦鬆動易引發連鎖踩踏。
-                                </p>
+                                <div class="relative w-full h-[180px] pt-2">
+                                    <canvas id="chart-margin_leverage"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Dimension 3: Technical Warnings -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
                             <i class="fa-solid fa-chart-line text-rose-400"></i> 三、 技術面預警訊號 (Technical Warnings)
                         </h4>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <!-- Indicator 8 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs font-bold text-slate-100">8. 日/週線 RSI & MACD 頂背離</span>
-                                    <span id="status-btn-rsi_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none cursor-default">
-                                        🟡 頂背離顯現 (Divergence)
-                                    </span>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Indicator Card 8 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
+                                        <div>
+                                            <h5 class="text-xs font-bold text-slate-100">8. 日/週線 RSI & MACD 頂背離</h5>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前 14-RSI 指數: <span class="text-amber-400 font-mono font-bold">38.5</span></p>
+                                        </div>
+                                        <span id="status-btn-rsi_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none shrink-0">
+                                            🟡 頂背離顯現 (Divergence)
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
+                                        指數點位刷新歷史新高，但動能指標高點一波比一波低，上漲內部動能衰竭。
+                                    </p>
                                 </div>
-                                <p class="text-[11px] text-slate-400 leading-relaxed">
-                                    指數點位刷新歷史新高，但動能指標高點一波比一波低，上漲內部動能衰竭。
-                                </p>
+                                <div class="relative w-full h-[180px] pt-2">
+                                    <canvas id="chart-rsi_divergence"></canvas>
+                                </div>
                             </div>
 
-                            <!-- Indicator 9 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs font-bold text-slate-100">9. 季/年線極端正乖離</span>
-                                    <span id="status-btn-extreme_bias" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none cursor-default">
-                                        🔴 乖離過大 (> 18%)
-                                    </span>
+                            <!-- Indicator Card 9 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
+                                        <div>
+                                            <h5 class="text-xs font-bold text-slate-100">9. 季/年線極端正乖離率</h5>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前年線正乖離: <span class="text-rose-400 font-mono font-bold">+1.2 %</span></p>
+                                        </div>
+                                        <span id="status-btn-extreme_bias" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none shrink-0">
+                                            🔴 乖離過大 (> 18%)
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-400 leading-relaxed mt-2.5">
+                                        指數嚴重偏離 200 日均線（年線）超過 18%~20%，像拉緊的橡皮筋易誘發均線回歸修復。
+                                    </p>
                                 </div>
-                                <p class="text-[11px] text-slate-400 leading-relaxed">
-                                    指數嚴重偏離 200 日均線（年線）超過 20%，像拉緊的橡皮筋易誘發均線回歸修復。
-                                </p>
+                                <div class="relative w-full h-[180px] pt-2">
+                                    <canvas id="chart-taiex_bias"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                 </div>
 
+                <!-- STREAMING_CHUNK:Rendering Tab 3 (Stock Table)... -->
+                <!-- Tab 3: Interactive Stock Matrix -->
                 <div id="table-tab" class="tab-content hidden space-y-4">
                     <div class="glassmorphism rounded-2xl border border-slate-800/80 overflow-hidden">
                         <div class="p-5 border-b border-slate-800/80 bg-slate-950/40 flex justify-between items-center flex-wrap gap-4">
@@ -409,6 +463,8 @@
                     </div>
                 </div>
 
+                <!-- STREAMING_CHUNK:Rendering Tab 4 (Sandbox)... -->
+                <!-- Tab 4: Scenario Simulator Sandbox -->
                 <div id="sandbox-tab" class="tab-content hidden space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="md:col-span-2 glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-6">
@@ -491,7 +547,10 @@
 
             </div>
 
+            <!-- STREAMING_CHUNK:Rendering AI Terminal Sidebar... -->
+            <!-- Right Sidebar: Gemini Risk Copilot Console -->
             <div class="lg:col-span-1 space-y-6">
+                
                 <div class="glassmorphism rounded-2xl border border-slate-800/80 overflow-hidden flex flex-col h-[620px] shadow-xl">
                     <div class="p-4 bg-slate-950/80 border-b border-slate-800/85 flex justify-between items-center">
                         <div class="flex items-center gap-2">
@@ -507,7 +566,7 @@
                         <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800/50">
                             <p class="text-teal-400 font-bold mb-1">💡 風控系統精靈:</p>
                             <p class="text-slate-300 leading-relaxed">
-                                已全面升級 **「大跌前兆風控雷達」**！您可以隨時點擊下方快捷指令，讓 AI 透過 Google 即時掃描美債解倒掛、日圓平倉潮及美股廣度狀況。
+                                已全面升級 **「展開式 24 個月風控趨勢圖」**！點擊「全球大跌前兆風控雷達」頁籤，可直接比對全部 9 大風控指標的數值與警示紅線。
                             </p>
                         </div>
                         <div id="chat-stream-destination"></div>
@@ -535,11 +594,13 @@
                         </button>
                     </div>
                 </div>
+
             </div>
 
         </div>
     </main>
 
+    <!-- Modal for Setting Gemini API Key -->
     <div id="api-key-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full relative space-y-5 shadow-2xl">
             <div class="flex items-center gap-3">
@@ -575,6 +636,7 @@
         </div>
     </div>
 
+    <!-- STREAMING_CHUNK:Initializing JavaScript Engine and Chart Rendering... -->
     <script>
         const originalStocks = [
             { code: "2330", name: "台積電", weight: 34.50, price: 1420, eps_2025: 55.00, eps_2026: 68.00, eps_2027: 80.00, sector: "semi" },
@@ -612,6 +674,7 @@
         let stocks = JSON.parse(JSON.stringify(originalStocks));
         let currentTaiexPrice = 46780;
 
+        // Dynamic Read-Only Risk State
         let riskIndicatorState = {
             yield_uninversion: 1, // 0: green, 1: yellow, 2: red
             sahm_rule: 0,
@@ -626,7 +689,7 @@
 
         let peRiverChartInstance = null;
         let peTrendChartInstance = null;
-        let riskTrendChartInstance = null;
+        let indicatorChartInstances = {};
 
         const realTaiexHistory = [
             17553, 17519, 17681, 17992, 18059, 18096, 18607, 18889, 18935, 19305, 19785, 19682, 20294,
@@ -713,23 +776,6 @@
             checkApiKeyStatus();
             closeApiKeyModal();
             addSystemChatMessage("❌ 金鑰已清除。");
-        }
-
-        function updateRiskRadarUI() {
-            const statusConfig = [
-                { label: "🟢 安全正常", class: "bg-emerald-950/80 border-emerald-500/30 text-emerald-400" },
-                { label: "🟡 密切關注", class: "bg-amber-950/80 border-amber-500/30 text-amber-400" },
-                { label: "🔴 高危觸發", class: "bg-rose-950/80 border-rose-500/30 text-rose-400" }
-            ];
-
-            Object.keys(riskIndicatorState).forEach(key => {
-                const badge = document.getElementById(`status-btn-${key}`);
-                if (badge) {
-                    const st = riskIndicatorState[key];
-                    badge.className = `text-[10px] px-2.5 py-1 rounded-md font-bold border transition select-none cursor-default ${statusConfig[st].class}`;
-                    badge.innerText = statusConfig[st].label;
-                }
-            });
         }
 
         function calculateIndexMetrics() {
@@ -897,18 +943,12 @@
             if (tabId === "river-tab") {
                 setTimeout(() => { calculateIndexMetrics(); }, 50);
             } else if (tabId === "risk-tab") {
-                setTimeout(() => { 
-                    const metricSelect = document.getElementById("risk-metric-select");
-                    if (metricSelect) renderRiskTrendChart(metricSelect.value);
-                }, 50);
+                setTimeout(() => { renderAllIndicatorCharts(); }, 50);
             }
         }
 
-        function renderRiskTrendChart(metricKey) {
-            const canvas = document.getElementById('riskTrendChart');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-
+        /* STREAMING_CHUNK: Rendering expanded inline 24-month trend charts for all 9 indicators... */
+        function renderAllIndicatorCharts() {
             const months = [
                 '24/08', '24/09', '24/10', '24/11', '24/12', 
                 '25/01', '25/02', '25/03', '25/04', '25/05', '25/06', '25/07', 
@@ -916,137 +956,124 @@
                 '26/01', '26/02', '26/03', '26/04', '26/05', '26/06', '26/07'
             ];
 
-            const riskDatasets = {
-                yield_spread: {
-                    title: "美債 10Y-2Y 殖利率利差 (%) - 月線",
+            const configs = {
+                'yield_spread': {
+                    title: "美債 10Y-2Y 利差 (%)",
                     data: [-0.15, -0.08, 0.02, 0.05, 0.08, 0.12, 0.18, 0.22, 0.25, 0.28, 0.32, 0.36, 0.40, 0.42, 0.48, 0.52, 0.55, 0.58, 0.62, 0.65, 0.68, 0.72, 0.78, 0.82],
                     threshold: 0.0,
-                    thresholdLabel: "解倒掛警戒線 (0%)",
-                    color: "#f59e0b",
-                    desc: "💡 <strong>指標意義:</strong> 觀察月線利差變化。當 10Y-2Y 利差由負轉正（> 0% 解倒掛），預告美聯儲可能因經濟軟著陸失敗開啟降息循環，股市進入高波動修復期。"
+                    color: "#f59e0b"
                 },
-                usdjpy: {
-                    title: "美元/日圓匯率 (USD/JPY) - 月線",
-                    data: [161.2, 156.5, 152.0, 149.8, 148.5, 145.2, 142.1, 143.8, 145.3, 148.2, 150.2, 152.1, 153.8, 155.0, 156.4, 158.2, 157.0, 155.5, 152.0, 148.2, 145.0, 142.5, 139.8, 141.2],
-                    threshold: 145.0,
-                    thresholdLabel: "日圓強升/套利平倉警戒點 (145.0)",
-                    color: "#38bdf8",
-                    desc: "💡 <strong>指標意義:</strong> 日圓月線若出現快速升值（如 USD/JPY 破 145/140），會迫使跨國套利資金（Carry Trade）平倉，引發無差別拋售全球權值股。"
-                },
-                sahm: {
-                    title: "薩姆規則失業率差值 (%) - 月線",
+                'sahm': {
+                    title: "薩姆規則失業率 (%)",
                     data: [0.43, 0.42, 0.40, 0.39, 0.38, 0.40, 0.42, 0.38, 0.35, 0.34, 0.32, 0.31, 0.30, 0.29, 0.28, 0.32, 0.35, 0.38, 0.41, 0.44, 0.47, 0.51, 0.54, 0.58],
                     threshold: 0.5,
-                    thresholdLabel: "薩姆規則觸發衰退紅線 (0.50%)",
-                    color: "#f43f5e",
-                    desc: "💡 <strong>指標意義:</strong> 美國勞工局每月發布失業率。當 3 個月移動均值比過去 12 個月低點高出 0.5% 時，歷史上記錄的經濟硬著陸衰退機率極高。"
+                    color: "#10b981"
                 },
-                buffett_indicator: {
-                    title: "巴菲特指標 (股市總市值 / GDP %) - 月線",
+                'usdjpy': {
+                    title: "USD/JPY 匯率",
+                    data: [161.2, 156.5, 152.0, 149.8, 148.5, 145.2, 142.1, 143.8, 145.3, 148.2, 150.2, 152.1, 153.8, 155.0, 156.4, 158.2, 157.0, 155.5, 152.0, 148.2, 145.0, 142.5, 139.8, 141.2],
+                    threshold: 145.0,
+                    color: "#38bdf8"
+                },
+                'buffett_indicator': {
+                    title: "巴菲特指標 (%)",
                     data: [185, 188, 192, 198, 210, 218, 225, 230, 238, 242, 245, 250, 258, 262, 268, 272, 275, 280, 285, 282, 278, 265, 248, 232],
                     threshold: 200.0,
-                    thresholdLabel: "巴菲特指標過熱紅線 (200%)",
-                    color: "#f43f5e",
-                    desc: "💡 <strong>指標意義:</strong> 追蹤每月股市總市值與 GDP 的比值。超過 200%（歷史 +2σ 邊界）代表評價嚴重透支，市場對任何微小利空的容錯率歸零。"
+                    color: "#f43f5e"
                 },
-                breadth_divergence: {
-                    title: "股價廣度：高於 200MA 個股比例 (%) - 月線",
+                'breadth_divergence': {
+                    title: "高於 200MA 個股 %",
                     data: [72, 70, 68, 62, 58, 55, 52, 50, 48, 45, 42, 40, 38, 35, 32, 34, 36, 38, 35, 32, 30, 28, 25, 28],
                     threshold: 50.0,
-                    thresholdLabel: "廣度多空分界線 (50%)",
-                    color: "#f97316",
-                    desc: "💡 <strong>指標意義:</strong> 觀察每月高於 200 日均線的個股比例。當指數持續創高但個股比例逐月下滑跌破 50%，代表僅極少數巨頭獨撐，市場內部結構嚴重衰竭。"
+                    color: "#f97316"
                 },
-                vix: {
-                    title: "VIX 恐慌指數 (CBOE Volatility Index) - 月線",
+                'vix': {
+                    title: "VIX 恐慌指數",
                     data: [38.5, 22.0, 16.2, 17.0, 18.5, 20.2, 22.0, 18.5, 14.5, 14.0, 13.8, 14.2, 15.2, 15.8, 16.8, 17.5, 18.2, 19.5, 21.0, 24.5, 28.2, 35.0, 32.5, 26.0],
                     threshold: 25.0,
-                    thresholdLabel: "市場恐慌邊界線 (25.0)",
-                    color: "#10b981",
-                    desc: "💡 <strong>指標意義:</strong> 月線 VIX 低於 15 代表極度自滿；若無預警飆升突破 25~30，預告法人機構拋售潮與極端波動正在發生。"
+                    color: "#10b981"
                 },
-                margin_leverage: {
-                    title: "台股融資餘額 (億元) - 月線",
+                'margin_leverage': {
+                    title: "融資餘額 (億元)",
                     data: [2850, 2880, 2920, 3010, 3100, 3180, 3250, 3320, 3420, 3510, 3600, 3680, 3780, 3850, 3950, 3980, 4020, 4080, 4120, 4150, 4180, 3950, 3450, 3200],
                     threshold: 3500.0,
-                    thresholdLabel: "融資高檔警示線 (3500億)",
-                    color: "#ec4899",
-                    desc: "💡 <strong>指標意義:</strong> 追蹤每月散戶融資水位。當融資突破 3,500~4,000 億高檔，過度積累的槓桿使得指數拉回時極易爆發斷頭踩踏。"
+                    color: "#ec4899"
                 },
-                rsi_divergence: {
-                    title: "台股 14-RSI 動能指數 - 月線",
+                'rsi_divergence': {
+                    title: "14-RSI 動能指數",
                     data: [78.2, 75.0, 72.5, 70.1, 68.0, 68.8, 69.5, 67.2, 65.2, 64.5, 63.8, 62.5, 61.0, 59.8, 58.5, 59.2, 60.1, 61.5, 62.0, 58.0, 52.0, 42.0, 35.0, 38.5],
                     threshold: 70.0,
-                    thresholdLabel: "RSI 超買過熱警示線 (70)",
-                    color: "#8b5cf6",
-                    desc: "💡 <strong>指標意義:</strong> 月線 RSI 動能指標。指數創高但 RSI 出現月線級別頂背離（高點逐月下滑），是大資金邊拉邊出貨的典型訊號。"
+                    color: "#8b5cf6"
                 },
-                taiex_bias: {
-                    title: "台股年線 (200日MA) 正乖離率 (%) - 月線",
+                'taiex_bias': {
+                    title: "200MA 正乖離率 (%)",
                     data: [15.2, 13.5, 12.1, 9.8, 8.4, 9.2, 10.5, 12.8, 14.8, 15.5, 16.2, 17.8, 19.5, 21.0, 22.4, 21.5, 20.2, 22.8, 24.5, 23.0, 18.5, 8.2, -2.5, 1.2],
                     threshold: 18.0,
-                    thresholdLabel: "極端正乖離過熱紅線 (18%)",
-                    color: "#a855f7",
-                    desc: "💡 <strong>指標意義:</strong> 月線正乖離率。超過 18%~22% 顯現極端橡皮筋效應，極易誘發均線回歸的大幅估值修復。"
+                    color: "#a855f7"
                 }
             };
 
-            const selected = riskDatasets[metricKey] || riskDatasets['yield_spread'];
+            Object.keys(configs).forEach(key => {
+                const canvas = document.getElementById(`chart-${key}`);
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const cfg = configs[key];
 
-            const descEl = document.getElementById('risk-metric-description');
-            if (descEl) descEl.innerHTML = selected.desc;
-
-            if (riskTrendChartInstance) riskTrendChartInstance.destroy();
-
-            riskTrendChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: months,
-                    datasets: [
-                        {
-                            label: selected.title,
-                            data: selected.data,
-                            borderColor: selected.color,
-                            backgroundColor: selected.color + '1f',
-                            borderWidth: 2.5,
-                            pointBackgroundColor: selected.color,
-                            pointBorderColor: '#ffffff',
-                            pointRadius: 3,
-                            pointHoverRadius: 6,
-                            fill: true,
-                            tension: 0.25
-                        },
-                        {
-                            label: selected.thresholdLabel,
-                            data: Array(months.length).fill(selected.threshold),
-                            borderColor: '#ef4444',
-                            borderWidth: 1.5,
-                            borderDash: [5, 5],
-                            pointRadius: 0,
-                            fill: false
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: true, labels: { color: '#cbd5e1', font: { size: 11, weight: 'bold' } } }
-                    },
-                    scales: {
-                        x: { 
-                            grid: { color: 'rgba(255, 255, 255, 0.03)' }, 
-                            ticks: { 
-                                color: '#94a3b8', 
-                                font: { size: 10 },
-                                maxRotation: 0,
-                                autoSkip: true,
-                                maxTicksLimit: 12
-                            } 
-                        },
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#cbd5e1', font: { size: 10 } } }
-                    }
+                if (indicatorChartInstances[key]) {
+                    indicatorChartInstances[key].destroy();
                 }
+
+                indicatorChartInstances[key] = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: months,
+                        datasets: [
+                            {
+                                label: cfg.title,
+                                data: cfg.data,
+                                borderColor: cfg.color,
+                                backgroundColor: cfg.color + '1a',
+                                borderWidth: 2,
+                                pointBackgroundColor: cfg.color,
+                                pointRadius: 2,
+                                pointHoverRadius: 5,
+                                fill: true,
+                                tension: 0.25
+                            },
+                            {
+                                label: '警戒線',
+                                data: Array(months.length).fill(cfg.threshold),
+                                borderColor: '#ef4444',
+                                borderWidth: 1.5,
+                                borderDash: [4, 4],
+                                pointRadius: 0,
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            x: {
+                                grid: { color: 'rgba(255, 255, 255, 0.03)' },
+                                ticks: { 
+                                    color: '#64748b', 
+                                    font: { size: 9 },
+                                    maxTicksLimit: 6,
+                                    maxRotation: 0
+                                }
+                            },
+                            y: {
+                                grid: { color: 'rgba(255, 255, 255, 0.03)' },
+                                ticks: { color: '#94a3b8', font: { size: 9 } }
+                            }
+                        }
+                    }
+                });
             });
         }
 
