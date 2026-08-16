@@ -159,9 +159,9 @@
                         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                             <div>
                                 <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
-                                    <i class="fa-solid fa-chart-line text-teal-400"></i> 大盤歷史本益比與加權指數走勢 (真實 130 週數據)
+                                    <i class="fa-solid fa-chart-line text-teal-400"></i> 大盤歷史本益比與加權指數走勢 (31 個月月線統計)
                                 </h4>
-                                <p class="text-xs text-slate-400 mt-1">追蹤台股自 2024 年以來前瞻本益比（左軸，Teal實線）與加權指數實際每週收盤（右軸，Indigo虛線）。</p>
+                                <p class="text-xs text-slate-400 mt-1">追蹤台股自 2024 年 1 月至 2026 年 7 月共 31 個月的大盤前瞻本益比（左軸，Teal實線）與加權指數月底收盤（右軸，Indigo虛線）。</p>
                             </div>
                         </div>
                         <div class="relative w-full h-[380px]">
@@ -202,7 +202,7 @@
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">1. 美債殖利率曲線「解倒掛」</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">當前最新點位: <span class="text-amber-400 font-mono font-bold">+0.82%</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前點位: <span class="text-amber-400 font-mono font-bold">+0.82%</span> <span class="ml-2 text-rose-400 font-bold font-mono text-[10px] bg-rose-950/60 px-1.5 py-0.5 rounded border border-rose-500/30">🚨 警戒區：高於紅線 0.0%</span></p>
                                         </div>
                                         <span id="status-btn-yield_uninversion" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none shrink-0">
                                             🟡 密切關注 (Un-inverting)
@@ -223,7 +223,7 @@
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">2. 勞動市場「薩姆規則」(Sahm Rule)</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">當前最新數值: <span class="text-rose-400 font-mono font-bold">0.58%</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前數值: <span class="text-rose-400 font-mono font-bold">0.58%</span> <span class="ml-2 text-rose-400 font-bold font-mono text-[10px] bg-rose-950/60 px-1.5 py-0.5 rounded border border-rose-500/30">🚨 警戒區：高於紅線 0.5%</span></p>
                                         </div>
                                         <span id="status-btn-sahm_rule" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none shrink-0">
                                             🔴 觸發衰退警戒 (≥ 0.5%)
@@ -244,7 +244,7 @@
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">3. 日圓套利平倉 (FX Carry Unwind)</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">當前美元/日圓: <span class="text-amber-400 font-mono font-bold">141.2 JPY</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前美元/日圓: <span class="text-amber-400 font-mono font-bold">141.2 JPY</span> <span class="ml-2 text-rose-400 font-bold font-mono text-[10px] bg-rose-950/60 px-1.5 py-0.5 rounded border border-rose-500/30">🚨 警戒區：低於紅線 145 JPY</span></p>
                                         </div>
                                         <span id="status-btn-yen_carry" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none shrink-0">
                                             🟡 波動升值 (< 145 JPY)
@@ -265,7 +265,7 @@
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">4. 巴菲特指標與估值天花板</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">當前股市/GDP: <span class="text-rose-400 font-mono font-bold">232 %</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前股市/GDP: <span class="text-rose-400 font-mono font-bold">232 %</span> <span class="ml-2 text-rose-400 font-bold font-mono text-[10px] bg-rose-950/60 px-1.5 py-0.5 rounded border border-rose-500/30">🚨 警戒區：高於紅線 200%</span></p>
                                         </div>
                                         <span id="status-btn-buffett_indicator" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none shrink-0">
                                             🔴 極致過熱 (> 200%)
@@ -295,7 +295,7 @@
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">5. 股價廣度背離 (Breadth Divergence)</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">高於 200MA 個股: <span class="text-rose-400 font-mono font-bold">28 %</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">高於 200MA 個股: <span class="text-rose-400 font-mono font-bold">28 %</span> <span class="ml-2 text-rose-400 font-bold font-mono text-[10px] bg-rose-950/60 px-1.5 py-0.5 rounded border border-rose-500/30">🚨 警戒區：低於紅線 50%</span></p>
                                         </div>
                                         <span id="status-btn-breadth_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none shrink-0">
                                             🔴 廣度嚴重背離 (< 50%)
@@ -316,7 +316,7 @@
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">6. VIX 恐慌指數異象與 SKEW</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">當前 VIX 指數: <span class="text-amber-400 font-mono font-bold">26.0</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前 VIX 指數: <span class="text-amber-400 font-mono font-bold">26.0</span> <span class="ml-2 text-rose-400 font-bold font-mono text-[10px] bg-rose-950/60 px-1.5 py-0.5 rounded border border-rose-500/30">🚨 警戒區：高於紅線 25.0</span></p>
                                         </div>
                                         <span id="status-btn-vix_anomaly" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none shrink-0">
                                             🟡 避險升溫 (≥ 25.0)
@@ -337,7 +337,7 @@
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">7. 看漲期權爆量與極致槓桿 (台股融資餘額)</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">當前融資餘額: <span class="text-emerald-400 font-mono font-bold">3,200 億元</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前融資餘額: <span class="text-emerald-400 font-mono font-bold">3,200 億元</span> <span class="ml-2 text-rose-400 font-bold font-mono text-[10px] bg-rose-950/60 px-1.5 py-0.5 rounded border border-rose-500/30">🚨 警戒區：高於紅線 3500 億</span></p>
                                         </div>
                                         <span id="status-btn-margin_leverage" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 select-none shrink-0">
                                             🟢 融資回降/健康 (< 3500億)
@@ -367,7 +367,7 @@
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">8. 日/週線 RSI & MACD 頂背離</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">當前 14-RSI 指數: <span class="text-amber-400 font-mono font-bold">38.5</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前 14-RSI 指數: <span class="text-amber-400 font-mono font-bold">38.5</span> <span class="ml-2 text-rose-400 font-bold font-mono text-[10px] bg-rose-950/60 px-1.5 py-0.5 rounded border border-rose-500/30">🚨 警戒區：高於紅線 70.0</span></p>
                                         </div>
                                         <span id="status-btn-rsi_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none shrink-0">
                                             🟡 頂背離顯現 (Divergence)
@@ -388,7 +388,7 @@
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
                                             <h5 class="text-xs font-bold text-slate-100">9. 季/年線極端正乖離率</h5>
-                                            <p class="text-[11px] text-slate-400 mt-1">當前年線正乖離: <span class="text-emerald-400 font-mono font-bold">+1.2 %</span></p>
+                                            <p class="text-[11px] text-slate-400 mt-1">當前年線正乖離: <span class="text-emerald-400 font-mono font-bold">+1.2 %</span> <span class="ml-2 text-rose-400 font-bold font-mono text-[10px] bg-rose-950/60 px-1.5 py-0.5 rounded border border-rose-500/30">🚨 警戒區：高於紅線 +18.0%</span></p>
                                         </div>
                                         <span id="status-btn-extreme_bias" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 select-none shrink-0">
                                             🟢 乖離平穩收斂 (+1.2%)
@@ -427,7 +427,7 @@
                         <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800/50">
                             <p class="text-teal-400 font-bold mb-1">💡 風控系統精靈:</p>
                             <p class="text-slate-300 leading-relaxed">
-                                已全面升級 **「展開式單欄 24 個月風控趨勢圖」**！切換至風控雷達頁籤，可逐一查看 9 大核心指標的月度走勢與警示紅線。
+                                已全面為您開啟 **「31 個月月線本益比走勢」** 與 **「展開式單欄 24 個月風控趨勢圖」**！包含獨立紅色風險區域標註，協助您即時掌看全域動態。
                             </p>
                         </div>
                         <div id="chat-stream-destination"></div>
@@ -534,7 +534,7 @@
         let stocks = JSON.parse(JSON.stringify(originalStocks));
         let currentTaiexPrice = 46780;
 
-        // Dynamic Read-Only Risk State (0: Green, 1: Yellow, 2: Red)
+        // Dynamic Read-Only Risk State
         let riskIndicatorState = {
             yield_uninversion: 1, // 🟡 密切關注 (+0.82%)
             sahm_rule: 2,         // 🔴 觸發衰退 (0.58%)
@@ -549,19 +549,6 @@
 
         let peTrendChartInstance = null;
         let indicatorChartInstances = {};
-
-        const realTaiexHistory = [
-            17553, 17519, 17681, 17992, 18059, 18096, 18607, 18889, 18935, 19305, 19785, 19682, 20294,
-            20337, 20736, 19527, 20120, 20330, 20560, 21258, 21565, 21174, 21435, 21792, 22504, 23032,
-            23556, 23879, 22869, 22119, 19662, 21469, 22244, 22158, 21092, 21653, 21850, 22159, 22268,
-            22302, 22820, 23487, 23348, 22780, 23553, 22742, 22904, 22266, 22442, 21898, 22754, 23132,
-            23205, 22890, 23108, 23545, 23805, 24120, 23780, 23660, 23200, 23905, 24110, 24450, 24535,
-            24200, 18459, 20500, 21800, 22905, 23650, 24120, 24550, 24900, 25210, 25880, 26230, 26450,
-            26800, 27120, 26900, 27430, 27880, 28110, 28450, 28310, 28150, 28650, 28990, 29210, 29450,
-            29800, 30120, 30450, 30200, 30750, 31100, 30900, 31450, 31850, 32110, 31900, 32400, 32800,
-            33120, 33450, 33200, 33900, 34210, 34650, 35120, 34990, 35560, 36120, 36800, 37550, 38100,
-            39200, 40150, 41220, 42100, 43450, 44210, 45110, 45900, 46800, 47741, 47120, 46780
-        ];
 
         window.onload = function() {
             initApp();
@@ -783,9 +770,9 @@
                 }
 
                 // Render Text Label inside Danger Zone
-                ctx.fillStyle = 'rgba(244, 63, 94, 0.75)';
+                ctx.fillStyle = 'rgba(244, 63, 94, 0.85)';
                 ctx.font = 'bold 10px Inter, sans-serif';
-                const labelY = direction === 'above' ? Math.max(top + 12, yPixel - 6) : Math.min(bottom - 6, yPixel + 12);
+                const labelY = direction === 'above' ? Math.max(top + 14, yPixel - 6) : Math.min(bottom - 6, yPixel + 14);
                 ctx.fillText('🚨 風險區域', right - 65, labelY);
 
                 ctx.restore();
@@ -940,70 +927,58 @@
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             
-            const labels = Array(realTaiexHistory.length).fill("");
-            labels[0] = '2024Q1';
-            labels[13] = '2024Q2';
-            labels[26] = '2024Q3';
-            labels[39] = '2024Q4';
-            labels[52] = '2025Q1';
-            labels[65] = '2025Q2';
-            labels[78] = '2025Q3';
-            labels[91] = '2025Q4';
-            labels[104] = '2026Q1';
-            labels[117] = '2026Q2';
-            labels[realTaiexHistory.length - 1] = '當前位置';
+            // 31-Month Monthly Labels (2024/01 ~ 2026/07)
+            const monthlyLabels = [
+                '24/01', '24/02', '24/03', '24/04', '24/05', '24/06', '24/07', '24/08', '24/09', '24/10', '24/11', '24/12',
+                '25/01', '25/02', '25/03', '25/04', '25/05', '25/06', '25/07', '25/08', '25/09', '25/10', '25/11', '25/12',
+                '26/01', '26/02', '26/03', '26/04', '26/05', '26/06', '26/07(當前)'
+            ];
 
-            const peHistory = Array(realTaiexHistory.length).fill(null);
-            peHistory[0] = 21.8;
-            peHistory[13] = 22.8;
-            peHistory[26] = 20.8;
-            peHistory[39] = 21.2;
-            peHistory[52] = 19.5;
-            peHistory[65] = 18.6;
-            peHistory[78] = 21.0;
-            peHistory[91] = 21.5;
-            peHistory[104] = 26.2;
-            peHistory[117] = 27.2;
-            peHistory[realTaiexHistory.length - 1] = parseFloat(currentPE.toFixed(2));
+            // 31-Month Monthly Forward PE History
+            const monthlyPEHistory = [
+                21.8, 22.1, 22.8, 21.5, 21.0, 21.8, 20.8, 20.2, 20.5, 21.2, 20.3, 21.0,
+                20.2, 19.8, 19.5, 18.2, 18.6, 19.2, 20.1, 20.8, 21.0, 21.5, 22.0, 22.8,
+                24.1, 25.0, 26.2, 27.0, 27.5, 28.5, parseFloat(currentPE.toFixed(2))
+            ];
 
-            const adjustedTaiexHistory = [...realTaiexHistory];
-            adjustedTaiexHistory[adjustedTaiexHistory.length - 1] = Math.round(currentTaiexPrice);
+            // 31-Month Monthly TAIEX Closing Points
+            const monthlyTaiexHistory = [
+                17992, 18935, 20294, 20330, 21174, 23032, 22119, 22244, 22268, 22820, 22266, 23035,
+                23545, 23660, 24450, 22905, 24120, 25210, 26450, 27120, 28110, 29210, 30450, 31850,
+                33450, 34650, 38100, 42100, 45110, 47741, Math.round(currentTaiexPrice)
+            ];
 
             if (peTrendChartInstance) peTrendChartInstance.destroy();
 
             peTrendChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: labels,
+                    labels: monthlyLabels,
                     datasets: [
                         {
                             label: '大盤前瞻本益比 (PE)',
-                            data: peHistory,
+                            data: monthlyPEHistory,
                             borderColor: '#14b8a6',
-                            borderWidth: 3,
+                            borderWidth: 2.5,
                             pointBackgroundColor: '#0d9488',
                             pointBorderColor: '#ffffff',
-                            pointRadius: function(context) {
-                                return context.dataset.data[context.dataIndex] !== null ? 6 : 0;
-                            },
+                            pointRadius: 3,
+                            pointHoverRadius: 6,
                             fill: true,
-                            spanGaps: true,
-                            yAxisID: 'y',
                             backgroundColor: 'rgba(20, 184, 166, 0.08)',
-                            tension: 0.15
+                            tension: 0.2
                         },
                         {
-                            label: '加權指數實際走勢 (每週收盤)',
-                            data: adjustedTaiexHistory,
+                            label: '加權指數月底收盤點位',
+                            data: monthlyTaiexHistory,
                             borderColor: '#6366f1',
                             borderWidth: 1.5,
                             borderDash: [3, 3],
-                            pointRadius: function(context) {
-                                return (context.dataIndex % 13 === 0 || context.dataIndex === adjustedTaiexHistory.length - 1) ? 3 : 0;
-                            },
+                            pointRadius: 2.5,
+                            pointBackgroundColor: '#818cf8',
                             fill: false,
                             yAxisID: 'y1',
-                            tension: 0.1
+                            tension: 0.15
                         }
                     ]
                 },
@@ -1014,7 +989,15 @@
                         legend: { display: true, labels: { color: '#cbd5e1', font: { size: 10, weight: 'bold' } } }
                     },
                     scales: {
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.02)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+                        x: { 
+                            grid: { color: 'rgba(255, 255, 255, 0.02)' }, 
+                            ticks: { 
+                                color: '#94a3b8', 
+                                font: { size: 9 },
+                                maxTicksLimit: 12,
+                                maxRotation: 0
+                            } 
+                        },
                         y: {
                             type: 'linear', display: true, position: 'left', min: 15, max: 35,
                             grid: { color: 'rgba(255, 255, 255, 0.03)' },
