@@ -360,7 +360,7 @@
                     <!-- Dimension 3: Technical Warnings -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
-                            <i class="fa-solid fa-chart-line text-rose-400"></i> 三、 技術面預警訊號 (Technical Warnings)
+                            <i class="fa-solid fa-chart-line text-rose-400"></i> 三、 技術面預警訊号 (Technical Warnings)
                         </h4>
                         
                         <div class="grid grid-cols-1 gap-6">
@@ -411,44 +411,152 @@
                 </div>
 
                 <!-- Tab 3: Global Stock Market Heatmaps Tab -->
-                <div id="heatmap-tab" class="tab-content hidden space-y-6">
-                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-4">
-                            <div>
-                                <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
-                                    <i class="fa-solid fa-fire-flame-curved text-amber-400"></i> 全球主要股市與 ETF 動態熱力圖 (TradingView Live Heatmaps)
-                                </h4>
-                                <p class="text-xs text-slate-400 mt-1">依據市值規模與當日漲跌變化即時呈顯板塊熱力分佈，支援滑鼠滾輪縮放與懸停細節資訊。</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <a id="heatmap-external-link" href="https://tw.tradingview.com/heatmap/stock/#%7B%22dataSource%22%3A%22SPX500%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22grouping%22%3A%22sector%22%7D" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:bg-slate-800 text-xs text-amber-400 font-semibold transition flex items-center gap-1.5 shrink-0">
-                                    <span>原廠熱力圖</span>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Heatmap Sub-tab Selector Buttons -->
-                        <div class="flex overflow-x-auto gap-2 py-1 no-scrollbar border-b border-slate-800/60">
-                            <button onclick="loadHeatmapWidget('sp500')" id="heatmap-btn-sp500" class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-slate-950 shadow-md transition flex items-center gap-1.5 whitespace-nowrap">
-                                🇺🇸 S&P 500 熱力圖
-                            </button>
-                            <button onclick="loadHeatmapWidget('nasdaq100')" id="heatmap-btn-nasdaq100" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 transition flex items-center gap-1.5 whitespace-nowrap">
-                                🚀 Nasdaq 100 熱力圖
-                            </button>
-                            <button onclick="loadHeatmapWidget('etf')" id="heatmap-btn-etf" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 transition flex items-center gap-1.5 whitespace-nowrap">
-                                📊 美股 ETF 熱力圖
-                            </button>
-                            <button onclick="loadHeatmapWidget('taiwan')" id="heatmap-btn-taiwan" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 transition flex items-center gap-1.5 whitespace-nowrap">
-                                🇹🇼 台灣股市熱力圖
-                            </button>
-                        </div>
-
-                        <!-- Dynamic TradingView Widget Container -->
-                        <div id="tradingview-heatmap-container" class="relative w-full h-[620px] rounded-xl overflow-hidden bg-slate-950/80 border border-slate-800/80">
-                            <!-- Injected by JavaScript -->
+                <div id="heatmap-tab" class="tab-content hidden space-y-8">
+                    
+                    <!-- Banner Introduction -->
+                    <div class="glassmorphism p-5 rounded-2xl border border-amber-500/20 bg-gradient-to-r from-slate-950 via-amber-950/20 to-slate-950 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div class="space-y-1">
+                            <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                                <i class="fa-solid fa-fire-flame-curved text-amber-400 text-lg"></i> 全球主要股市與 ETF 全景動態熱力圖 (Global Market Heatmaps)
+                            </h3>
+                            <p class="text-xs text-slate-300">
+                                橫跨美股 S&P 500、Nasdaq 100、美股 ETF 與台灣股市四大板塊，輔以量化風控 AI 即時解讀資金旋轉與風險集中度。
+                            </p>
                         </div>
                     </div>
+
+                    <!-- Heatmap Card 1: S&P 500 -->
+                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
+                            <div>
+                                <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                                    <span>🇺🇸</span> S&P 500 美股 500 強權重熱力圖 (S&P 500 Sector Heatmap)
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1">反映美國 11 大產業板塊（資訊科技、醫療、金融、消費等）總市值與當日資金流向。</p>
+                            </div>
+                            <a href="https://tw.tradingview.com/heatmap/stock/#%7B%22dataSource%22%3A%22SPX500%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22grouping%22%3A%22sector%22%7D" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:bg-slate-800 text-xs text-amber-400 font-semibold transition flex items-center gap-1.5 shrink-0">
+                                <span>原廠熱力圖</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+
+                        <!-- TradingView Embed Container -->
+                        <div id="container-heatmap-sp500" class="relative w-full h-[520px] rounded-xl overflow-hidden bg-slate-950/80 border border-slate-800/80">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <!-- AI Interpretation Box -->
+                        <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2 text-xs">
+                            <div class="flex items-center gap-2 text-teal-400 font-bold border-b border-slate-800/80 pb-2">
+                                <i class="fa-solid fa-brain"></i>
+                                <span>Gemini 風控 AI 解讀：S&P 500 板塊旋轉與大盤防禦重點</span>
+                            </div>
+                            <ul class="space-y-1.5 text-slate-300 text-[11.5px] leading-relaxed list-disc list-inside">
+                                <li><strong class="text-slate-100">科技巨頭權重集中度（Tech Concentration）：</strong>S&P 500 中資訊科技（Technology）與通訊服務（Communications）板塊佔比已超過 35%。觀察熱力圖中 NVDA、AAPL、MSFT、AMZN、GOOGL 等綠紅方塊，若巨頭集體下挫，大盤極難單靠醫療或金融撐盤。</li>
+                                <li><strong class="text-slate-100">防禦性板塊避險（Defensive Rotation）：</strong>當市場對經濟衰退升溫或薩姆規則觸發時，資金常會從半導體轉轉移至公用事業（Utilities）、必需消費（Consumer Staples）與醫療保健（Healthcare）。熱力圖中若出現「科技一片紅、公用一片綠」為典型 Risk-off 訊號。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Heatmap Card 2: Nasdaq 100 -->
+                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
+                            <div>
+                                <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                                    <span>🚀</span> Nasdaq 100 科技巨頭熱力圖 (Nasdaq 100 Heatmap)
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1">聚焦美國 100 大非金融科技創新巨頭，台股半導體與 AI 供應鏈的最直接連動指標。</p>
+                            </div>
+                            <a href="https://tw.tradingview.com/heatmap/stock/#%7B%22dataSource%22%3A%22NASDAQ100%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22grouping%22%3A%22sector%22%7D" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:bg-slate-800 text-xs text-amber-400 font-semibold transition flex items-center gap-1.5 shrink-0">
+                                <span>原廠熱力圖</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+
+                        <!-- TradingView Embed Container -->
+                        <div id="container-heatmap-nasdaq100" class="relative w-full h-[520px] rounded-xl overflow-hidden bg-slate-950/80 border border-slate-800/80">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <!-- AI Interpretation Box -->
+                        <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2 text-xs">
+                            <div class="flex items-center gap-2 text-teal-400 font-bold border-b border-slate-800/80 pb-2">
+                                <i class="fa-solid fa-brain"></i>
+                                <span>Gemini 風控 AI 解讀：Nasdaq 100 科技鏈與台股動能連動</span>
+                            </div>
+                            <ul class="space-y-1.5 text-slate-300 text-[11.5px] leading-relaxed list-disc list-inside">
+                                <li><strong class="text-slate-100">台股 AI 鏈氣溫計：</strong>Nasdaq 100 中的 Nvidia、Broadcom、AMD、Microsoft 等 AI 資本支出（CapEx）主力巨頭，其漲跌會直接隔夜影響台積電（2330）、鴻海（2317）及廣達（2382）的開盤走勢。</li>
+                                <li><strong class="text-slate-100">高估值修正敏感度：</strong>Nasdaq 100 前瞻 PE 長期高於 28x~30x。當美債 10 年期殖利率無預警飆升或套利交易平倉（Carry Trade Unwind）時，Nasdaq 100 通常是槓桿資金最早大量拋售獲利了結的標的。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Heatmap Card 3: US ETF -->
+                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
+                            <div>
+                                <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                                    <span>📊</span> 美股 ETF 全球資產配置熱力圖 (US ETF AUM Heatmap)
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1">按基金資產規模（AUM）與資產類別（股票、債券、商品、黃金等）分類呈顯跨國機構資金流向。</p>
+                            </div>
+                            <a href="https://tw.tradingview.com/heatmap/etf/#%7B%22dataSource%22%3A%22AllUSEtf%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22aum%22%2C%22grouping%22%3A%22asset_class%22%7D" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:bg-slate-800 text-xs text-amber-400 font-semibold transition flex items-center gap-1.5 shrink-0">
+                                <span>原廠熱力圖</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+
+                        <!-- TradingView Embed Container -->
+                        <div id="container-heatmap-etf" class="relative w-full h-[520px] rounded-xl overflow-hidden bg-slate-950/80 border border-slate-800/80">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <!-- AI Interpretation Box -->
+                        <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2 text-xs">
+                            <div class="flex items-center gap-2 text-teal-400 font-bold border-b border-slate-800/80 pb-2">
+                                <i class="fa-solid fa-brain"></i>
+                                <span>Gemini 風控 AI 解讀：ETF 資金輪動與避險資產觀察</span>
+                            </div>
+                            <ul class="space-y-1.5 text-slate-300 text-[11.5px] leading-relaxed list-disc list-inside">
+                                <li><strong class="text-slate-100">股債輪動（Equity vs Fixed Income）：</strong>觀察 SPY / QQQ 等股票 ETF 與 TLT / IEF 等長天期美債 ETF 的漲跌背離。若股票 ETF 大幅走紅同時公債 ETF 暴漲，代表市場資金正在賣出股票落袋為安、並湧入債券避險。</li>
+                                <li><strong class="text-slate-100">商品與抗通膨指標：</strong>觀察 GLD（黃金 ETF）、USO（原油）及 VXX（波動率 ETF）。若全球地緣政治緊張升溫，黃金與波動率 ETF 熱力會顯著發亮，發出系統性避險警訊。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Heatmap Card 4: Taiwan Stock Market -->
+                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
+                            <div>
+                                <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                                    <span>🇹🇼</span> 台灣股市權值股熱力圖 (Taiwan Stock Market Heatmap)
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1">依據市值規模呈顯台股上市櫃個股熱力分佈，即時直觀掌控台積電與周邊權值股表現。</p>
+                            </div>
+                            <a href="https://tw.tradingview.com/heatmap/stock/#%7B%22dataSource%22%3A%22AllTW%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22grouping%22%3A%22sector%22%7D" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:bg-slate-800 text-xs text-amber-400 font-semibold transition flex items-center gap-1.5 shrink-0">
+                                <span>原廠熱力圖</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            </a>
+                        </div>
+
+                        <!-- TradingView Embed Container -->
+                        <div id="container-heatmap-taiwan" class="relative w-full h-[520px] rounded-xl overflow-hidden bg-slate-950/80 border border-slate-800/80">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <!-- AI Interpretation Box -->
+                        <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2 text-xs">
+                            <div class="flex items-center gap-2 text-teal-400 font-bold border-b border-slate-800/80 pb-2">
+                                <i class="fa-solid fa-brain"></i>
+                                <span>Gemini 風控 AI 解讀：台股「護國神山」效應與結構健診</span>
+                            </div>
+                            <ul class="space-y-1.5 text-slate-300 text-[11.5px] leading-relaxed list-disc list-inside">
+                                <li><strong class="text-slate-100">台積電獨大風險（TSMC Single-Stock Dependency）：</strong>台積電（2330）單一檔個股即佔據台股加權指數逾 34% 權重。熱力圖中若僅台積電一檔呈現深綠，但週邊組裝、千金IC設計與金控一片紅通通，即為典型的「廣度背離」警戒。</li>
+                                <li><strong class="text-slate-100">電子 vs 金融傳產輪動：</strong>當台積電與半導體高位拉回修復時，觀察富邦金、國泰金等金融股與長榮等海運傳產股能否接棒撐盤，是判斷台股大盤屬「溫和健康修正」還是「全面崩跌」的底層依據。</li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -471,7 +579,7 @@
                         <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800/50">
                             <p class="text-teal-400 font-bold mb-1">💡 風控系統精靈:</p>
                             <p class="text-slate-300 leading-relaxed">
-                                已為您新增 **「全球股市熱力圖」** 分頁！包含 S&P 500、Nasdaq 100、美股 ETF 以及台灣股市動態熱力圖，協助您直觀掌看國際板塊資金流向。
+                                已修復圖表渲染與分頁切換連論問題！您可以自由切換 **「本益比歷史走勢分析」**、**「全球大跌前兆風控雷達」** 及 **「全球股市熱力圖」**。
                             </p>
                         </div>
                         <div id="chat-stream-destination"></div>
@@ -542,6 +650,42 @@
     </div>
 
     <script>
+        // Custom Chart.js Plugin to draw Danger Zone background fills safely
+        const dangerZonePlugin = {
+            id: 'dangerZone',
+            beforeDraw: (chart) => {
+                if (!chart.chartArea) return;
+                const { ctx, chartArea: { top, bottom, left, right, width, height }, scales: { y } } = chart;
+                const cfg = chart.config.options.plugins?.dangerZone;
+                if (!cfg || cfg.threshold === undefined) return;
+
+                const thresholdY = y.getPixelForValue(cfg.threshold);
+                if (thresholdY === undefined || isNaN(thresholdY)) return;
+
+                ctx.save();
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.12)'; // Red Danger Zone Shadow
+
+                if (cfg.riskDirection === 'above') {
+                    const fillTop = Math.max(top, Math.min(bottom, thresholdY));
+                    ctx.fillRect(left, top, width, fillTop - top);
+                } else if (cfg.riskDirection === 'below') {
+                    const fillTop = Math.max(top, Math.min(bottom, thresholdY));
+                    ctx.fillRect(left, fillTop, width, bottom - fillTop);
+                }
+
+                // Draw danger badge text
+                ctx.fillStyle = 'rgba(244, 63, 94, 0.85)';
+                ctx.font = 'bold 10px sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText('🚨 風險區域', right - 8, top + 14);
+
+                ctx.restore();
+            }
+        };
+
+        // Register plugin globally
+        Chart.register(dangerZonePlugin);
+
         const originalStocks = [
             { code: "2330", name: "台積電", weight: 34.50, price: 1420, eps_2025: 55.00, eps_2026: 68.00, eps_2027: 80.00, sector: "semi" },
             { code: "2317", name: "鴻海", weight: 4.80, price: 285, eps_2025: 14.20, eps_2026: 17.50, eps_2027: 20.00, sector: "electronics" },
@@ -593,7 +737,6 @@
 
         let peTrendChartInstance = null;
         let indicatorChartInstances = {};
-        let currentHeatmapType = 'sp500';
 
         window.onload = function() {
             initApp();
@@ -784,95 +927,72 @@
                 } else if (tabId === "risk-tab") {
                     renderAllIndicatorCharts();
                 } else if (tabId === "heatmap-tab") {
-                    loadHeatmapWidget(currentHeatmapType);
+                    renderAllHeatmaps();
                 }
             }, 60);
         };
 
-        function loadHeatmapWidget(type) {
-            currentHeatmapType = type;
+        function renderAllHeatmaps() {
+            const heatmapTypes = ['sp500', 'nasdaq100', 'etf', 'taiwan'];
 
-            const urlMap = {
-                'sp500': 'https://tw.tradingview.com/heatmap/stock/#%7B%22dataSource%22%3A%22SPX500%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22grouping%22%3A%22sector%22%7D',
-                'nasdaq100': 'https://tw.tradingview.com/heatmap/stock/#%7B%22dataSource%22%3A%22NASDAQ100%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22grouping%22%3A%22sector%22%7D',
-                'etf': 'https://tw.tradingview.com/heatmap/etf/#%7B%22dataSource%22%3A%22AllUSEtf%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22aum%22%2C%22grouping%22%3A%22asset_class%22%7D',
-                'taiwan': 'https://tw.tradingview.com/heatmap/stock/#%7B%22dataSource%22%3A%22AllTW%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22grouping%22%3A%22sector%22%7D'
-            };
+            heatmapTypes.forEach(type => {
+                const container = document.getElementById(`container-heatmap-${type}`);
+                if (!container || container.childElementCount > 0) return; // Prevent duplicate injection
 
-            const linkEl = document.getElementById("heatmap-external-link");
-            if (linkEl && urlMap[type]) {
-                linkEl.href = urlMap[type];
-            }
+                const scriptSrc = (type === 'etf')
+                    ? "https://s3.tradingview.com/external-embedding/embed-widget-etf-heatmap.js"
+                    : "https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js";
 
-            ['sp500', 'nasdaq100', 'etf', 'taiwan'].forEach(t => {
-                const btn = document.getElementById(`heatmap-btn-${t}`);
-                if (btn) {
-                    if (t === type) {
-                        btn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-slate-950 shadow-md transition flex items-center gap-1.5 whitespace-nowrap";
-                    } else {
-                        btn.className = "px-4 py-2 rounded-xl text-xs font-medium bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 transition flex items-center gap-1.5 whitespace-nowrap";
-                    }
+                let widgetConfig = {};
+                if (type === 'etf') {
+                    widgetConfig = {
+                        "dataSource": "AllUSEtf",
+                        "blockSize": "aum",
+                        "blockColor": "change",
+                        "grouping": "asset_class",
+                        "locale": "zh_TW",
+                        "symbolUrl": "",
+                        "colorTheme": "dark",
+                        "hasTopBar": true,
+                        "isDataSetEnabled": true,
+                        "isZoomEnabled": true,
+                        "hasSymbolTooltip": true,
+                        "isMonoSize": false,
+                        "width": "100%",
+                        "height": "100%"
+                    };
+                } else {
+                    const dataSourceMap = {
+                        'sp500': 'SPX500',
+                        'nasdaq100': 'NASDAQ100',
+                        'taiwan': 'AllTW'
+                    };
+                    widgetConfig = {
+                        "exchanges": [],
+                        "dataSource": dataSourceMap[type] || 'SPX500',
+                        "grouping": "sector",
+                        "blockSize": "market_cap_basic",
+                        "blockColor": "change",
+                        "locale": "zh_TW",
+                        "symbolUrl": "",
+                        "colorTheme": "dark",
+                        "hasTopBar": true,
+                        "isDataSetEnabled": true,
+                        "isZoomEnabled": true,
+                        "hasSymbolTooltip": true,
+                        "isMonoSize": false,
+                        "width": "100%",
+                        "height": "100%"
+                    };
                 }
-            });
 
-            const container = document.getElementById("tradingview-heatmap-container");
-            if (!container) return;
-            container.innerHTML = ""; // Clear previous script & widget DOM
+                const iframe = document.createElement("iframe");
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = "none";
+                iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-popups");
 
-            const scriptSrc = (type === 'etf')
-                ? "https://s3.tradingview.com/external-embedding/embed-widget-etf-heatmap.js"
-                : "https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js";
-
-            let widgetConfig = {};
-            if (type === 'etf') {
-                widgetConfig = {
-                    "dataSource": "AllUSEtf",
-                    "blockSize": "aum",
-                    "blockColor": "change",
-                    "grouping": "asset_class",
-                    "locale": "zh_TW",
-                    "symbolUrl": "",
-                    "colorTheme": "dark",
-                    "hasTopBar": true,
-                    "isDataSetEnabled": true,
-                    "isZoomEnabled": true,
-                    "hasSymbolTooltip": true,
-                    "isMonoSize": false,
-                    "width": "100%",
-                    "height": "100%"
-                };
-            } else {
-                const dataSourceMap = {
-                    'sp500': 'SPX500',
-                    'nasdaq100': 'NASDAQ100',
-                    'taiwan': 'AllTW'
-                };
-                widgetConfig = {
-                    "exchanges": [],
-                    "dataSource": dataSourceMap[type] || 'SPX500',
-                    "grouping": "sector",
-                    "blockSize": "market_cap_basic",
-                    "blockColor": "change",
-                    "locale": "zh_TW",
-                    "symbolUrl": "",
-                    "colorTheme": "dark",
-                    "hasTopBar": true,
-                    "isDataSetEnabled": true,
-                    "isZoomEnabled": true,
-                    "hasSymbolTooltip": true,
-                    "isMonoSize": false,
-                    "width": "100%",
-                    "height": "100%"
-                };
-            }
-
-            const iframe = document.createElement("iframe");
-            iframe.style.width = "100%";
-            iframe.style.height = "100%";
-            iframe.style.border = "none";
-            iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-popups");
-
-            const iframeContent = `<!DOCTYPE html>
+                const iframeContent = `<!DOCTYPE html>
 <html>
 <head>
 <style>
@@ -890,46 +1010,10 @@
 </body>
 </html>`;
 
-            iframe.srcdoc = iframeContent;
-            container.appendChild(iframe);
+                iframe.srcdoc = iframeContent;
+                container.appendChild(iframe);
+            });
         }
-
-        const dangerZonePlugin = {
-            id: 'dangerZone',
-            beforeDraw(chart, args, options) {
-                if (!options || options.threshold === undefined) return;
-                const { ctx, chartArea, scales: { y } } = chart;
-                if (!chartArea || !y) return;
-
-                const { top, bottom, left, right } = chartArea;
-                const threshold = options.threshold;
-                const direction = options.direction || 'above';
-                const yPixel = y.getPixelForValue(threshold);
-
-                ctx.save();
-                ctx.fillStyle = 'rgba(244, 63, 94, 0.15)'; // Pale Red Danger Zone Fill
-
-                if (direction === 'above') {
-                    const fillHeight = Math.max(0, yPixel - top);
-                    if (fillHeight > 0) {
-                        ctx.fillRect(left, top, right - left, fillHeight);
-                    }
-                } else if (direction === 'below') {
-                    const fillHeight = Math.max(0, bottom - yPixel);
-                    if (fillHeight > 0) {
-                        ctx.fillRect(left, yPixel, right - left, fillHeight);
-                    }
-                }
-
-                // Render Text Label inside Danger Zone
-                ctx.fillStyle = 'rgba(244, 63, 94, 0.85)';
-                ctx.font = 'bold 10px Inter, sans-serif';
-                const labelY = direction === 'above' ? Math.max(top + 14, yPixel - 6) : Math.min(bottom - 6, yPixel + 14);
-                ctx.fillText('🚨 風險區域', right - 65, labelY);
-
-                ctx.restore();
-            }
-        };
 
         function renderAllIndicatorCharts() {
             const months = [
@@ -1017,7 +1101,6 @@
 
                 indicatorChartInstances[key] = new Chart(ctx, {
                     type: 'line',
-                    plugins: [dangerZonePlugin],
                     data: {
                         labels: months,
                         datasets: [
@@ -1025,19 +1108,19 @@
                                 label: cfg.title,
                                 data: cfg.data,
                                 borderColor: cfg.color,
-                                backgroundColor: cfg.color + '20',
+                                backgroundColor: cfg.color + '26',
                                 borderWidth: 2.5,
                                 pointBackgroundColor: cfg.color,
                                 pointRadius: 2.5,
                                 pointHoverRadius: 6,
-                                fill: false,
+                                fill: true,
                                 tension: 0.25
                             },
                             {
                                 label: '🚨 警戒門檻紅線',
                                 data: Array(months.length).fill(cfg.threshold),
                                 borderColor: '#ef4444',
-                                borderWidth: 1.5,
+                                borderWidth: 2,
                                 borderDash: [4, 4],
                                 pointRadius: 0,
                                 fill: false
@@ -1051,7 +1134,7 @@
                             legend: { display: false },
                             dangerZone: {
                                 threshold: cfg.threshold,
-                                direction: cfg.riskDirection
+                                riskDirection: cfg.riskDirection
                             }
                         },
                         scales: {
