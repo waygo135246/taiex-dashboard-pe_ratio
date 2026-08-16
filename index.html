@@ -156,7 +156,6 @@
                     </button>
                 </div>
 
-                <!-- Tab 1: PE Evaluation Charts -->
                 <div id="river-tab" class="tab-content space-y-6">
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -228,7 +227,15 @@
                                     <option value="taiex_bias">9. 台股年線(200MA)正乖離率 (%)</option>
                                 </select>
                             </div>
-                    <!-- Dimension 1: Macro & Liquidity Warning Indicators -->
+                        </div>
+                        <div class="relative w-full h-[280px]">
+                            <canvas id="riskTrendChart"></canvas>
+                        </div>
+                        <div id="risk-metric-description" class="p-3 bg-slate-900/60 border border-slate-800/80 rounded-xl text-xs text-slate-300 font-mono leading-relaxed">
+                            <!-- Dynamic metric explanation populated by JS -->
+                        </div>
+                    </div>
+
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
                             <i class="fa-solid fa-globe text-teal-400"></i> 一、 宏觀經濟與資金流動指標 (Macro & Liquidity)
@@ -289,7 +296,6 @@
                         </div>
                     </div>
 
-                    <!-- Dimension 2: Market Microstructure & Sentiment -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
                             <i class="fa-solid fa-users text-indigo-400"></i> 二、 市場結構與情緒槓桿指標 (Structure & Sentiment)
@@ -337,7 +343,6 @@
                         </div>
                     </div>
 
-                    <!-- Dimension 3: Technical Indicators -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
                             <i class="fa-solid fa-chart-line text-rose-400"></i> 三、 技術面預警訊號 (Technical Warnings)
@@ -710,7 +715,6 @@
             addSystemChatMessage("❌ 金鑰已清除。");
         }
 
-        // Fixed Read-Only Indicator UI logic (Removed manual click toggle)
         function updateRiskRadarUI() {
             const statusConfig = [
                 { label: "🟢 安全正常", class: "bg-emerald-950/80 border-emerald-500/30 text-emerald-400" },
