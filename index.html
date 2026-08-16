@@ -228,64 +228,59 @@
                                     <option value="taiex_bias">9. 台股年線(200MA)正乖離率 (%)</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="relative w-full h-[280px]">
-                            <canvas id="riskTrendChart"></canvas>
-                        </div>
-                        <div id="risk-metric-description" class="p-3 bg-slate-900/60 border border-slate-800/80 rounded-xl text-xs text-slate-300 font-mono leading-relaxed">
-                            <!-- Dynamic metric explanation -->
-                        </div>
-                    </div>
-
-                    <!-- Dimension 1: Macro & Liquidity -->
+                    <!-- Dimension 1: Macro & Liquidity Warning Indicators -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
                             <i class="fa-solid fa-globe text-teal-400"></i> 一、 宏觀經濟與資金流動指標 (Macro & Liquidity)
                         </h4>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Indicator 1 -->
                             <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
                                 <div class="flex justify-between items-center">
                                     <span class="text-xs font-bold text-slate-100">1. 美債殖利率曲線「解倒掛」</span>
-                                    <button onclick="toggleRiskIndicator('yield_uninversion')" id="status-btn-yield_uninversion" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400">
+                                    <span id="status-btn-yield_uninversion" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none cursor-default">
                                         🟡 密切關注 (Un-inverting)
-                                    </button>
+                                    </span>
                                 </div>
                                 <p class="text-[11px] text-slate-400 leading-relaxed">
                                     10Y-2Y 長短天期公債殖利率結束長期倒掛快速轉正，通常預告經濟衰退與資金拋售風險。
                                 </p>
                             </div>
 
+                            <!-- Indicator 2 -->
                             <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
                                 <div class="flex justify-between items-center">
                                     <span class="text-xs font-bold text-slate-100">2. 勞動市場「薩姆規則」(Sahm Rule)</span>
-                                    <button onclick="toggleRiskIndicator('sahm_rule')" id="status-btn-sahm_rule" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400">
+                                    <span id="status-btn-sahm_rule" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 select-none cursor-default">
                                         🟢 安全正常 (< 0.5%)
-                                    </button>
+                                    </span>
                                 </div>
                                 <p class="text-[11px] text-slate-400 leading-relaxed">
                                     失業率 3 個月均值較近一年低點高出 0.5%，準確度極高的美國經濟硬著陸警訊。
                                 </p>
                             </div>
 
+                            <!-- Indicator 3 -->
                             <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
                                 <div class="flex justify-between items-center">
                                     <span class="text-xs font-bold text-slate-100">3. 日圓套利平倉 (FX Carry Unwind)</span>
-                                    <button onclick="toggleRiskIndicator('yen_carry')" id="status-btn-yen_carry" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400">
+                                    <span id="status-btn-yen_carry" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none cursor-default">
                                         🟡 波動加劇 (Volatility)
-                                    </button>
+                                    </span>
                                 </div>
                                 <p class="text-[11px] text-slate-400 leading-relaxed">
                                     日圓急速升值逼使跨國槓桿資金拋售台股半導體與美股科技股以平倉還債。
                                 </p>
                             </div>
 
+                            <!-- Indicator 4 -->
                             <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
                                 <div class="flex justify-between items-center">
                                     <span class="text-xs font-bold text-slate-100">4. 巴菲特指標與估值天花板</span>
-                                    <button onclick="toggleRiskIndicator('buffett_indicator')" id="status-btn-buffett_indicator" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400">
+                                    <span id="status-btn-buffett_indicator" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none cursor-default">
                                         🔴 極致過熱 (> 200%)
-                                    </button>
+                                    </span>
                                 </div>
                                 <p class="text-[11px] text-slate-400 leading-relaxed">
                                     股市總市值/GDP 超過歷史常態 +2σ，市場容錯率極低，微小利空即誘發修正。
@@ -294,43 +289,46 @@
                         </div>
                     </div>
 
-                    <!-- Dimension 2: Structure & Sentiment -->
+                    <!-- Dimension 2: Market Microstructure & Sentiment -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
                             <i class="fa-solid fa-users text-indigo-400"></i> 二、 市場結構與情緒槓桿指標 (Structure & Sentiment)
                         </h4>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Indicator 5 -->
                             <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
                                 <div class="flex justify-between items-center">
                                     <span class="text-xs font-bold text-slate-100">5. 股價廣度背離 (Breadth Divergence)</span>
-                                    <button onclick="toggleRiskIndicator('breadth_divergence')" id="status-btn-breadth_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400">
+                                    <span id="status-btn-breadth_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none cursor-default">
                                         🔴 廣度背離 (Only Big Tech)
-                                    </button>
+                                    </span>
                                 </div>
                                 <p class="text-[11px] text-slate-400 leading-relaxed">
                                     指數創高但超過半數個股已步入空頭，僅靠台積電等少數權值股獨撐大局。
                                 </p>
                             </div>
 
+                            <!-- Indicator 6 -->
                             <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
                                 <div class="flex justify-between items-center">
                                     <span class="text-xs font-bold text-slate-100">6. VIX 恐慌指數異象與 SKEW</span>
-                                    <button onclick="toggleRiskIndicator('vix_anomaly')" id="status-btn-vix_anomaly" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400">
+                                    <span id="status-btn-vix_anomaly" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 select-none cursor-default">
                                         🟢 溫和區間 (Normal)
-                                    </button>
+                                    </span>
                                 </div>
                                 <p class="text-[11px] text-slate-400 leading-relaxed">
                                     指數創高同時 VIX 不跌反升，代表 Smart Money 在高位大量買入 Put 期權避險。
                                 </p>
                             </div>
 
+                            <!-- Indicator 7 -->
                             <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
                                 <div class="flex justify-between items-center">
                                     <span class="text-xs font-bold text-slate-100">7. 看漲期權爆量與極致槓桿</span>
-                                    <button onclick="toggleRiskIndicator('margin_leverage')" id="status-btn-margin_leverage" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400">
+                                    <span id="status-btn-margin_leverage" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none cursor-default">
                                         🟡 融資偏高 (High Margin)
-                                    </button>
+                                    </span>
                                 </div>
                                 <p class="text-[11px] text-slate-400 leading-relaxed">
                                     散戶追高 Call 與融資餘額創新高，造市商對沖盤一旦鬆動易引發連鎖踩踏。
@@ -339,31 +337,33 @@
                         </div>
                     </div>
 
-                    <!-- Dimension 3: Technical Warnings -->
+                    <!-- Dimension 3: Technical Indicators -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
                             <i class="fa-solid fa-chart-line text-rose-400"></i> 三、 技術面預警訊號 (Technical Warnings)
                         </h4>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Indicator 8 -->
                             <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
                                 <div class="flex justify-between items-center">
                                     <span class="text-xs font-bold text-slate-100">8. 日/週線 RSI & MACD 頂背離</span>
-                                    <button onclick="toggleRiskIndicator('rsi_divergence')" id="status-btn-rsi_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400">
+                                    <span id="status-btn-rsi_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400 select-none cursor-default">
                                         🟡 頂背離顯現 (Divergence)
-                                    </button>
+                                    </span>
                                 </div>
                                 <p class="text-[11px] text-slate-400 leading-relaxed">
                                     指數點位刷新歷史新高，但動能指標高點一波比一波低，上漲內部動能衰竭。
                                 </p>
                             </div>
 
+                            <!-- Indicator 9 -->
                             <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
                                 <div class="flex justify-between items-center">
                                     <span class="text-xs font-bold text-slate-100">9. 季/年線極端正乖離</span>
-                                    <button onclick="toggleRiskIndicator('extreme_bias')" id="status-btn-extreme_bias" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400">
+                                    <span id="status-btn-extreme_bias" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400 select-none cursor-default">
                                         🔴 乖離過大 (> 18%)
-                                    </button>
+                                    </span>
                                 </div>
                                 <p class="text-[11px] text-slate-400 leading-relaxed">
                                     指數嚴重偏離 200 日均線（年線）超過 20%，像拉緊的橡皮筋易誘發均線回歸修復。
@@ -710,12 +710,7 @@
             addSystemChatMessage("❌ 金鑰已清除。");
         }
 
-        function toggleRiskIndicator(key) {
-            riskIndicatorState[key] = (riskIndicatorState[key] + 1) % 3;
-            updateRiskRadarUI();
-            calculateIndexMetrics();
-        }
-
+        // Fixed Read-Only Indicator UI logic (Removed manual click toggle)
         function updateRiskRadarUI() {
             const statusConfig = [
                 { label: "🟢 安全正常", class: "bg-emerald-950/80 border-emerald-500/30 text-emerald-400" },
@@ -724,11 +719,11 @@
             ];
 
             Object.keys(riskIndicatorState).forEach(key => {
-                const btn = document.getElementById(`status-btn-${key}`);
-                if (btn) {
+                const badge = document.getElementById(`status-btn-${key}`);
+                if (badge) {
                     const st = riskIndicatorState[key];
-                    btn.className = `text-[10px] px-2.5 py-1 rounded-md font-bold border transition ${statusConfig[st].class}`;
-                    btn.innerText = statusConfig[st].label;
+                    badge.className = `text-[10px] px-2.5 py-1 rounded-md font-bold border transition select-none cursor-default ${statusConfig[st].class}`;
+                    badge.innerText = statusConfig[st].label;
                 }
             });
         }
