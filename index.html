@@ -755,6 +755,43 @@
             }, 60);
         };
 
+        const dangerZonePlugin = {
+            id: 'dangerZone',
+            beforeDraw(chart, args, options) {
+                if (!options || options.threshold === undefined) return;
+                const { ctx, chartArea, scales: { y } } = chart;
+                if (!chartArea || !y) return;
+
+                const { top, bottom, left, right } = chartArea;
+                const threshold = options.threshold;
+                const direction = options.direction || 'above';
+                const yPixel = y.getPixelForValue(threshold);
+
+                ctx.save();
+                ctx.fillStyle = 'rgba(244, 63, 94, 0.15)'; // Pale Red Danger Zone Fill
+
+                if (direction === 'above') {
+                    const fillHeight = Math.max(0, yPixel - top);
+                    if (fillHeight > 0) {
+                        ctx.fillRect(left, top, right - left, fillHeight);
+                    }
+                } else if (direction === 'below') {
+                    const fillHeight = Math.max(0, bottom - yPixel);
+                    if (fillHeight > 0) {
+                        ctx.fillRect(left, yPixel, right - left, fillHeight);
+                    }
+                }
+
+                // Render Text Label inside Danger Zone
+                ctx.fillStyle = 'rgba(244, 63, 94, 0.75)';
+                ctx.font = 'bold 10px Inter, sans-serif';
+                const labelY = direction === 'above' ? Math.max(top + 12, yPixel - 6) : Math.min(bottom - 6, yPixel + 12);
+                ctx.fillText('🚨 風險區域', right - 65, labelY);
+
+                ctx.restore();
+            }
+        };
+
         function renderAllIndicatorCharts() {
             const months = [
                 '24/08', '24/09', '24/10', '24/11', '24/12', 
@@ -768,54 +805,63 @@
                     title: "美債 10Y-2Y 利差 (%)",
                     data: [-0.15, -0.08, 0.02, 0.05, 0.08, 0.12, 0.18, 0.22, 0.25, 0.28, 0.32, 0.36, 0.40, 0.42, 0.48, 0.52, 0.55, 0.58, 0.62, 0.65, 0.68, 0.72, 0.78, 0.82],
                     threshold: 0.0,
+                    riskDirection: 'above',
                     color: "#f59e0b"
                 },
                 'sahm': {
                     title: "薩姆規則失業率 (%)",
                     data: [0.43, 0.42, 0.40, 0.39, 0.38, 0.40, 0.42, 0.38, 0.35, 0.34, 0.32, 0.31, 0.30, 0.29, 0.28, 0.32, 0.35, 0.38, 0.41, 0.44, 0.47, 0.51, 0.54, 0.58],
                     threshold: 0.5,
+                    riskDirection: 'above',
                     color: "#f43f5e"
                 },
                 'usdjpy': {
                     title: "USD/JPY 匯率",
                     data: [161.2, 156.5, 152.0, 149.8, 148.5, 145.2, 142.1, 143.8, 145.3, 148.2, 150.2, 152.1, 153.8, 155.0, 156.4, 158.2, 157.0, 155.5, 152.0, 148.2, 145.0, 142.5, 139.8, 141.2],
                     threshold: 145.0,
+                    riskDirection: 'below',
                     color: "#38bdf8"
                 },
                 'buffett_indicator': {
                     title: "巴菲特指標 (%)",
                     data: [185, 188, 192, 198, 210, 218, 225, 230, 238, 242, 245, 250, 258, 262, 268, 272, 275, 280, 285, 282, 278, 265, 248, 232],
                     threshold: 200.0,
+                    riskDirection: 'above',
                     color: "#f43f5e"
                 },
                 'breadth_divergence': {
                     title: "高於 200MA 個股 %",
                     data: [72, 70, 68, 62, 58, 55, 52, 50, 48, 45, 42, 40, 38, 35, 32, 34, 36, 38, 35, 32, 30, 28, 25, 28],
                     threshold: 50.0,
+                    riskDirection: 'below',
                     color: "#f97316"
                 },
                 'vix': {
                     title: "VIX 恐慌指數",
                     data: [38.5, 22.0, 16.2, 17.0, 18.5, 20.2, 22.0, 18.5, 14.5, 14.0, 13.8, 14.2, 15.2, 15.8, 16.8, 17.5, 18.2, 19.5, 21.0, 24.5, 28.2, 35.0, 32.5, 26.0],
                     threshold: 25.0,
+                    riskDirection: 'above',
                     color: "#f59e0b"
                 },
                 'margin_leverage': {
                     title: "融資餘額 (億元)",
                     data: [2850, 2880, 2920, 3010, 3100, 3180, 3250, 3320, 3420, 3510, 3600, 3680, 3780, 3850, 3950, 3980, 4020, 4080, 4120, 4150, 4180, 3950, 3450, 3200],
                     threshold: 3500.0,
+                    riskDirection: 'above',
                     color: "#10b981"
                 },
                 'rsi_divergence': {
                     title: "14-RSI 動能指數",
                     data: [78.2, 75.0, 72.5, 70.1, 68.0, 68.8, 69.5, 67.2, 65.2, 64.5, 63.8, 62.5, 61.0, 59.8, 58.5, 59.2, 60.1, 61.5, 62.0, 58.0, 52.0, 42.0, 35.0, 38.5],
                     threshold: 70.0,
+                    riskDirection: 'above',
                     color: "#8b5cf6"
                 },
                 'taiex_bias': {
                     title: "200MA 正乖離率 (%)",
                     data: [15.2, 13.5, 12.1, 9.8, 8.4, 9.2, 10.5, 12.8, 14.8, 15.5, 16.2, 17.8, 19.5, 21.0, 22.4, 21.5, 20.2, 22.8, 24.5, 23.0, 18.5, 8.2, -2.5, 1.2],
                     threshold: 18.0,
+                    riskDirection: 'above',
                     color: "#10b981"
                 }
             };
@@ -832,6 +878,7 @@
 
                 indicatorChartInstances[key] = new Chart(ctx, {
                     type: 'line',
+                    plugins: [dangerZonePlugin],
                     data: {
                         labels: months,
                         datasets: [
@@ -839,16 +886,16 @@
                                 label: cfg.title,
                                 data: cfg.data,
                                 borderColor: cfg.color,
-                                backgroundColor: cfg.color + '1a',
-                                borderWidth: 2,
+                                backgroundColor: cfg.color + '20',
+                                borderWidth: 2.5,
                                 pointBackgroundColor: cfg.color,
-                                pointRadius: 2,
-                                pointHoverRadius: 5,
-                                fill: true,
+                                pointRadius: 2.5,
+                                pointHoverRadius: 6,
+                                fill: false,
                                 tension: 0.25
                             },
                             {
-                                label: '警戒線',
+                                label: '🚨 警戒門檻紅線',
                                 data: Array(months.length).fill(cfg.threshold),
                                 borderColor: '#ef4444',
                                 borderWidth: 1.5,
@@ -862,7 +909,11 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: { display: false }
+                            legend: { display: false },
+                            dangerZone: {
+                                threshold: cfg.threshold,
+                                direction: cfg.riskDirection
+                            }
                         },
                         scales: {
                             x: {
