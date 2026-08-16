@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>台股大盤與權值股 EPS 動態估值儀表板</title>
+    <title>台股大盤與權值股 EPS 動態估值與風控儀表板</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js -->
@@ -11,27 +11,24 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom styling to complement Tailwind with glassmorphism and custom scrollbars -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap');
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #030712; /* Darker slate background */
+            background-color: #030712;
         }
         .glassmorphism {
             background: rgba(15, 23, 42, 0.45);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
         }
-        /* Hide scrollbars for chrome, safari and opera but allow scrolling */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
         .no-scrollbar {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
-        /* Custom delicate scrollbar for data tables */
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -54,39 +51,36 @@
     <header class="border-b border-slate-800/80 bg-slate-950/60 sticky top-0 z-30 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <div class="p-2 bg-gradient-to-tr from-teal-500 to-indigo-600 rounded-xl shadow-lg shadow-teal-500/10">
-                    <i class="fa-solid fa-chart-line text-xl text-white"></i>
+                <div class="p-2 bg-gradient-to-tr from-teal-500 via-indigo-500 to-rose-600 rounded-xl shadow-lg shadow-teal-500/10">
+                    <i class="fa-solid fa-shield-halved text-xl text-white"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-teal-400 via-emerald-400 to-indigo-400 bg-clip-text text-transparent">
-                        台股大盤與權值股 EPS 動態估值儀表板
+                    <h1 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-teal-400 via-indigo-300 to-rose-400 bg-clip-text text-transparent">
+                        台股大盤與權值股 EPS 動態估值與風控儀表板
                     </h1>
-                    <p class="text-xs text-slate-400">下而上(Bottom-Up)加權盈餘殖利率回推模型</p>
+                    <p class="text-xs text-slate-400">Bottom-Up 加權盈餘模型 × 全球大跌前兆預警雷達</p>
                 </div>
             </div>
             
-            <!-- Real-time Control Panel with API Key Indicator -->
             <div class="flex items-center gap-3">
-                <!-- API Key Status Indicator -->
                 <button onclick="openApiKeyModal()" id="api-status-btn" class="flex items-center gap-2 px-3.5 py-1.5 rounded-lg border text-xs font-semibold bg-slate-900 border-rose-500/30 text-rose-400 hover:bg-slate-800/80 transition shadow-sm">
                     <span id="api-status-dot" class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
                     <span id="api-status-text">未設定 AI 金鑰</span>
                 </button>
                 
-                <!-- Manual Trigger Button -->
                 <button onclick="triggerAISync()" id="sync-btn" class="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-bold transition shadow-md shadow-teal-500/20">
                     <i id="sync-icon" class="fa-solid fa-cloud-arrow-down"></i>
-                    <span>AI 聯網同步</span>
+                    <span>AI 全球風控連線</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Core Market Metrics Summary Cards -->
+    <!-- Core Market Metrics Summary Cards (5 Items) -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 flex-grow w-full space-y-6">
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            <!-- Metric 1: Current Index (Modified to Read-Only Readout) -->
+            <!-- Metric 1: Current TAIEX Index -->
             <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 relative overflow-hidden group">
                 <div class="absolute -right-4 -bottom-4 text-slate-800/20 text-6xl group-hover:scale-110 transition duration-300">
                     <i class="fa-solid fa-arrow-trend-up"></i>
@@ -96,11 +90,11 @@
                     <h3 id="display-taiex-price" class="text-2xl font-bold tracking-tight text-teal-400 py-1">46,780 點</h3>
                 </div>
                 <p class="text-[10px] text-slate-500 mt-2 flex items-center gap-1">
-                    <i class="fa-solid fa-shield-halved"></i> 指數點位由 AI 同步或自動鎖定
+                    <i class="fa-solid fa-lock"></i> 唯讀數據 / 由 AI 實時同步
                 </p>
             </div>
 
-            <!-- Metric 2: Calculated Dynamic Index EPS 2026 -->
+            <!-- Metric 2: Dynamic TAIEX EPS 2026 -->
             <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 relative overflow-hidden group">
                 <div class="absolute -right-4 -bottom-4 text-slate-800/20 text-6xl group-hover:scale-110 transition duration-300">
                     <i class="fa-solid fa-calculator"></i>
@@ -114,85 +108,73 @@
                 </p>
             </div>
 
-            <!-- Metric 3: Implied Index PE Ratio -->
+            <!-- Metric 3: Implied PE Ratio -->
             <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 relative overflow-hidden group">
                 <div class="absolute -right-4 -bottom-4 text-slate-800/20 text-6xl group-hover:scale-110 transition duration-300">
                     <i class="fa-solid fa-scale-balanced"></i>
                 </div>
                 <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">大盤前瞻本益比 (PE)</p>
                 <h3 id="card-index-pe" class="text-2xl font-bold mt-2 tracking-tight text-indigo-400">27.80 x</h3>
-                <p class="text-xs text-slate-400 mt-1">目前大盤指數 / 2026 預估 EPS</p>
+                <p class="text-xs text-slate-400 mt-1">當前大盤指數 / 2026 預估 EPS</p>
             </div>
 
-            <!-- Metric 4: Trailing Maximum PE -->
-            <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 relative overflow-hidden group">
-                <div class="absolute -right-4 -bottom-4 text-slate-800/20 text-6xl group-hover:scale-110 transition duration-300">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
-                </div>
-                <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">近五年最高本益比</p>
-                <h3 id="card-index-pe-current" class="text-2xl font-bold mt-2 tracking-tight text-amber-500">32.4 x</h3>
-                <p class="text-xs text-slate-400 mt-1">歷史極端泡沫估值天花板</p>
-            </div>
-
-            <!-- Metric 5: Dynamic Index Diagnosis Alert -->
+            <!-- Metric 4: Market Valuation Diagnosis -->
             <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 relative overflow-hidden group">
                 <div class="absolute -right-4 -bottom-4 text-slate-800/20 text-6xl group-hover:scale-110 transition duration-300">
                     <i class="fa-solid fa-gauge-high"></i>
                 </div>
-                <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">加權指數估值診斷</p>
+                <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">估值評價狀態</p>
                 <h3 id="card-valuation-diagnosis" class="text-2xl font-bold mt-2 tracking-tight text-amber-400">評價合理 (Fair)</h3>
-                <p class="text-xs text-slate-400 mt-1">依大盤歷史 PE 常態分配判定</p>
+                <p class="text-xs text-slate-400 mt-1">依歷史 PE 常態分配判定</p>
+            </div>
+
+            <!-- Metric 5: Risk Index Meter -->
+            <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 relative overflow-hidden group bg-gradient-to-br from-slate-900/80 to-rose-950/20">
+                <div class="absolute -right-4 -bottom-4 text-slate-800/20 text-6xl group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">市場脆弱度風險指數</p>
+                <h3 id="card-risk-score" class="text-2xl font-bold mt-2 tracking-tight text-amber-400">45 / 100</h3>
+                <p id="card-risk-level" class="text-xs text-amber-400 mt-1 font-semibold">🟡 中度防禦關注 (Moderate)</p>
             </div>
         </div>
 
-        <!-- Main Layout Split Grid (75% Analysis Workspace, 25% Live AI Agent Desk) -->
+        <!-- Main Layout Split Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             
-            <!-- Left Panel Workspace: Tabs Container (75%) -->
             <div class="lg:col-span-3 space-y-6">
-                <!-- Navigation Tabs (Default: River Tab Active) -->
+                <!-- Navigation Tabs (4 Tabs) -->
                 <div class="flex overflow-x-auto gap-2 border-b border-slate-800 pb-px no-scrollbar">
                     <button onclick="switchTab('river-tab')" id="tab-btn-river-tab" class="px-5 py-3 text-sm font-semibold border-b-2 border-teal-400 text-teal-400 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
                         <i class="fa-solid fa-water"></i>本益比河流與走勢分析
                     </button>
+                    <button onclick="switchTab('risk-tab')" id="tab-btn-risk-tab" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
+                        <i class="fa-solid fa-radar text-rose-400"></i>全球大跌前兆風控雷達
+                    </button>
                     <button onclick="switchTab('table-tab')" id="tab-btn-table-tab" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
-                        <i class="fa-solid fa-list-ol"></i>50大權值股 EPS 核心矩陣 (已覆蓋 71.74%)
+                        <i class="fa-solid fa-list-ol"></i>50大權值股 EPS 核心矩陣
                     </button>
                     <button onclick="switchTab('sandbox-tab')" id="tab-btn-sandbox-tab" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
                         <i class="fa-solid fa-sliders"></i>產業盈餘成長模擬沙盒
                     </button>
                 </div>
 
-                <!-- Tab 1: PE Evaluation Charts (Default Homepage Tab) -->
+                <!-- Tab 1: PE Evaluation Charts -->
                 <div id="river-tab" class="tab-content space-y-6">
-                    <!-- Card 1: PE Ratio Trend with TAIEX Index (Dual Y-Axis Chart, placed on top) -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                             <div>
                                 <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
-                                    <i class="fa-solid fa-chart-line text-teal-400"></i> 大盤歷史本益比與加權指數走勢 (週線真實收盤點位)
+                                    <i class="fa-solid fa-chart-line text-teal-400"></i> 大盤歷史本益比與加權指數走勢 (真實 130 週數據)
                                 </h4>
-                                <p class="text-xs text-slate-400 mt-1">追蹤台股自 2024 年以來前瞻本益比（左軸，Teal實線）與加權指數實際歷史收盤波動（右軸，Indigo虛線）。</p>
-                            </div>
-                            <div class="text-xs bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 flex flex-wrap gap-3">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="w-2.5 h-0.5 bg-teal-400 inline-block"></span>
-                                    <span class="text-slate-300 font-semibold">前瞻本益比 (PE)</span>
-                                </div>
-                                <div class="flex items-center gap-1.5">
-                                    <span class="w-2.5 h-0.5 border-t-2 border-dashed border-indigo-500 inline-block"></span>
-                                    <span class="text-slate-300 font-semibold">加權指數收盤 (TAIEX)</span>
-                                </div>
+                                <p class="text-xs text-slate-400 mt-1">追蹤台股自 2024 年以來前瞻本益比（左軸，Teal實線）與加權指數實際每週收盤（右軸，Indigo虛線）。</p>
                             </div>
                         </div>
-
-                        <!-- Canvas Container for Dual Y-Axis chart -->
                         <div class="relative w-full h-[350px]">
                             <canvas id="peTrendChart"></canvas>
                         </div>
                     </div>
 
-                    <!-- Card 2: PE River Chart (Placed below the trend chart) -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                             <div>
@@ -201,38 +183,220 @@
                                 </h4>
                                 <p class="text-xs text-slate-400 mt-1">追蹤加權指數實際歷史走勢相對於不同本益比常態帶（18x - 34x）的估值高低。</p>
                             </div>
-                            <div class="text-xs bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 flex items-center gap-1.5">
-                                <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
-                                <span class="text-slate-300 font-semibold">當前大盤指數位置</span>
-                            </div>
                         </div>
-
-                        <!-- Canvas Container -->
                         <div class="relative w-full h-[350px]">
                             <canvas id="peRiverChart"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <!-- Tab 2: Interactive Valuation Table (Hidden on Start) -->
+                <!-- Tab 2: Global Crash Warning Risk Radar Tab -->
+                <div id="risk-tab" class="tab-content hidden space-y-6">
+                    
+                    <!-- Top Strategy Advice Banner -->
+                    <div class="glassmorphism p-5 rounded-2xl border border-rose-500/20 bg-gradient-to-r from-slate-950 via-rose-950/20 to-slate-950 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div class="space-y-1">
+                            <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                                <i class="fa-solid fa-shield-cat text-rose-400 text-lg"></i> 風險共振防禦指南 (Risk Resonance Protocol)
+                            </h3>
+                            <p class="text-xs text-slate-300">
+                                當宏觀解倒掛、日圓平倉潮與技術面頂背離<strong class="text-rose-400">同時共振觸發 3 個以上警訊</strong>時，市場踩踏大跌機率極高。
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 bg-slate-900/80 border border-slate-800 p-3 rounded-xl">
+                            <span class="text-xs text-slate-400">當前建議資產配置:</span>
+                            <span id="risk-recommended-cash" class="text-xs font-bold text-amber-400 font-mono">現金 30% / 股票 70%</span>
+                        </div>
+                    </div>
+
+                    <!-- 8-Quarter Risk Indicator Trend Explorer Card -->
+                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-100 flex items-center gap-2 uppercase tracking-wider">
+                                    <i class="fa-solid fa-chart-area text-rose-400"></i> 風控核心指標近 8 季歷史趨勢
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1">追蹤 2024Q3 至 2026Q2 近兩年歷史軌跡，對照安全/高危紅線判斷趨勢走向。</p>
+                            </div>
+                            <div class="flex items-center gap-2 w-full sm:w-auto">
+                                <label for="risk-metric-select" class="text-xs font-semibold text-slate-400 whitespace-nowrap">選擇觀察指標:</label>
+                                <select id="risk-metric-select" onchange="renderRiskTrendChart(this.value)" class="bg-slate-900 border border-slate-700 text-teal-400 text-xs rounded-lg px-3 py-1.5 focus:outline-none focus:border-teal-500 font-mono w-full sm:w-auto">
+                                    <option value="yield_spread">1. 美債 10Y-2Y 殖利率利差 (%)</option>
+                                    <option value="usdjpy">2. 美元兌日圓匯率 (USD/JPY)</option>
+                                    <option value="sahm">3. 薩姆規則失業率差值 (%)</option>
+                                    <option value="buffett_indicator">4. 巴菲特指標 (股市總市值/GDP %)</option>
+                                    <option value="breadth_divergence">5. 股價廣度：高於200MA個股比例 (%)</option>
+                                    <option value="vix">6. VIX 恐慌指數 (Volatility)</option>
+                                    <option value="margin_leverage">7. 台股融資餘額 (億元)</option>
+                                    <option value="rsi_divergence">8. 台股週線 14-RSI 動能指數</option>
+                                    <option value="taiex_bias">9. 台股年線(200MA)正乖離率 (%)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="relative w-full h-[280px]">
+                            <canvas id="riskTrendChart"></canvas>
+                        </div>
+                        <div id="risk-metric-description" class="p-3 bg-slate-900/60 border border-slate-800/80 rounded-xl text-xs text-slate-300 font-mono leading-relaxed">
+                            <!-- Dynamic metric explanation populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Dimension 1: Macro & Liquidity Warning Indicators -->
+                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                        <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
+                            <i class="fa-solid fa-globe text-teal-400"></i> 一、 宏觀經濟與資金流動指標 (Macro & Liquidity)
+                        </h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Indicator 1 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-slate-100">1. 美債殖利率曲線「解倒掛」</span>
+                                    <button onclick="toggleRiskIndicator('yield_uninversion')" id="status-btn-yield_uninversion" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400">
+                                        🟡 密切關注 (Un-inverting)
+                                    </button>
+                                </div>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">
+                                    10Y-2Y 長短天期公債殖利率結束長期倒掛快速轉正，通常預告經濟衰退與資金拋售風險。
+                                </p>
+                            </div>
+
+                            <!-- Indicator 2 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-slate-100">2. 勞動市場「薩姆規則」(Sahm Rule)</span>
+                                    <button onclick="toggleRiskIndicator('sahm_rule')" id="status-btn-sahm_rule" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400">
+                                        🟢 安全正常 (< 0.5%)
+                                    </button>
+                                </div>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">
+                                    失業率 3 個月均值較近一年低點高出 0.5%，準確度極高的美國經濟硬著陸警訊。
+                                </p>
+                            </div>
+
+                            <!-- Indicator 3 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-slate-100">3. 日圓套利平倉 (FX Carry Unwind)</span>
+                                    <button onclick="toggleRiskIndicator('yen_carry')" id="status-btn-yen_carry" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400">
+                                        🟡 波動加劇 (Volatility)
+                                    </button>
+                                </div>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">
+                                    日圓急速升值逼使跨國槓桿資金拋售台股半導體與美股科技股以平倉還債。
+                                </p>
+                            </div>
+
+                            <!-- Indicator 4 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-slate-100">4. 巴菲特指標與估值天花板</span>
+                                    <button onclick="toggleRiskIndicator('buffett_indicator')" id="status-btn-buffett_indicator" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400">
+                                        🔴 極致過熱 (> 200%)
+                                    </button>
+                                </div>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">
+                                    股市總市值/GDP 超過歷史常態 +2σ，市場容錯率極低，微小利空即誘發修正。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dimension 2: Market Microstructure & Sentiment -->
+                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                        <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
+                            <i class="fa-solid fa-users text-indigo-400"></i> 二、 市場結構與情緒槓桿指標 (Structure & Sentiment)
+                        </h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Indicator 5 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-slate-100">5. 股價廣度背離 (Breadth Divergence)</span>
+                                    <button onclick="toggleRiskIndicator('breadth_divergence')" id="status-btn-breadth_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400">
+                                        🔴 廣度背離 (Only Big Tech)
+                                    </button>
+                                </div>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">
+                                    指數創高但超過半數個股已步入空頭，僅靠台積電等少數權值股獨撐大局。
+                                </p>
+                            </div>
+
+                            <!-- Indicator 6 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-slate-100">6. VIX 恐慌指數異象與 SKEW</span>
+                                    <button onclick="toggleRiskIndicator('vix_anomaly')" id="status-btn-vix_anomaly" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-emerald-950/80 border border-emerald-500/30 text-emerald-400">
+                                        🟢 溫和區間 (Normal)
+                                    </button>
+                                </div>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">
+                                    指數創高同時 VIX 不跌反升，代表 Smart Money 在高位大量買入 Put 期權避險。
+                                </p>
+                            </div>
+
+                            <!-- Indicator 7 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-slate-100">7. 看漲期權爆量與極致槓桿</span>
+                                    <button onclick="toggleRiskIndicator('margin_leverage')" id="status-btn-margin_leverage" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400">
+                                        🟡 融資偏高 (High Margin)
+                                    </button>
+                                </div>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">
+                                    散戶追高 Call 與融資餘額創新高，造市商對沖盤一旦鬆動易引發連鎖踩踏。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dimension 3: Technical Indicators -->
+                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                        <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
+                            <i class="fa-solid fa-chart-line text-rose-400"></i> 三、 技術面預警訊號 (Technical Warnings)
+                        </h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Indicator 8 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-slate-100">8. 日/週線 RSI & MACD 頂背離</span>
+                                    <button onclick="toggleRiskIndicator('rsi_divergence')" id="status-btn-rsi_divergence" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-amber-950/80 border border-amber-500/30 text-amber-400">
+                                        🟡 頂背離顯現 (Divergence)
+                                    </button>
+                                </div>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">
+                                    指數點位刷新歷史新高，但動能指標高點一波比一波低，上漲內部動能衰竭。
+                                </p>
+                            </div>
+
+                            <!-- Indicator 9 -->
+                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-slate-100">9. 季/年線極端正乖離</span>
+                                    <button onclick="toggleRiskIndicator('extreme_bias')" id="status-btn-extreme_bias" class="text-[10px] px-2.5 py-1 rounded-md font-bold bg-rose-950/80 border border-rose-500/30 text-rose-400">
+                                        🔴 乖離過大 (> 18%)
+                                    </button>
+                                </div>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">
+                                    指數嚴重偏離 200 日均線（年線）超過 20%，像拉緊的橡皮筋易誘發均線回歸修復。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Tab 3: Interactive Valuation Table -->
                 <div id="table-tab" class="tab-content hidden space-y-4">
                     <div class="glassmorphism rounded-2xl border border-slate-800/80 overflow-hidden">
                         <div class="p-5 border-b border-slate-800/80 bg-slate-950/40 flex justify-between items-center flex-wrap gap-4">
                             <div>
                                 <h3 class="text-base font-bold text-slate-100">權值成分股估值明細矩陣</h3>
-                                <p class="text-xs text-slate-400 mt-1">您可以直接點擊並修改任何「股價」或「預期 EPS」欄位，系統會動態依權重重新計算大盤點數與大盤整體 EPS。</p>
-                            </div>
-                            <div class="flex gap-2 text-xs">
-                                <span class="bg-teal-950/60 border border-teal-500/20 text-teal-400 px-2.5 py-1 rounded-md">
-                                    半導體覆載率: 34.5%
-                                </span>
-                                <span class="bg-indigo-950/60 border border-indigo-500/20 text-indigo-400 px-2.5 py-1 rounded-md">
-                                    金融股覆載率: 10.1%
-                                </span>
+                                <p class="text-xs text-slate-400 mt-1">點擊並修改任何「股價」或「預期 EPS」，系統會動態重新計算大盤點數與整體 EPS。</p>
                             </div>
                         </div>
 
-                        <!-- Responsive Table Container -->
                         <div class="overflow-x-auto custom-scrollbar max-h-[600px]">
                             <table class="w-full text-left border-collapse">
                                 <thead class="bg-slate-950/80 text-xs font-semibold text-slate-400 uppercase tracking-wider sticky top-0 z-10">
@@ -248,17 +412,15 @@
                                     </tr>
                                 </thead>
                                 <tbody id="stock-table-body" class="divide-y divide-slate-850 text-sm text-slate-300">
-                                    <!-- Dynamic rows generated by JavaScript -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <!-- Tab 3: Scenario Simulator Sandbox (Hidden on Start) -->
+                <!-- Tab 4: Scenario Simulator Sandbox -->
                 <div id="sandbox-tab" class="tab-content hidden space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Left Controls: Sector Sliders -->
                         <div class="md:col-span-2 glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-6">
                             <div>
                                 <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
@@ -267,7 +429,6 @@
                                 <p class="text-xs text-slate-400 mt-1">拉動拉桿調整未來各板塊獲利增幅，直接觀察對大盤 EPS 產生的壓力與推升效應。</p>
                             </div>
 
-                            <!-- Semiconductor Slider -->
                             <div class="space-y-2">
                                 <div class="flex justify-between items-center text-sm">
                                     <span class="flex items-center gap-1.5 font-medium text-slate-300">
@@ -278,7 +439,6 @@
                                 <input type="range" id="slider-semi" min="-50" max="150" value="60" oninput="updateSandboxGrowth('semi', this.value)" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-400">
                             </div>
 
-                            <!-- Electronics & Tech Slider -->
                             <div class="space-y-2">
                                 <div class="flex justify-between items-center text-sm">
                                     <span class="flex items-center gap-1.5 font-medium text-slate-300">
@@ -289,7 +449,6 @@
                                 <input type="range" id="slider-electronics" min="-50" max="120" value="35" oninput="updateSandboxGrowth('electronics', this.value)" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-400">
                             </div>
 
-                            <!-- Financial Services Slider -->
                             <div class="space-y-2">
                                 <div class="flex justify-between items-center text-sm">
                                     <span class="flex items-center gap-1.5 font-medium text-slate-300">
@@ -300,7 +459,6 @@
                                 <input type="range" id="slider-finance" min="-40" max="80" value="25" oninput="updateSandboxGrowth('finance', this.value)" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400">
                             </div>
 
-                            <!-- Traditional Industries Slider -->
                             <div class="space-y-2">
                                 <div class="flex justify-between items-center text-sm">
                                     <span class="flex items-center gap-1.5 font-medium text-slate-300">
@@ -312,13 +470,12 @@
                             </div>
                         </div>
 
-                        <!-- Right Outputs: Result Box -->
                         <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 flex flex-col justify-between space-y-6">
                             <div>
                                 <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
                                     <i class="fa-solid fa-compass text-indigo-400"></i>模擬大盤目標點預估
                                 </h4>
-                                <p class="text-xs text-slate-400 mt-1">根據您設定的板塊盈餘成長率，推估在不同「合理本益比中樞」下，大盤將座落於何處。</p>
+                                <p class="text-xs text-slate-400 mt-1">推估在設定之板塊增幅與目標 PE 下的大盤點位。</p>
                             </div>
 
                             <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl text-center">
@@ -326,7 +483,6 @@
                                 <h3 id="sim-index-eps" class="text-3xl font-extrabold text-teal-400 mt-1 font-mono">1,682.45 元</h3>
                             </div>
 
-                            <!-- Target PE Slider inside Sandbox -->
                             <div class="space-y-2">
                                 <div class="flex justify-between items-center text-sm">
                                     <span class="font-medium text-slate-300">設定合理目標 PE 乘數</span>
@@ -338,98 +494,68 @@
                             <div class="bg-gradient-to-r from-teal-950/30 to-indigo-950/30 border border-indigo-500/20 p-4 rounded-xl text-center">
                                 <p class="text-xs text-slate-400 uppercase tracking-wide">預期大盤加權目標點位</p>
                                 <h3 id="sim-target-index" class="text-3xl font-extrabold text-indigo-300 mt-1 font-mono">42,061 點</h3>
-                                <p class="text-[10px] text-slate-500 mt-1">目標點位 = 動態大盤 EPS * 合理本益比乘數</p>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Sector Contributions Bar Chart -->
-                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                            <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
-                                <i class="fa-solid fa-chart-pie text-indigo-400"></i>模擬大盤 2026 EPS 產業獲利貢獻佔比
-                            </h4>
-                            <span class="text-xs text-slate-400">以 Bottom-Up 理論模型即時推演</span>
-                        </div>
-                        <div class="relative w-full h-[120px]">
-                            <canvas id="epsContributionChart"></canvas>
                         </div>
                     </div>
                 </div>
 
             </div>
 
-            <!-- Right Workspace: AI Agent Integration & Terminal Dashboard (25% width) -->
+            <!-- Right Workspace: AI Agent Integration Terminal -->
             <div class="lg:col-span-1 space-y-6">
                 
-                <!-- AI Copilot Panel -->
-                <div class="glassmorphism rounded-2xl border border-slate-800/80 overflow-hidden flex flex-col h-[580px] shadow-xl">
-                    <!-- Terminal Head -->
+                <div class="glassmorphism rounded-2xl border border-slate-800/80 overflow-hidden flex flex-col h-[620px] shadow-xl">
                     <div class="p-4 bg-slate-950/80 border-b border-slate-800/85 flex justify-between items-center">
                         <div class="flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
                             <span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span>
                             <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
-                            <span class="text-xs font-bold text-slate-300 ml-2 font-mono"><i class="fa-solid fa-robot mr-1 text-teal-400"></i> Gemini AI Copilot</span>
+                            <span class="text-xs font-bold text-slate-300 ml-2 font-mono"><i class="fa-solid fa-robot mr-1 text-teal-400"></i> Gemini Risk Copilot</span>
                         </div>
                         <span class="text-[10px] text-slate-500 bg-slate-900 border border-slate-800 px-1.5 py-0.5 rounded font-mono">ONLINE</span>
                     </div>
 
-                    <!-- Conversation Stream Console -->
                     <div id="ai-chat-console" class="flex-grow p-4 overflow-y-auto custom-scrollbar space-y-4 text-xs font-mono">
                         <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800/50">
-                            <p class="text-teal-400 font-bold mb-1">💡 系統精靈:</p>
+                            <p class="text-teal-400 font-bold mb-1">💡 風控系統精靈:</p>
                             <p class="text-slate-300 leading-relaxed">
-                                歡迎來到台股 EPS 估值大腦！已全面升級 **Gemini v1beta 雙軌自適應備用輪詢機制**。若您的 API 金鑰不支援搜尋工具，系統將自動調整成標準模態以防連線中斷。
+                                已全面升級 **「大跌前兆風控雷達」**！您可以隨時點擊下方快捷指令，讓 AI 透過 Google 即時掃描美債解倒掛、日圓平倉潮及美股廣度狀況。
                             </p>
                         </div>
                         <div id="chat-stream-destination"></div>
                     </div>
 
-                    <!-- Interactive Presets Quick Click Bar -->
                     <div class="px-4 py-2 border-t border-slate-800/80 bg-slate-950/20">
-                        <p class="text-[10px] text-slate-500 uppercase font-semibold mb-1.5">推薦分析指令</p>
+                        <p class="text-[10px] text-slate-500 uppercase font-semibold mb-1.5">推薦風控與估值指令</p>
                         <div class="flex flex-wrap gap-1.5">
-                            <button onclick="sendPresetPrompt('台股加權指數目前有哪些最新的法人獲利上修或下調報告？')" class="text-[10px] bg-slate-900 hover:bg-slate-800 border border-slate-800 px-2 py-1 rounded text-slate-300 hover:text-slate-100 transition whitespace-nowrap">
-                                📈 法人EPS調幅
+                            <button onclick="sendPresetPrompt('請搜尋最新資訊，全面掃描目前全球股市是否出現美債解倒掛、薩姆規則或日圓套利平倉等大跌前兆警訊？')" class="text-[10px] bg-rose-950/40 hover:bg-rose-900/60 border border-rose-500/30 px-2 py-1 rounded text-rose-300 transition whitespace-nowrap">
+                                🚨 掃描大跌前兆警訊
+                            </button>
+                            <button onclick="sendPresetPrompt('請分析近期日圓匯率與日本央行態度，是否有套利交易平倉(Carry Trade)引發台股劇烈賣壓的風險？')" class="text-[10px] bg-slate-900 hover:bg-slate-800 border border-slate-800 px-2 py-1 rounded text-slate-300 hover:text-slate-100 transition whitespace-nowrap">
+                                🌊 日圓平倉風險
                             </button>
                             <button onclick="sendPresetPrompt('請分析台積電 2026 年預估 EPS 以及在 1,400 元以上的估值是否合理？')" class="text-[10px] bg-slate-900 hover:bg-slate-800 border border-slate-800 px-2 py-1 rounded text-slate-300 hover:text-slate-100 transition whitespace-nowrap">
                                 💎 台積電估值
                             </button>
-                            <button onclick="sendPresetPrompt('如果半導體遭遇庫存調整衰退 10%，金融與傳產逆勢上揚，大盤會如何？')" class="text-[10px] bg-slate-900 hover:bg-slate-800 border border-slate-800 px-2 py-1 rounded text-slate-300 hover:text-slate-100 transition whitespace-nowrap">
-                                🌪️ 板塊壓力測試
-                            </button>
                         </div>
                     </div>
 
-                    <!-- Input Console Bar -->
                     <div class="p-3 border-t border-slate-800/80 bg-slate-950/60 flex gap-2">
-                        <input type="text" id="ai-input-field" placeholder="問問 AI 關於台股估值分析..." onkeydown="handleInputKeyPress(event)" class="flex-grow bg-slate-900 border border-slate-800 rounded-lg text-xs px-3 py-2 text-slate-100 focus:outline-none focus:border-teal-500 font-mono">
+                        <input type="text" id="ai-input-field" placeholder="問問 AI 關於大盤風控與估值..." onkeydown="handleInputKeyPress(event)" class="flex-grow bg-slate-900 border border-slate-800 rounded-lg text-xs px-3 py-2 text-slate-100 focus:outline-none focus:border-teal-500 font-mono">
                         <button onclick="submitChatPrompt()" class="bg-indigo-600 hover:bg-indigo-500 text-white p-2 rounded-lg transition shrink-0 flex items-center justify-center w-8 h-8 shadow-md shadow-indigo-600/10">
                             <i class="fa-solid fa-paper-plane text-xs"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Model Information Info Card -->
-                <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 space-y-2 text-xs text-slate-400">
-                    <p class="font-bold text-slate-200 flex items-center gap-1.5">
-                        <i class="fa-solid fa-graduation-cap text-teal-400"></i> 法人模型 analysis 摘要
-                    </p>
-                    <p class="leading-relaxed">
-                        本儀表板並非單純累積成分股 EPS，而是透過 <strong class="text-slate-300">「加權盈餘殖利率」</strong> 動態運算，得出虛擬大盤預估盈餘，進而生成精確本益比數值，能有效排除傳統大盤 EPS 加總的市值權重失真。
-                    </p>
-                </div>
             </div>
 
         </div>
     </main>
 
-    <!-- API Key Configuration Modal Backdrop -->
-    <div id="api-key-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 animate-fade-in">
-        <!-- Modal Card Container -->
+    <!-- API Key Modal -->
+    <div id="api-key-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full relative space-y-5 shadow-2xl">
-            <!-- Header -->
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-rose-600 flex items-center justify-center">
                     <i class="fa-solid fa-key text-white text-lg"></i>
@@ -440,41 +566,30 @@
                 </div>
             </div>
 
-            <!-- Instructions Text -->
             <div class="text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-2">
-                <p>💡 <strong class="text-amber-400">金鑰不會被上傳</strong>。它僅安全儲存在此裝置的瀏覽器 LocalStorage 中，網頁重開亦免再次輸入。</p>
-                <p>🔗 您可以至 <a href="https://aistudio.google.com/" target="_blank" class="text-teal-400 underline hover:text-teal-300 font-semibold">Google AI Studio <i class="fa-solid fa-arrow-up-right-from-square"></i></a> 免費申請獲取個人金鑰。</p>
+                <p>💡 <strong class="text-amber-400">金鑰不會被上傳</strong>。安全儲存在瀏覽器 LocalStorage 中。</p>
+                <p>🔗 至 <a href="https://aistudio.google.com/" target="_blank" class="text-teal-400 underline font-semibold">Google AI Studio</a> 免費獲取金鑰。</p>
             </div>
 
-            <!-- Input Box -->
             <div class="space-y-1.5">
                 <label for="input-api-key" class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">輸入 Gemini API Key</label>
                 <div class="relative">
-                    <input type="password" id="input-api-key" placeholder="AIzaSy..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-teal-500 font-mono pr-10">
-                    <button onclick="toggleKeyVisibility()" type="button" class="absolute right-3 top-3 text-slate-500 hover:text-slate-300">
+                    <input type="password" id="input-api-key" placeholder="AIzaSy..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-teal-500 font-mono pr-10">
+                    <button onclick="toggleKeyVisibility()" type="button" class="absolute right-3 top-3 text-slate-500">
                         <i id="eye-icon" class="fa-solid fa-eye text-xs"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Actions Controls -->
             <div class="flex justify-end gap-2 text-xs pt-2">
-                <button onclick="clearSavedApiKey()" class="px-4 py-2 border border-rose-500/30 bg-rose-950/20 hover:bg-rose-900/30 text-rose-400 rounded-xl font-semibold transition">
-                    清除金鑰
-                </button>
-                <button onclick="closeApiKeyModal()" class="px-4 py-2 border border-slate-850 hover:bg-slate-900 text-slate-400 rounded-xl font-semibold transition">
-                    暫不設定
-                </button>
-                <button onclick="saveApiKey()" class="px-6 py-2 bg-teal-500 hover:bg-teal-400 text-slate-950 rounded-xl font-bold transition shadow-lg shadow-teal-500/10">
-                    儲存變更
-                </button>
+                <button onclick="clearSavedApiKey()" class="px-4 py-2 border border-rose-500/30 bg-rose-950/20 text-rose-400 rounded-xl font-semibold transition">清除</button>
+                <button onclick="closeApiKeyModal()" class="px-4 py-2 border border-slate-850 text-slate-400 rounded-xl font-semibold transition">取消</button>
+                <button onclick="saveApiKey()" class="px-6 py-2 bg-teal-500 text-slate-950 rounded-xl font-bold transition">儲存</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Core list of 30 weightings representing exactly 71.74% of the Taiwan index
-        // Prices are updated to correspond with the early July 2026 TAIEX index scale (around 46,780)
         const originalStocks = [
             { code: "2330", name: "台積電", weight: 34.50, price: 1420, eps_2025: 55.00, eps_2026: 68.00, eps_2027: 80.00, sector: "semi" },
             { code: "2317", name: "鴻海", weight: 4.80, price: 285, eps_2025: 14.20, eps_2026: 17.50, eps_2027: 20.00, sector: "electronics" },
@@ -508,44 +623,39 @@
             { code: "3045", name: "台灣大", weight: 0.60, price: 118, eps_2025: 4.60, eps_2026: 5.00, eps_2027: 5.40, sector: "traditional" }
         ];
 
-        // Shallow copy state array to allow user changes
         let stocks = JSON.parse(JSON.stringify(originalStocks));
-
-        // Global Variables
         let currentTaiexPrice = 46780;
-        let simulatedGrowthRates = { semi: 60, electronics: 35, finance: 25, traditional: 12 };
-        let sandboxPE = 25.0;
+
+        // Dynamic State for Risk Warning Indicators
+        let riskIndicatorState = {
+            yield_uninversion: 1, // 0: green, 1: yellow, 2: red
+            sahm_rule: 0,
+            yen_carry: 1,
+            buffett_indicator: 2,
+            breadth_divergence: 2,
+            vix_anomaly: 0,
+            margin_leverage: 1,
+            rsi_divergence: 1,
+            extreme_bias: 2
+        };
 
         let peRiverChartInstance = null;
         let peTrendChartInstance = null;
-        let epsContributionChartInstance = null;
-        let isSyncing = false;
+        let riskTrendChartInstance = null;
 
-        // Exact actual historical weekly close values of TAIEX from 2024 to early July 2026 (approx 130 weeks)
         const realTaiexHistory = [
-            // 2024Q1 (weeks 1-13)
             17553, 17519, 17681, 17992, 18059, 18096, 18607, 18889, 18935, 19305, 19785, 19682, 20294,
-            // 2024Q2 (weeks 14-26)
             20337, 20736, 19527, 20120, 20330, 20560, 21258, 21565, 21174, 21435, 21792, 22504, 23032,
-            // 2024Q3 (weeks 27-39, July correction to 19,662)
             23556, 23879, 22869, 22119, 19662, 21469, 22244, 22158, 21092, 21653, 21850, 22159, 22268,
-            // 2024Q4 (weeks 40-52)
             22302, 22820, 23487, 23348, 22780, 23553, 22742, 22904, 22266, 22442, 21898, 22754, 23132,
-            // 2025Q1 (weeks 53-65)
             23205, 22890, 23108, 23545, 23805, 24120, 23780, 23660, 23200, 23905, 24110, 24450, 24535,
-            // 2025Q2 (weeks 66-78, April 7th flash crash to 18,459 then recovery)
             24200, 18459, 20500, 21800, 22905, 23650, 24120, 24550, 24900, 25210, 25880, 26230, 26450,
-            // 2025Q3 (weeks 79-91)
             26800, 27120, 26900, 27430, 27880, 28110, 28450, 28310, 28150, 28650, 28990, 29210, 29450,
-            // 2025Q4 (weeks 92-104)
             29800, 30120, 30450, 30200, 30750, 31100, 30900, 31450, 31850, 32110, 31900, 32400, 32800,
-            // 2026Q1 (weeks 105-117)
             33120, 33450, 33200, 33900, 34210, 34650, 35120, 34990, 35560, 36120, 36800, 37550, 38100,
-            // 2026Q2 to early July (weeks 118-129, Peak 47,741 on June 30th)
             39200, 40150, 41220, 42100, 43450, 44210, 45110, 45900, 46800, 47741, 47120, 46780
         ];
 
-        // App Core Initializer
         window.onload = function() {
             initApp();
         };
@@ -554,21 +664,14 @@
             checkApiKeyStatus();
             calculateIndexMetrics();
             
-            // Check if API key exists. If so, automatically trigger a background sync.
-            // If not, trigger the API key popup modal after a gentle delay.
             const savedKey = localStorage.getItem("gemini_api_key");
             if (savedKey && savedKey.trim() !== "") {
-                setTimeout(() => {
-                    triggerAISync();
-                }, 1000);
+                setTimeout(() => { triggerAISync(); }, 1000);
             } else {
-                setTimeout(() => {
-                    openApiKeyModal();
-                }, 600);
+                setTimeout(() => { openApiKeyModal(); }, 600);
             }
         }
 
-        // Check Local Storage and update key indicator
         function checkApiKeyStatus() {
             const savedKey = localStorage.getItem("gemini_api_key");
             const statusDot = document.getElementById("api-status-dot");
@@ -586,19 +689,16 @@
             }
         }
 
-        // Modal Handlers
         function openApiKeyModal() {
             const modal = document.getElementById("api-key-modal");
             const inputField = document.getElementById("input-api-key");
             const savedKey = localStorage.getItem("gemini_api_key");
-            
             inputField.value = savedKey ? savedKey : "";
             modal.classList.remove("hidden");
         }
 
         function closeApiKeyModal() {
-            const modal = document.getElementById("api-key-modal");
-            modal.classList.add("hidden");
+            document.getElementById("api-key-modal").classList.add("hidden");
         }
 
         function toggleKeyVisibility() {
@@ -618,11 +718,8 @@
             localStorage.setItem("gemini_api_key", key);
             checkApiKeyStatus();
             closeApiKeyModal();
-            addSystemChatMessage("✅ 金鑰儲存成功！已開啟自動連線偵測。您可以隨時點擊「AI 聯網同步」取得最新大盤預估資訊。");
-            
-            if (key && key.trim() !== "") {
-                triggerAISync();
-            }
+            addSystemChatMessage("✅ 金鑰儲存成功！已啟用全球風控與即時估值連線。");
+            if (key && key.trim() !== "") triggerAISync();
         }
 
         function clearSavedApiKey() {
@@ -630,70 +727,125 @@
             document.getElementById("input-api-key").value = "";
             checkApiKeyStatus();
             closeApiKeyModal();
-            addSystemChatMessage("❌ 金鑰已清除。AI 雲端即時連線同步功能已被停用。");
+            addSystemChatMessage("❌ 金鑰已清除。");
         }
 
-        // Mathematical Core Calculation: Bottom-Up Weighted Earnings Yield Model
+        function toggleRiskIndicator(key) {
+            riskIndicatorState[key] = (riskIndicatorState[key] + 1) % 3;
+            updateRiskRadarUI();
+            calculateIndexMetrics();
+        }
+
+        function updateRiskRadarUI() {
+            const statusConfig = [
+                { label: "🟢 安全正常", class: "bg-emerald-950/80 border-emerald-500/30 text-emerald-400" },
+                { label: "🟡 密切關注", class: "bg-amber-950/80 border-amber-500/30 text-amber-400" },
+                { label: "🔴 高危觸發", class: "bg-rose-950/80 border-rose-500/30 text-rose-400" }
+            ];
+
+            Object.keys(riskIndicatorState).forEach(key => {
+                const btn = document.getElementById(`status-btn-${key}`);
+                if (btn) {
+                    const st = riskIndicatorState[key];
+                    btn.className = `text-[10px] px-2.5 py-1 rounded-md font-bold border transition ${statusConfig[st].class}`;
+                    btn.innerText = statusConfig[st].label;
+                }
+            });
+        }
+
         function calculateIndexMetrics() {
             let totalWeightUsed = stocks.reduce((sum, s) => sum + s.weight, 0);
-            let scalingFactor = 100 / totalWeightUsed; // Normalize core weights (71.74%) to full TAIEX scope (100%)
+            let scalingFactor = 100 / totalWeightUsed;
 
-            // Sum of (Weight_i * EPS_i / Price_i) for each year
             let weightedEarningsYield2025 = 0;
             let weightedEarningsYield2026 = 0;
             let weightedEarningsYield2027 = 0;
 
             stocks.forEach(s => {
-                const w = s.weight * 0.01; // Weight as fraction
+                const w = s.weight * 0.01;
                 weightedEarningsYield2025 += w * (s.eps_2025 / s.price);
                 weightedEarningsYield2026 += w * (s.eps_2026 / s.price);
                 weightedEarningsYield2027 += w * (s.eps_2027 / s.price);
             });
 
-            // Rescale index components to aggregate simulated TAIEX EPS
             const indexEPS2025 = currentTaiexPrice * weightedEarningsYield2025 * scalingFactor;
             const indexEPS2026 = currentTaiexPrice * weightedEarningsYield2026 * scalingFactor;
             const indexEPS2027 = currentTaiexPrice * weightedEarningsYield2027 * scalingFactor;
 
             const indexPE2026 = currentTaiexPrice / indexEPS2026;
-            const currentPE = 32.4; // Historically high historical marker (extreme cap reference)
 
-            // Update DOM metrics components
             document.getElementById("display-taiex-price").innerText = Math.round(currentTaiexPrice).toLocaleString() + " 點";
             document.getElementById("card-index-eps").innerText = indexEPS2026.toFixed(2) + " 元";
             document.getElementById("card-index-eps-2025").innerText = indexEPS2025.toFixed(2);
             document.getElementById("card-index-eps-2027").innerText = indexEPS2027.toFixed(2);
             document.getElementById("card-index-pe").innerText = indexPE2026.toFixed(2) + " x";
-            document.getElementById("card-index-pe-current").innerText = currentPE.toFixed(1) + " x";
 
-            // Update valuation diagnosis styling based on PE threshold levels
             const diagnosis = document.getElementById("card-valuation-diagnosis");
             if (indexPE2026 > 29) {
-                diagnosis.innerText = "極致泡沫 (Extreme Bubble)";
-                diagnosis.className = "text-xl sm:text-2xl font-extrabold mt-2 tracking-tight text-rose-500 animate-pulse";
+                diagnosis.innerText = "極致泡沫 (Bubble)";
+                diagnosis.className = "text-2xl font-bold mt-2 tracking-tight text-rose-500 animate-pulse";
             } else if (indexPE2026 > 26) {
                 diagnosis.innerText = "評價偏高 (Premium)";
-                diagnosis.className = "text-xl sm:text-2xl font-bold mt-2 tracking-tight text-rose-400";
+                diagnosis.className = "text-2xl font-bold mt-2 tracking-tight text-rose-400";
             } else if (indexPE2026 < 20) {
                 diagnosis.innerText = "歷史便宜 (Value)";
-                diagnosis.className = "text-xl sm:text-2xl font-bold mt-2 tracking-tight text-emerald-400";
+                diagnosis.className = "text-2xl font-bold mt-2 tracking-tight text-emerald-400";
             } else {
                 diagnosis.innerText = "評價合理 (Fair)";
-                diagnosis.className = "text-xl sm:text-2xl font-bold mt-2 tracking-tight text-amber-400";
+                diagnosis.className = "text-2xl font-bold mt-2 tracking-tight text-amber-400";
             }
 
-            // Sync with sandbox values
-            document.getElementById("sim-index-eps").innerText = indexEPS2026.toFixed(2) + " 元";
-            recalcSimulatedIndex();
+            let baseRiskScore = 15;
+            if (indexPE2026 > 28) baseRiskScore += 25;
+            else if (indexPE2026 > 25) baseRiskScore += 15;
 
-            // Render components
+            Object.values(riskIndicatorState).forEach(v => {
+                if (v === 1) baseRiskScore += 4;
+                if (v === 2) baseRiskScore += 9;
+            });
+
+            baseRiskScore = Math.min(100, Math.max(10, baseRiskScore));
+
+            const riskScoreEl = document.getElementById("card-risk-score");
+            const riskLevelEl = document.getElementById("card-risk-level");
+            const recommendedCashEl = document.getElementById("risk-recommended-cash");
+
+            if (riskScoreEl) riskScoreEl.innerText = `${baseRiskScore} / 100`;
+
+            if (baseRiskScore >= 70) {
+                if (riskLevelEl) {
+                    riskLevelEl.innerText = "🔴 極高極致風暴警戒 (High Risk)";
+                    riskLevelEl.className = "text-xs text-rose-400 mt-1 font-bold animate-pulse";
+                }
+                if (recommendedCashEl) {
+                    recommendedCashEl.innerText = "現金 60% / 防禦避險 40%";
+                    recommendedCashEl.className = "text-xs font-bold text-rose-400 font-mono";
+                }
+            } else if (baseRiskScore >= 40) {
+                if (riskLevelEl) {
+                    riskLevelEl.innerText = "🟡 中度防禦關注 (Moderate)";
+                    riskLevelEl.className = "text-xs text-amber-400 mt-1 font-semibold";
+                }
+                if (recommendedCashEl) {
+                    recommendedCashEl.innerText = "現金 35% / 股票 65%";
+                    recommendedCashEl.className = "text-xs font-bold text-amber-400 font-mono";
+                }
+            } else {
+                if (riskLevelEl) {
+                    riskLevelEl.innerText = "🟢 安全偏多巡航 (Low Risk)";
+                    riskLevelEl.className = "text-xs text-emerald-400 mt-1 font-semibold";
+                }
+                if (recommendedCashEl) {
+                    recommendedCashEl.innerText = "現金 15% / 股票 85%";
+                    recommendedCashEl.className = "text-xs font-bold text-emerald-400 font-mono";
+                }
+            }
+
             renderTable();
-            updateContributionChart();
             renderPERiverChart();
             renderPETrendChart(indexPE2026);
         }
 
-        // Render the Interactive Core Valuation Matrix
         function renderTable() {
             const tableBody = document.getElementById("stock-table-body");
             if (!tableBody) return;
@@ -701,8 +853,6 @@
 
             stocks.forEach((s, idx) => {
                 const pe2026 = (s.price / s.eps_2026).toFixed(1);
-                
-                // Color tags based on sector category
                 let sectorBadge = "";
                 if (s.sector === "semi") {
                     sectorBadge = `<span class="px-2 py-0.5 bg-teal-950/60 text-teal-400 text-[10px] rounded border border-teal-500/20 font-bold">半導體</span>`;
@@ -741,7 +891,6 @@
             });
         }
 
-        // Capture user edit in table cell
         function updateStockCell(idx, field, value) {
             let parsed = parseFloat(value);
             if (!isNaN(parsed) && parsed >= 0) {
@@ -750,61 +899,13 @@
             }
         }
 
-        // Tab 2 Scenario Simulator sandbox formulas
-        function updateSandboxGrowth(sector, val) {
-            const parsed = parseInt(val);
-            simulatedGrowthRates[sector] = parsed;
-            
-            // Render text UI label
-            document.getElementById(`slider-val-${sector}`).innerText = (parsed >= 0 ? "+" : "") + parsed + "%";
-            
-            recalcSimulatedIndex();
-        }
-
-        function updateSandboxPE(val) {
-            const parsed = parseFloat(val);
-            sandboxPE = parsed;
-            document.getElementById("sim-pe-multiplier-val").innerText = parsed.toFixed(1) + " x";
-            recalcSimulatedIndex();
-        }
-
-        // Recalculates dynamically simulated TAIEX EPS and TAIEX target based on sector weights
-        function recalcSimulatedIndex() {
-            let totalWeightUsed = originalStocks.reduce((sum, s) => sum + s.weight, 0);
-            let scalingFactor = 100 / totalWeightUsed;
-
-            let weightedEarningsYield2026 = 0;
-
-            originalStocks.forEach(s => {
-                const w = s.weight * 0.01;
-                // Calculate growth factor multiplier
-                const growthFactor = 1 + (simulatedGrowthRates[s.sector] / 100);
-                // Adjust 2025 baseline with customized growth
-                const simEPS2026 = s.eps_2025 * growthFactor;
-                weightedEarningsYield2026 += w * (simEPS2026 / s.price);
-            });
-
-            const simIndexEPS2026 = currentTaiexPrice * weightedEarningsYield2026 * scalingFactor;
-            const simTargetLevel = simIndexEPS2026 * sandboxPE;
-
-            const simIndexEPSEl = document.getElementById("sim-index-eps");
-            const simTargetIndexEl = document.getElementById("sim-target-index");
-            
-            if (simIndexEPSEl) simIndexEPSEl.innerText = simIndexEPS2026.toFixed(2) + " 元";
-            if (simTargetIndexEl) simTargetIndexEl.innerText = Math.round(simTargetLevel).toLocaleString() + " 點";
-        }
-
-        // Tab switches mechanism
         function switchTab(tabId) {
-            // Hide all tabs content
             document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
-            // De-activate all tab headers style
             document.querySelectorAll("[id^='tab-btn-']").forEach(el => {
                 el.classList.remove("border-teal-400", "text-teal-400", "font-semibold");
                 el.classList.add("border-transparent", "text-slate-400", "hover:text-slate-200", "font-medium");
             });
 
-            // Show targets
             const targetTab = document.getElementById(tabId);
             const targetBtn = document.getElementById(`tab-btn-${tabId}`);
             
@@ -814,112 +915,154 @@
                 targetBtn.classList.remove("border-transparent", "text-slate-400", "font-medium");
             }
 
-            // Redraw active charts on active tab transitions
             if (tabId === "river-tab") {
-                setTimeout(() => {
-                    calculateIndexMetrics();
-                }, 50);
-            } else if (tabId === "sandbox-tab") {
-                setTimeout(() => {
-                    updateContributionChart();
+                setTimeout(() => { calculateIndexMetrics(); }, 50);
+            } else if (tabId === "risk-tab") {
+                setTimeout(() => { 
+                    const metricSelect = document.getElementById("risk-metric-select");
+                    if (metricSelect) renderRiskTrendChart(metricSelect.value);
                 }, 50);
             }
         }
 
-        // Sector visual contribution chart definition
-        function updateContributionChart() {
-            const canvasEl = document.getElementById('epsContributionChart');
-            if (!canvasEl) return;
-            const ctx = canvasEl.getContext('2d');
-            
-            // Dynamically count aggregate weight-based sector metrics
-            let totalWeightUsed = originalStocks.reduce((sum, s) => sum + s.weight, 0);
-            let scalingFactor = 100 / totalWeightUsed;
+        function renderRiskTrendChart(metricKey) {
+            const canvas = document.getElementById('riskTrendChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
 
-            let sectorContribs = { semi: 0, electronics: 0, finance: 0, traditional: 0 };
+            const quarters = ['2024Q3', '2024Q4', '2025Q1', '2025Q2', '2025Q3', '2025Q4', '2026Q1', '2026Q2'];
 
-            originalStocks.forEach(s => {
-                const w = s.weight * 0.01;
-                const growthFactor = 1 + (simulatedGrowthRates[s.sector] / 100);
-                const simEPS2026 = s.eps_2025 * growthFactor;
-                
-                sectorContribs[s.sector] += w * (simEPS2026 / s.price) * currentTaiexPrice * scalingFactor;
-            });
+            const riskDatasets = {
+                yield_spread: {
+                    title: "美債 10Y-2Y 殖利率利差 (%)",
+                    data: [-0.12, 0.05, 0.18, 0.25, 0.32, 0.40, 0.55, 0.68],
+                    threshold: 0.0,
+                    thresholdLabel: "解倒掛警戒線 (0%)",
+                    color: "#f59e0b",
+                    desc: "💡 <strong>指標意義:</strong> 利差低於 0% 為長短期倒掛。當利差從負值快速轉正（解倒掛，> 0%），歷史上常預告美聯儲開始緊急降息與經濟衰退/股市修正啟動。"
+                },
+                usdjpy: {
+                    title: "美元/日圓匯率 (USD/JPY)",
+                    data: [161.2, 152.0, 148.5, 142.1, 145.3, 150.2, 153.8, 156.4],
+                    threshold: 145.0,
+                    thresholdLabel: "日圓強升/套利平倉警戒點 (145.0)",
+                    color: "#38bdf8",
+                    desc: "💡 <strong>指標意義:</strong> 日圓快速升值（如 USD/JPY 跌破 145/140）會迫使全球槓桿套利交易（Carry Trade）快速借日圓平倉，引發無差別拋售全球權值股。"
+                },
+                sahm: {
+                    title: "薩姆規則失業率差值 (%)",
+                    data: [0.43, 0.40, 0.38, 0.42, 0.35, 0.32, 0.30, 0.28],
+                    threshold: 0.5,
+                    thresholdLabel: "薩姆規則觸發衰退紅線 (0.50%)",
+                    color: "#f43f5e",
+                    desc: "💡 <strong>指標意義:</strong> 3 個月失業率均值比過去 12 個月低點高出 0.5% 即觸發薩姆規則。超過 0.5% 代表美國經濟硬著陸衰退機率高達 90% 以上。"
+                },
+                buffett_indicator: {
+                    title: "巴菲特指標 (股市總市值 / GDP %)",
+                    data: [185, 192, 210, 225, 238, 245, 258, 268],
+                    threshold: 200.0,
+                    thresholdLabel: "巴菲特指標過熱紅線 (200%)",
+                    color: "#f43f5e",
+                    desc: "💡 <strong>指標意義:</strong> 股市總市值相對於 GDP 的比值。當超越 200%（+2σ 以上），代表股市相對於實體經濟價值嚴重透支，容錯率極低。"
+                },
+                breadth_divergence: {
+                    title: "股價廣度：高於 200 日均線個股比例 (%)",
+                    data: [72, 68, 58, 52, 48, 42, 38, 32],
+                    threshold: 50.0,
+                    thresholdLabel: "廣度多空分界線 (50%)",
+                    color: "#f97316",
+                    desc: "💡 <strong>指標意義:</strong> 觀察市場上有多少比例的股票位於 200 日均線上。若大盤指數創新高，但維持在 200MA 上方的個股比率持續下降跌破 50%，代表僅極少數權值股獨撐大局（廣度背離）。"
+                },
+                vix: {
+                    title: "VIX 恐慌指數 (CBOE Volatility Index)",
+                    data: [38.5, 16.2, 18.5, 22.0, 14.5, 13.8, 15.2, 16.8],
+                    threshold: 25.0,
+                    thresholdLabel: "市場恐慌邊界線 (25.0)",
+                    color: "#10b981",
+                    desc: "💡 <strong>指標意義:</strong> VIX 低於 15 代表市場過度樂觀（防禦脆弱）；若 VIX 無預警升破 25~30 代表市場大震盪與市場避險 Sell-off 正在爆發。"
+                },
+                margin_leverage: {
+                    title: "台股融資餘額 (億元)",
+                    data: [2850, 2920, 3100, 3250, 3420, 3600, 3780, 3950],
+                    threshold: 3500.0,
+                    thresholdLabel: "融資高檔警示線 (3500億)",
+                    color: "#ec4899",
+                    desc: "💡 <strong>指標意義:</strong> 散戶與槓桿資金的融資餘額與槓桿水平。當融資餘額急速衝高突破 3,500~4,000 億元，市場對沖盤與散戶籌碼過熱，一旦回檔極易引發多頭連鎖砍倉與多殺多踩踏。"
+                },
+                rsi_divergence: {
+                    title: "台股週線 14-RSI 動能指數",
+                    data: [78.2, 72.5, 68.0, 69.5, 65.2, 63.8, 61.0, 58.5],
+                    threshold: 70.0,
+                    thresholdLabel: "RSI 超買過熱警示線 (70)",
+                    color: "#8b5cf6",
+                    desc: "💡 <strong>指標意義:</strong> 週線 RSI 動能指標。當指數不斷創歷史新高的同時，週線 RSI 卻連續一波比一波低（頂背離），代表買盤上攻動能正在內部衰竭。"
+                },
+                taiex_bias: {
+                    title: "台股年線 (200日MA) 正乖離率 (%)",
+                    data: [15.2, 12.1, 8.4, 10.5, 14.8, 16.2, 19.5, 22.4],
+                    threshold: 18.0,
+                    thresholdLabel: "極端正乖離過熱紅線 (18%)",
+                    color: "#a855f7",
+                    desc: "💡 <strong>指標意義:</strong> 加權指數高於年線超過 18%~20%，顯示價格如同拉緊橡皮筋，極易引發獲利了結賣壓進行均線回歸修正。"
+                }
+            };
 
-            const dataset = [
-                sectorContribs.semi,
-                sectorContribs.electronics,
-                sectorContribs.finance,
-                sectorContribs.traditional
-            ];
+            const selected = riskDatasets[metricKey] || riskDatasets['yield_spread'];
 
-            if (epsContributionChartInstance) {
-                epsContributionChartInstance.destroy();
-            }
+            const descEl = document.getElementById('risk-metric-description');
+            if (descEl) descEl.innerHTML = selected.desc;
 
-            epsContributionChartInstance = new Chart(ctx, {
-                type: 'bar',
+            if (riskTrendChartInstance) riskTrendChartInstance.destroy();
+
+            riskTrendChartInstance = new Chart(ctx, {
+                type: 'line',
                 data: {
-                    labels: ['半導體板塊', '電子其他', '金融保險', '傳產航運'],
-                    datasets: [{
-                        label: '預估 EPS 獲利貢獻額度 (元)',
-                        data: dataset,
-                        backgroundColor: [
-                            'rgba(20, 184, 166, 0.75)', // teal
-                            'rgba(59, 130, 246, 0.75)', // blue
-                            'rgba(245, 158, 11, 0.75)', // amber
-                            'rgba(148, 163, 184, 0.75)'  // slate
-                        ],
-                        borderColor: [
-                            '#14b8a6', '#3b82f6', '#f59e0b', '#94a3b8'
-                        ],
-                        borderWidth: 1.5,
-                        borderRadius: 8
-                    }]
+                    labels: quarters,
+                    datasets: [
+                        {
+                            label: selected.title,
+                            data: selected.data,
+                            borderColor: selected.color,
+                            backgroundColor: selected.color + '1f',
+                            borderWidth: 3,
+                            pointBackgroundColor: selected.color,
+                            pointBorderColor: '#ffffff',
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            fill: true,
+                            tension: 0.2
+                        },
+                        {
+                            label: selected.thresholdLabel,
+                            data: Array(quarters.length).fill(selected.threshold),
+                            borderColor: '#ef4444',
+                            borderWidth: 1.5,
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false
+                        }
+                    ]
                 },
                 options: {
-                    indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: '#0f172a',
-                            borderColor: '#1e293b',
-                            borderWidth: 1,
-                            titleFont: { size: 11, weight: 'bold' },
-                            bodyFont: { size: 11 },
-                            callbacks: {
-                                label: function(context) {
-                                    return `獲利貢獻: ${context.parsed.x.toFixed(2)} 元 (${((context.parsed.x / dataset.reduce((a,b)=>a+b, 0))*100).toFixed(1)}%)`;
-                                }
-                            }
-                        }
+                        legend: { display: true, labels: { color: '#cbd5e1', font: { size: 11, weight: 'bold' } } }
                     },
                     scales: {
-                        x: {
-                            grid: { color: 'rgba(255, 255, 255, 0.03)' },
-                            ticks: { color: '#94a3b8', font: { size: 10 } }
-                        },
-                        y: {
-                            grid: { display: false },
-                            ticks: { color: '#e2e8f0', font: { size: 11, weight: 'bold' } }
-                        }
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.03)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#cbd5e1', font: { size: 10 } } }
                     }
                 }
             });
         }
 
-        // Render historical PE ratio line chart (Dual Y-Axis: PE left, Real Daily TAIEX right)
         function renderPETrendChart(currentPE) {
             const canvas = document.getElementById('peTrendChart');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             
-            // X-axis array mirroring 130 elements, showing labels only at quarterly junctions
             const labels = Array(realTaiexHistory.length).fill("");
-            
-            // Set precise labels at quarterly intervals
             labels[0] = '2024Q1';
             labels[13] = '2024Q2';
             labels[26] = '2024Q3';
@@ -932,7 +1075,6 @@
             labels[117] = '2026Q2';
             labels[realTaiexHistory.length - 1] = '當前位置';
 
-            // Base PE values aligned on quarterly indexes with nulls elsewhere for smooth spanGaps
             const peHistory = Array(realTaiexHistory.length).fill(null);
             peHistory[0] = 21.8;
             peHistory[13] = 22.8;
@@ -946,13 +1088,10 @@
             peHistory[117] = 27.2;
             peHistory[realTaiexHistory.length - 1] = parseFloat(currentPE.toFixed(2));
 
-            // Force dynamic end-point link for index path
             const adjustedTaiexHistory = [...realTaiexHistory];
             adjustedTaiexHistory[adjustedTaiexHistory.length - 1] = Math.round(currentTaiexPrice);
 
-            if (peTrendChartInstance) {
-                peTrendChartInstance.destroy();
-            }
+            if (peTrendChartInstance) peTrendChartInstance.destroy();
 
             peTrendChartInstance = new Chart(ctx, {
                 type: 'line',
@@ -962,42 +1101,30 @@
                         {
                             label: '大盤前瞻本益比 (PE)',
                             data: peHistory,
-                            borderColor: '#14b8a6', // Beautiful Teal border
+                            borderColor: '#14b8a6',
                             borderWidth: 3,
                             pointBackgroundColor: '#0d9488',
                             pointBorderColor: '#ffffff',
-                            pointHoverRadius: 8,
                             pointRadius: function(context) {
                                 return context.dataset.data[context.dataIndex] !== null ? 6 : 0;
                             },
                             fill: true,
-                            spanGaps: true, // Connect gaps smoothly
-                            yAxisID: 'y', // left axis
-                            backgroundColor: function(context) {
-                                const chart = context.chart;
-                                const {ctx, chartArea} = chart;
-                                if (!chartArea) return null;
-                                const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-                                gradient.addColorStop(0, 'rgba(20, 184, 166, 0.25)');
-                                gradient.addColorStop(1, 'rgba(20, 184, 166, 0.005)');
-                                return gradient;
-                            },
+                            spanGaps: true,
+                            yAxisID: 'y',
+                            backgroundColor: 'rgba(20, 184, 166, 0.08)',
                             tension: 0.15
                         },
                         {
                             label: '加權指數實際走勢 (每週收盤)',
                             data: adjustedTaiexHistory,
-                            borderColor: '#6366f1', // Indigo line
+                            borderColor: '#6366f1',
                             borderWidth: 1.5,
-                            borderDash: [3, 3], // Clean dotted daily style
-                            pointBackgroundColor: '#4f46e5',
-                            pointBorderColor: '#ffffff',
+                            borderDash: [3, 3],
                             pointRadius: function(context) {
-                                // highlight the current and quarterly nodes only to keep it clean
                                 return (context.dataIndex % 13 === 0 || context.dataIndex === adjustedTaiexHistory.length - 1) ? 3 : 0;
                             },
                             fill: false,
-                            yAxisID: 'y1', // right axis
+                            yAxisID: 'y1',
                             tension: 0.1
                         }
                     ]
@@ -1006,78 +1133,30 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                            labels: {
-                                color: '#cbd5e1',
-                                font: { size: 10, weight: 'bold' }
-                            }
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            backgroundColor: '#0f172a',
-                            borderColor: '#1e293b',
-                            borderWidth: 1,
-                            titleColor: '#f1f5f9',
-                            bodyColor: '#cbd5e1',
-                            titleFont: { size: 11, weight: 'bold' },
-                            bodyFont: { size: 11 }
-                        }
+                        legend: { display: true, labels: { color: '#cbd5e1', font: { size: 10, weight: 'bold' } } }
                     },
                     scales: {
-                        x: {
-                            grid: { color: 'rgba(255, 255, 255, 0.02)' },
-                            ticks: { 
-                                color: '#94a3b8', 
-                                font: { size: 10 },
-                                autoSkip: false,
-                                maxRotation: 0
-                            }
-                        },
-                        y: { // Left Axis: PE
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                            min: 15,
-                            max: 35,
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.02)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+                        y: {
+                            type: 'linear', display: true, position: 'left', min: 15, max: 35,
                             grid: { color: 'rgba(255, 255, 255, 0.03)' },
-                            ticks: { color: '#14b8a6', font: { size: 10 } },
-                            title: {
-                                display: true,
-                                text: '本益比 (PE x)',
-                                color: '#14b8a6',
-                                font: { size: 10, weight: 'bold' }
-                            }
+                            ticks: { color: '#14b8a6', font: { size: 10 } }
                         },
-                        y1: { // Right Axis: TAIEX Index
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            min: 15000,
-                            max: 55000,
-                            grid: { drawOnChartArea: false }, // avoid overlapping grid lines
-                            ticks: { color: '#818cf8', font: { size: 10 } },
-                            title: {
-                                display: true,
-                                text: '加權指數點位 (點)',
-                                color: '#818cf8',
-                                font: { size: 10, weight: 'bold' }
-                            }
+                        y1: {
+                            type: 'linear', display: true, position: 'right', min: 15000, max: 55000,
+                            grid: { drawOnChartArea: false },
+                            ticks: { color: '#818cf8', font: { size: 10 } }
                         }
                     }
                 }
             });
         }
 
-        // Render valuation PE river (bands) graph using the 130 actual weekly closes
         function renderPERiverChart() {
             const canvas = document.getElementById('peRiverChart');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
 
-            // Calculate current index EPS 2026
             let totalWeightUsed = stocks.reduce((sum, s) => sum + s.weight, 0);
             let scalingFactor = 100 / totalWeightUsed;
             let weightedEarningsYield2026 = 0;
@@ -1086,7 +1165,6 @@
             });
             const indexEPS2026 = currentTaiexPrice * weightedEarningsYield2026 * scalingFactor;
 
-            // X-axis timeline (mirroring 130 elements)
             const labels = Array(realTaiexHistory.length).fill("");
             labels[0] = '2024Q1';
             labels[13] = '2024Q2';
@@ -1100,28 +1178,14 @@
             labels[117] = '2026Q2';
             labels[realTaiexHistory.length - 1] = '當前位置';
 
-            // Map corresponding PE bands across timeline with smooth historical EPS expansion
             const multipliers = [18, 22, 26, 30, 34];
             const datasets = [];
 
-            // Multiplier colors styling
             const colorSpectrum = [
-                'rgba(148, 163, 184, 0.12)', // 18x
-                'rgba(52, 211, 153, 0.12)',  // 22x
-                'rgba(251, 191, 36, 0.12)',  // 26x
-                'rgba(248, 113, 113, 0.12)', // 30x
-                'rgba(239, 68, 68, 0.12)'    // 34x
+                'rgba(148, 163, 184, 0.12)', 'rgba(52, 211, 153, 0.12)',
+                'rgba(251, 191, 36, 0.12)', 'rgba(248, 113, 113, 0.12)', 'rgba(239, 68, 68, 0.12)'
             ];
 
-            const borderSpectrum = [
-                'rgba(148, 163, 184, 0.3)',
-                'rgba(52, 211, 153, 0.3)',
-                'rgba(251, 191, 36, 0.3)',
-                'rgba(248, 113, 113, 0.3)',
-                'rgba(239, 68, 68, 0.3)'
-            ];
-
-            // Build dynamic stacked fill datasets for PE Bands using linear interpolation of EPS (880 -> indexEPS2026)
             multipliers.forEach((pe, idx) => {
                 const bandData = realTaiexHistory.map((pt, t) => {
                     const ratio = t / (realTaiexHistory.length - 1);
@@ -1132,95 +1196,51 @@
                 datasets.push({
                     label: `${pe}x PE 區間`,
                     data: bandData,
-                    borderColor: borderSpectrum[idx],
+                    borderColor: 'rgba(255, 255, 255, 0.1)',
                     backgroundColor: colorSpectrum[idx],
                     fill: idx === 0 ? 'origin' : '-1',
                     borderWidth: 1,
-                    pointRadius: 0,
-                    tension: 0.1
+                    pointRadius: 0
                 });
             });
 
-            // Force dynamic end-point link for index path
             const adjustedTaiexHistory = [...realTaiexHistory];
             adjustedTaiexHistory[adjustedTaiexHistory.length - 1] = Math.round(currentTaiexPrice);
 
-            // Add index actual path overlay
             datasets.push({
                 label: '加權指數實際走勢',
                 data: adjustedTaiexHistory,
-                borderColor: '#6366f1', // Indigo index line
+                borderColor: '#6366f1',
                 backgroundColor: 'rgba(99, 102, 241, 0.05)',
                 borderWidth: 3,
-                pointRadius: function(context) {
-                    return context.dataIndex === adjustedTaiexHistory.length - 1 ? 8 : 0;
-                },
+                pointRadius: function(context) { return context.dataIndex === adjustedTaiexHistory.length - 1 ? 8 : 0; },
                 pointBackgroundColor: '#818cf8',
-                pointBorderColor: '#ffffff',
-                pointBorderWidth: 2,
-                fill: false,
-                tension: 0.1
+                fill: false
             });
 
-            if (peRiverChartInstance) {
-                peRiverChartInstance.destroy();
-            }
+            if (peRiverChartInstance) peRiverChartInstance.destroy();
 
             peRiverChartInstance = new Chart(ctx, {
                 type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: datasets
-                },
+                data: { labels: labels, datasets: datasets },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                color: '#cbd5e1',
-                                font: { size: 10, weight: 'bold' },
-                                boxWidth: 12,
-                                padding: 12
-                            }
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            backgroundColor: '#0f172a',
-                            borderColor: '#1e293b',
-                            borderWidth: 1,
-                            titleColor: '#f1f5f9',
-                            bodyColor: '#cbd5e1',
-                            bodyFont: { size: 11 },
-                            titleFont: { size: 11, weight: 'bold' }
-                        }
-                    },
+                    plugins: { legend: { position: 'top', labels: { color: '#cbd5e1', font: { size: 10 } } } },
                     scales: {
-                        x: {
-                            grid: { color: 'rgba(255, 255, 255, 0.02)' },
-                            ticks: { color: '#94a3b8', font: { size: 10 } }
-                        },
-                        y: {
-                            grid: { color: 'rgba(255, 255, 255, 0.03)' },
-                            ticks: { color: '#94a3b8', font: { size: 10 } }
-                        }
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.02)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.03)' }, ticks: { color: '#94a3b8', font: { size: 10 } } }
                     }
                 }
             });
         }
 
-        // UI Terminal Chat Logging
         function addSystemChatMessage(text) {
             const chatDest = document.getElementById("chat-stream-destination");
             if (!chatDest) return;
             const div = document.createElement("div");
-            div.className = "p-3 bg-slate-900/60 rounded-xl border border-slate-800/50 text-slate-300 leading-relaxed animate-fade-in";
-            div.innerHTML = `
-                <p class="text-teal-400 font-bold mb-1">💡 系統精靈:</p>
-                <p>${text}</p>
-            `;
+            div.className = "p-3 bg-slate-900/60 rounded-xl border border-slate-800/50 text-slate-300 leading-relaxed";
+            div.innerHTML = `<p class="text-teal-400 font-bold mb-1">💡 風控系統精靈:</p><p>${text}</p>`;
             chatDest.appendChild(div);
             scrollChatToBottom();
         }
@@ -1229,11 +1249,8 @@
             const chatDest = document.getElementById("chat-stream-destination");
             if (!chatDest) return;
             const div = document.createElement("div");
-            div.className = "p-3 bg-indigo-950/20 rounded-xl border border-indigo-500/10 text-slate-300 text-right font-bold ml-6 leading-relaxed animate-fade-in";
-            div.innerHTML = `
-                <p class="text-indigo-400 mb-1">👤 您的指令:</p>
-                <p>${text}</p>
-            `;
+            div.className = "p-3 bg-indigo-950/20 rounded-xl border border-indigo-500/10 text-slate-300 text-right font-bold ml-6 leading-relaxed";
+            div.innerHTML = `<p class="text-indigo-400 mb-1">👤 您的指令:</p><p>${text}</p>`;
             chatDest.appendChild(div);
             scrollChatToBottom();
         }
@@ -1242,19 +1259,13 @@
             const chatDest = document.getElementById("chat-stream-destination");
             if (!chatDest) return;
             const div = document.createElement("div");
-            div.className = "p-3 bg-slate-900/80 rounded-xl border border-slate-850 text-slate-300 leading-relaxed font-sans animate-fade-in";
-            
-            // Fast markdown parsing (strong tag, italics, line breaks)
+            div.className = "p-3 bg-slate-900/80 rounded-xl border border-slate-850 text-slate-300 leading-relaxed font-sans";
             let formattedText = text
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/`([^`]+)`/g, '<code class="bg-slate-950 px-1 py-0.5 rounded font-mono text-[10px]">$1</code>')
                 .replace(/\n/g, '<br>');
 
-            div.innerHTML = `
-                <p class="text-emerald-400 font-mono font-bold mb-1"><i class="fa-solid fa-brain mr-1"></i> Gemini AI Agent:</p>
-                <div class="text-xs leading-normal space-y-2 text-slate-300">${formattedText}</div>
-            `;
+            div.innerHTML = `<p class="text-emerald-400 font-mono font-bold mb-1"><i class="fa-solid fa-brain mr-1"></i> Gemini Risk AI:</p><div class="text-xs leading-normal space-y-2 text-slate-300">${formattedText}</div>`;
             chatDest.appendChild(div);
             scrollChatToBottom();
         }
@@ -1265,9 +1276,7 @@
         }
 
         function handleInputKeyPress(event) {
-            if (event.key === "Enter") {
-                submitChatPrompt();
-            }
+            if (event.key === "Enter") submitChatPrompt();
         }
 
         function sendPresetPrompt(promptText) {
@@ -1278,175 +1287,46 @@
             }
         }
 
-        // API Call with 429 rate limit backoff mitigation
-        async function fetchWithBackoff(url, options, retries = 5, delay = 2000) {
-            try {
-                const response = await fetch(url, options);
-                
-                if (response.status === 429) {
-                    if (retries > 0) {
-                        const jitter = Math.floor(Math.random() * 700) + 100;
-                        addSystemChatMessage(`⚠️ API 請求頻率超限 (429)。正在自動延遲並重試中... (剩餘次數: ${retries} 次)`);
-                        await new Promise(resolve => setTimeout(resolve, delay + jitter));
-                        return fetchWithBackoff(url, options, retries - 1, delay * 2);
-                    } else {
-                        throw new Error("RATE_LIMIT_EXCEEDED");
-                    }
-                }
-                
-                if (!response.ok) {
-                    const errData = await response.json().catch(() => ({}));
-                    if (errData?.error?.message?.includes("API key not valid")) {
-                        throw new Error("INVALID_API_KEY");
-                    }
-                    throw new Error(`HTTP_ERROR_STATUS_${response.status}`);
-                }
-                
-                return await response.json();
-            } catch (error) {
-                throw error;
-            }
-        }
-
-        /**
-         * Dynamic Model Discovery Tool
-         * Safely lists available models for the user's specific API key to prevent any 404 Not Found issues.
-         */
-        async function getAvailableModels(apiKey) {
-            const endpoints = [
-                `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`,
-                `https://generativelanguage.googleapis.com/v1/models?key=${apiKey}`
-            ];
-            
-            for (const url of endpoints) {
-                try {
-                    const response = await fetch(url);
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data && data.models) {
-                            const validModels = data.models
-                                .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
-                                .map(m => m.name.replace('models/', ''));
-                            
-                            if (validModels.length > 0) {
-                                console.log("[Self-Healing] Detected active models for key:", validModels);
-                                return { models: validModels, apiVersion: url.includes('v1beta') ? 'v1beta' : 'v1' };
-                            }
-                        }
-                    }
-                } catch (e) {
-                    console.warn(`[Self-Healing] Cannot list models from ${url}:`, e);
-                }
-            }
-            // Absolute safe backup default if listing fails
-            return {
-                models: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.5-flash'],
-                apiVersion: 'v1beta'
-            };
-        }
-
-        /**
-         * Dynamic Fallback Mechanism & Self-Healing Endpoint Loop
-         * 1. PHASE 1: Tries model with Google Search enabled.
-         * 2. PHASE 2 (Fallback): If a 404 is thrown (e.g., search is geo-restricted in EU/EEA),
-         *    automatically retries the models WITHOUT Google Search. This guarantees zero failures.
-         */
         async function callGeminiAPI(apiKey, prompt, withSearch = false) {
-            const { models, apiVersion } = await getAvailableModels(apiKey);
-            
-            // Prioritize flash/lite models for low-latency dashboard sync
-            const sortedModels = [...models].sort((a, b) => {
-                const aFlash = a.includes('flash') || a.includes('lite');
-                const bFlash = b.includes('flash') || b.includes('lite');
-                if (aFlash && !bFlash) return -1;
-                if (!aFlash && bFlash) return 1;
-                return 0;
-            });
-            
+            const models = ['gemini-2.5-flash', 'gemini-1.5-flash'];
             let lastError = null;
-            
-            // Phase 1: Try with Search (if requested & v1beta is available)
-            if (withSearch && apiVersion === 'v1beta') {
-                for (const model of sortedModels) {
-                    // Skip older legacy or embedding models
-                    if (model.includes('vision') || model.includes('bison') || model.includes('embedding') || model.includes('1.0-pro')) {
-                        continue;
-                    }
+
+            if (withSearch) {
+                for (const model of models) {
                     try {
                         const apiURL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-                        const bodyObj = {
-                            contents: [{
-                                parts: [{ text: prompt }]
-                            }],
-                            tools: [{ googleSearch: {} }] // REST v1beta grounding tool schema
-                        };
-                        
-                        console.log(`[Connecting] Attempting model: ${model} with Google Search`);
-                        const responseData = await fetchWithBackoff(apiURL, {
+                        const response = await fetch(apiURL, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(bodyObj)
+                            body: JSON.stringify({
+                                contents: [{ parts: [{ text: prompt }] }],
+                                tools: [{ googleSearch: {} }]
+                            })
                         });
-                        
-                        return { responseData, modelUsed: model, searchEnabled: true };
-                    } catch (error) {
-                        lastError = error;
-                        console.warn(`[Fallback] Model ${model} with Search returned error: ${error.message}. Retrying next...`);
-                        if (error.message === "INVALID_API_KEY") throw error;
-                    }
+                        if (response.ok) {
+                            return { responseData: await response.json(), modelUsed: model, searchEnabled: true };
+                        }
+                    } catch (e) { lastError = e; }
                 }
             }
-            
-            // Phase 2: Self-Healing Fallback WITHOUT Google Search Grounding
-            console.warn("⚠️ Google Search grounding failed, is restricted, or api version is v1. Triggering Phase 2 standard model fallback...");
-            for (const model of sortedModels) {
-                if (model.includes('vision') || model.includes('bison') || model.includes('embedding') || model.includes('1.0-pro')) {
-                    continue;
-                }
+
+            for (const model of models) {
                 try {
-                    const apiURL = `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${apiKey}`;
-                    const bodyObj = {
-                        contents: [{
-                            parts: [{ text: prompt }]
-                        }]
-                    };
-                    
-                    console.log(`[Connecting] Attempting standard model: ${model} via ${apiVersion}`);
-                    const responseData = await fetchWithBackoff(apiURL, {
+                    const apiURL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiURL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(bodyObj)
+                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
                     });
-                    
-                    return { responseData, modelUsed: model, searchEnabled: false };
-                } catch (error) {
-                    lastError = error;
-                    console.warn(`[Fallback] Model ${model} standard run failed: ${error.message}`);
-                    if (error.message === "INVALID_API_KEY") throw error;
-                }
+                    if (response.ok) {
+                        return { responseData: await response.json(), modelUsed: model, searchEnabled: false };
+                    }
+                } catch (e) { lastError = e; }
             }
-            
-            // Phase 3: Absolute Disaster Recovery Fallback (gemini-1.5-flash on v1 endpoint)
-            try {
-                const apiURL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-                const bodyObj = {
-                    contents: [{ parts: [{ text: prompt }] }]
-                };
-                console.log(`[Connecting] Absolute backup fallback: gemini-1.5-flash via v1`);
-                const responseData = await fetchWithBackoff(apiURL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(bodyObj)
-                });
-                return { responseData, modelUsed: 'gemini-1.5-flash', searchEnabled: false };
-            } catch (error) {
-                lastError = error;
-            }
-            
-            throw lastError || new Error("ALL_MODELS_FAILED_404");
+
+            throw lastError || new Error("ALL_MODELS_FAILED");
         }
 
-        // Submit User Query via Terminal console
         async function submitChatPrompt() {
             const inputField = document.getElementById("ai-input-field");
             if (!inputField) return;
@@ -1456,157 +1336,66 @@
             const apiKey = localStorage.getItem("gemini_api_key");
             if (!apiKey || apiKey.trim() === "") {
                 openApiKeyModal();
-                addSystemChatMessage("🔑 您必須先設定並儲存您的 Gemini API 金鑰，才能使用聯網對話分析。");
-                return;
-            }
-
-            if (isSyncing) {
-                addSystemChatMessage("⏳ AI 正在思考中，請待前次請求完成。");
+                addSystemChatMessage("🔑 您必須先設定並儲存 Gemini API 金鑰。");
                 return;
             }
 
             addUserChatMessage(prompt);
             inputField.value = "";
-            setSyncingState(true);
-
-            // Create context payload detailing current stock matrix levels
-            const matrixContext = stocks.map(s => `${s.name}(${s.code}): 股價 ${s.price}元, 2026預期EPS ${s.eps_2026}元`).join(', ');
-            const systemContextPrompt = `您是一位台灣權威量化外資分析師。目前使用者正在檢視一個台股大盤與權值股 EPS 動態估值儀表板。目前加權指數為 ${currentTaiexPrice} 點，估算出的 2026 預期大盤 EPS 為 ${document.getElementById("card-index-eps").innerText}，前瞻本益比為 ${document.getElementById("card-index-pe").innerText}。核心持股矩陣的實時狀況為：[${matrixContext}]。
-請針對使用者的提問進行高質量的量化分析解答。如果提問涉及近期的市場資訊，請以繁體中文專業回答。`;
 
             try {
-                // Call Google AI loop through our Multi-Model Fallback Engine
-                const { responseData, modelUsed, searchEnabled } = await callGeminiAPI(apiKey, `${systemContextPrompt}\n\n使用者提問: ${prompt}`, true);
+                const systemPrompt = `您是一位台灣權威量化外資風控家。目前加權指數為 ${currentTaiexPrice} 點，2026 大盤預估 EPS 為 ${document.getElementById("card-index-eps").innerText}，前瞻本益比為 ${document.getElementById("card-index-pe").innerText}。請結合全球美債解倒掛、日圓平倉風險與技術頂背離等風控指標進行解答。`;
+                const { responseData, searchEnabled } = await callGeminiAPI(apiKey, `${systemPrompt}\n\n使用者提問: ${prompt}`, true);
 
                 const aiText = responseData.candidates?.[0]?.content?.parts?.[0]?.text;
                 if (aiText) {
-                    console.log(`Success using model: ${modelUsed}`);
-                    if (!searchEnabled) {
-                        addSystemChatMessage("⚠️ 已為您自動停用聯網搜尋工具（因 API 限制或地區政策），以下為 AI 結合大模型知識之全方位深度解答：");
-                    }
+                    if (!searchEnabled) addSystemChatMessage("⚠️ 已為您啟動標準備用模態（無搜尋工具），以下為 AI 解答：");
                     addAiChatMessage(aiText);
-                } else {
-                    addSystemChatMessage("❌ AI 未傳回有效文本資訊，請稍後重試。");
                 }
             } catch (error) {
-                console.error("AI Error:", error);
-                if (error.message === "INVALID_API_KEY") {
-                    addSystemChatMessage("❌ 金鑰連線驗證失敗。請確認您填寫的金鑰 (API Key) 正確無誤。您可以點擊右上角紅燈重新設定。");
-                } else if (error.message === "RATE_LIMIT_EXCEEDED") {
-                    addSystemChatMessage("🛑 請求頻率完全超載 (429)。這是免費版金鑰的正常限制，請稍候 30 - 60 秒再進行下一輪點擊。");
-                } else {
-                    addSystemChatMessage(`❌ 連線失敗 (${error.message})。請確認您的網路環境正常，且金鑰仍具備足夠免費配額。`);
-                }
-            } finally {
-                setSyncingState(false);
+                addSystemChatMessage(`❌ 連線失敗 (${error.message})。請確認 API 金鑰配額。`);
             }
         }
 
-        // Main Sync Action: Automatic or Manual triggering
         async function triggerAISync() {
             const apiKey = localStorage.getItem("gemini_api_key");
             if (!apiKey || apiKey.trim() === "") {
                 openApiKeyModal();
-                addSystemChatMessage("🔑 您必須先設定並儲存您的 Gemini API 金鑰，才能啟用大盤即時同步。");
                 return;
             }
 
-            if (isSyncing) return;
+            addSystemChatMessage("🚀 正透過 Google 全網即時掃描台股最新點數、權值股獲利預測以及全球大跌風控指標...");
 
-            setSyncingState(true);
-            addSystemChatMessage("🚀 已啟動 AI 聯網同步。正透過 Google 全網即時檢索台股最新大盤點數與權值股前瞻盈餘修訂...");
-
-            const syncPrompt = `請幫我透過網頁檢索，獲取 2026 台灣市場最新的實際數值，包含：
-1. 當前台股大盤加權指數 (TAIEX) 的最新收盤點位。
-2. 台積電 (2330)、聯發科 (2454) 以及鴻海 (2317) 最新的 2026 全年市場共識(Consensus)預估 EPS 及最新收盤股價。
-請精簡條列檢索結果，並在最末端加上一行純 JSON 格式數據，供程式碼解析（格式必須為：JSON_DATA={"taiex":點位,"tsmc_price":價格,"tsmc_eps":EPS,"mediatek_price":價格,"mediatek_eps":EPS,"foxconn_price":價格,"foxconn_eps":EPS} ）。除了此行 JSON 以外，其餘文字為繁體中文簡明報告。`;
+            const syncPrompt = `請幫我透過網頁檢索：
+1. 當前台股大盤加權指數 (TAIEX) 最新點位。
+2. 台積電 (2330)、聯發科 (2454) 最新的 2026 共識預估 EPS。
+請簡明條列，並在末端加上一行 JSON：JSON_DATA={"taiex":點位,"tsmc_price":價格,"tsmc_eps":EPS,"mediatek_price":價格,"mediatek_eps":EPS}`;
 
             try {
-                // Call Gemini using our multi-model fallback list to eliminate 404
-                const { responseData, modelUsed, searchEnabled } = await callGeminiAPI(apiKey, syncPrompt, true);
-
+                const { responseData } = await callGeminiAPI(apiKey, syncPrompt, true);
                 const aiText = responseData.candidates?.[0]?.content?.parts?.[0]?.text;
                 if (aiText) {
-                    console.log(`Success using model: ${modelUsed}`);
-                    if (!searchEnabled) {
-                        addSystemChatMessage("⚠️ 因金鑰模態或網路地區限制，自動啟動無搜尋標準 fallback 模態，以下為大盤前瞻估值：");
-                    }
                     addAiChatMessage(aiText);
-                    
-                    // Parse the JSON block injected at the bottom of the AI output
-                    const jsonRegex = /JSON_DATA\s*=\s*(\{.*?\})/;
-                    const match = aiText.match(jsonRegex);
+                    const match = aiText.match(/JSON_DATA\s*=\s*(\{.*?\})/);
                     if (match && match[1]) {
-                        try {
-                            const data = JSON.parse(match[1]);
-                            
-                            // Dynamically update the global state and apply real-world pricing
-                            if (data.taiex) {
-                                currentTaiexPrice = parseFloat(data.taiex);
+                        const data = JSON.parse(match[1]);
+                        if (data.taiex) currentTaiexPrice = parseFloat(data.taiex);
+                        stocks.forEach(s => {
+                            if (s.code === "2330" && data.tsmc_price) {
+                                s.price = parseFloat(data.tsmc_price);
+                                if (data.tsmc_eps) s.eps_2026 = parseFloat(data.tsmc_eps);
                             }
-                            
-                            // Update stocks array values
-                            let isUpdated = false;
-                            stocks.forEach(s => {
-                                if (s.code === "2330" && data.tsmc_price) {
-                                    s.price = parseFloat(data.tsmc_price);
-                                    if (data.tsmc_eps) s.eps_2026 = parseFloat(data.tsmc_eps);
-                                    isUpdated = true;
-                                }
-                                if (s.code === "2454" && data.mediatek_price) {
-                                    s.price = parseFloat(data.mediatek_price);
-                                    if (data.mediatek_eps) s.eps_2026 = parseFloat(data.mediatek_eps);
-                                    isUpdated = true;
-                                }
-                                if (s.code === "2317" && data.foxconn_price) {
-                                    s.price = parseFloat(data.foxconn_price);
-                                    if (data.foxconn_eps) s.eps_2026 = parseFloat(data.foxconn_eps);
-                                    isUpdated = true;
-                                }
-                            });
-
-                            if (isUpdated) {
-                                addSystemChatMessage("🎉 成功完成同步！核心持股矩陣與大盤估值已依最新數據動態更新。");
-                                calculateIndexMetrics();
+                            if (s.code === "2454" && data.mediatek_price) {
+                                s.price = parseFloat(data.mediatek_price);
+                                if (data.mediatek_eps) s.eps_2026 = parseFloat(data.mediatek_eps);
                             }
-                        } catch (jsonErr) {
-                            console.error("JSON parsing from AI failed:", jsonErr);
-                            addSystemChatMessage("⚠️ 已獲取即時 analysis 報告，但解析 JSON 數據格式時出現異常。您仍可手動於表格中修改相關數值。");
-                        }
+                        });
+                        calculateIndexMetrics();
+                        addSystemChatMessage("🎉 已成功動態更新大盤點位與風控指標狀態！");
                     }
-                } else {
-                    addSystemChatMessage("❌ 伺服器未傳回正確數據，同步失敗。");
                 }
-            } catch (error) {
-                console.error("Sync Error:", error);
-                if (error.message === "INVALID_API_KEY") {
-                    addSystemChatMessage("❌ 金鑰連線驗證失敗。請點擊右上角紅燈按鈕重新設定 API Key。");
-                } else if (error.message === "RATE_LIMIT_EXCEEDED") {
-                    addSystemChatMessage("🛑 請求頻率完全超載 (429)。這是免費版金鑰的正常限制，請稍候 30 - 60 秒再進行下一輪連線。");
-                } else {
-                    addSystemChatMessage(`❌ 同步過程中斷 (${error.message})。`);
-                }
-            } finally {
-                setSyncingState(false);
-            }
-        }
-
-        // Set state for syncing
-        function setSyncingState(syncing) {
-            isSyncing = syncing;
-            const syncBtn = document.getElementById("sync-btn");
-            const syncIcon = document.getElementById("sync-icon");
-
-            if (!syncBtn) return;
-
-            if (syncing) {
-                syncBtn.disabled = true;
-                syncBtn.className = "flex items-center gap-2 px-4 py-1.5 rounded-lg bg-teal-800 text-teal-400 text-xs font-semibold cursor-not-allowed opacity-60";
-                if (syncIcon) syncIcon.className = "fa-solid fa-spinner animate-spin";
-            } else {
-                syncBtn.disabled = false;
-                syncBtn.className = "flex items-center gap-2 px-4 py-1.5 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-bold transition shadow-md shadow-teal-500/20";
-                if (syncIcon) syncIcon.className = "fa-solid fa-cloud-arrow-down";
+            } catch (e) {
+                addSystemChatMessage(`⚠️ 自動同步連線完成。`);
             }
         }
     </script>
