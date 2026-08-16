@@ -143,13 +143,16 @@
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             
             <div class="lg:col-span-3 space-y-6">
-                <!-- Navigation Tabs (2 Active Tabs) -->
+                <!-- Navigation Tabs (3 Active Tabs) -->
                 <div class="flex overflow-x-auto gap-2 border-b border-slate-800 pb-px no-scrollbar">
                     <button onclick="switchTab('river-tab')" id="tab-btn-river-tab" class="px-5 py-3 text-sm font-semibold border-b-2 border-teal-400 text-teal-400 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
                         <i class="fa-solid fa-chart-line"></i>本益比歷史走勢分析
                     </button>
                     <button onclick="switchTab('risk-tab')" id="tab-btn-risk-tab" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
                         <i class="fa-solid fa-radar text-rose-400"></i>全球大跌前兆風控雷達
+                    </button>
+                    <button onclick="switchTab('heatmap-tab')" id="tab-btn-heatmap-tab" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
+                        <i class="fa-solid fa-fire-flame-curved text-amber-400"></i>全球股市熱力圖
                     </button>
                 </div>
 
@@ -170,7 +173,7 @@
                     </div>
                 </div>
 
-                <!-- Tab 2: Global Crash Warning Risk Radar Tab (Single-Column Full-Width Charts) -->
+                <!-- Tab 2: Global Crash Warning Risk Radar Tab -->
                 <div id="risk-tab" class="tab-content hidden space-y-6">
                     
                     <!-- Top Strategy Advice Banner -->
@@ -407,6 +410,47 @@
 
                 </div>
 
+                <!-- Tab 3: Global Stock Market Heatmaps Tab -->
+                <div id="heatmap-tab" class="tab-content hidden space-y-6">
+                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-4">
+                            <div>
+                                <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                                    <i class="fa-solid fa-fire-flame-curved text-amber-400"></i> 全球主要股市與 ETF 動態熱力圖 (TradingView Live Heatmaps)
+                                </h4>
+                                <p class="text-xs text-slate-400 mt-1">依據市值規模與當日漲跌變化即時呈顯板塊熱力分佈，支援滑鼠滾輪縮放與懸停細節資訊。</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <a id="heatmap-external-link" href="https://tw.tradingview.com/heatmap/stock/#%7B%22dataSource%22%3A%22SPX500%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22grouping%22%3A%22sector%22%7D" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:bg-slate-800 text-xs text-amber-400 font-semibold transition flex items-center gap-1.5 shrink-0">
+                                    <span>原廠熱力圖</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Heatmap Sub-tab Selector Buttons -->
+                        <div class="flex overflow-x-auto gap-2 py-1 no-scrollbar border-b border-slate-800/60">
+                            <button onclick="loadHeatmapWidget('sp500')" id="heatmap-btn-sp500" class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-slate-950 shadow-md transition flex items-center gap-1.5 whitespace-nowrap">
+                                🇺🇸 S&P 500 熱力圖
+                            </button>
+                            <button onclick="loadHeatmapWidget('nasdaq100')" id="heatmap-btn-nasdaq100" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 transition flex items-center gap-1.5 whitespace-nowrap">
+                                🚀 Nasdaq 100 熱力圖
+                            </button>
+                            <button onclick="loadHeatmapWidget('etf')" id="heatmap-btn-etf" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 transition flex items-center gap-1.5 whitespace-nowrap">
+                                📊 美股 ETF 熱力圖
+                            </button>
+                            <button onclick="loadHeatmapWidget('taiwan')" id="heatmap-btn-taiwan" class="px-4 py-2 rounded-xl text-xs font-medium bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 transition flex items-center gap-1.5 whitespace-nowrap">
+                                🇹🇼 台灣股市熱力圖
+                            </button>
+                        </div>
+
+                        <!-- Dynamic TradingView Widget Container -->
+                        <div id="tradingview-heatmap-container" class="relative w-full h-[620px] rounded-xl overflow-hidden bg-slate-950/80 border border-slate-800/80">
+                            <!-- Injected by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Right Sidebar: Gemini Risk Copilot Console -->
@@ -427,7 +471,7 @@
                         <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800/50">
                             <p class="text-teal-400 font-bold mb-1">💡 風控系統精靈:</p>
                             <p class="text-slate-300 leading-relaxed">
-                                已全面為您開啟 **「31 個月月線本益比走勢」** 與 **「展開式單欄 24 個月風控趨勢圖」**！包含獨立紅色風險區域標註，協助您即時掌看全域動態。
+                                已為您新增 **「全球股市熱力圖」** 分頁！包含 S&P 500、Nasdaq 100、美股 ETF 以及台灣股市動態熱力圖，協助您直觀掌看國際板塊資金流向。
                             </p>
                         </div>
                         <div id="chat-stream-destination"></div>
@@ -549,6 +593,7 @@
 
         let peTrendChartInstance = null;
         let indicatorChartInstances = {};
+        let currentHeatmapType = 'sp500';
 
         window.onload = function() {
             initApp();
@@ -715,7 +760,7 @@
             renderPETrendChart(indexPE2026);
         }
 
-        // Global Tab Switcher Function bound explicitly to window
+        // Global Tab Switcher Function
         window.switchTab = function(tabId) {
             document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
             document.querySelectorAll("[id^='tab-btn-']").forEach(el => {
@@ -732,15 +777,122 @@
                 targetBtn.classList.remove("border-transparent", "text-slate-400", "font-medium");
             }
 
-            // Render charts AFTER the tab container becomes visible in DOM
+            // Render charts or load widgets after the tab container becomes visible
             setTimeout(() => {
                 if (tabId === "river-tab") {
                     calculateIndexMetrics();
                 } else if (tabId === "risk-tab") {
                     renderAllIndicatorCharts();
+                } else if (tabId === "heatmap-tab") {
+                    loadHeatmapWidget(currentHeatmapType);
                 }
             }, 60);
         };
+
+        function loadHeatmapWidget(type) {
+            currentHeatmapType = type;
+
+            const urlMap = {
+                'sp500': 'https://tw.tradingview.com/heatmap/stock/#%7B%22dataSource%22%3A%22SPX500%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22grouping%22%3A%22sector%22%7D',
+                'nasdaq100': 'https://tw.tradingview.com/heatmap/stock/#%7B%22dataSource%22%3A%22NASDAQ100%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22grouping%22%3A%22sector%22%7D',
+                'etf': 'https://tw.tradingview.com/heatmap/etf/#%7B%22dataSource%22%3A%22AllUSEtf%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22aum%22%2C%22grouping%22%3A%22asset_class%22%7D',
+                'taiwan': 'https://tw.tradingview.com/heatmap/stock/#%7B%22dataSource%22%3A%22AllTW%22%2C%22blockColor%22%3A%22change%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22grouping%22%3A%22sector%22%7D'
+            };
+
+            const linkEl = document.getElementById("heatmap-external-link");
+            if (linkEl && urlMap[type]) {
+                linkEl.href = urlMap[type];
+            }
+
+            ['sp500', 'nasdaq100', 'etf', 'taiwan'].forEach(t => {
+                const btn = document.getElementById(`heatmap-btn-${t}`);
+                if (btn) {
+                    if (t === type) {
+                        btn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-slate-950 shadow-md transition flex items-center gap-1.5 whitespace-nowrap";
+                    } else {
+                        btn.className = "px-4 py-2 rounded-xl text-xs font-medium bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 transition flex items-center gap-1.5 whitespace-nowrap";
+                    }
+                }
+            });
+
+            const container = document.getElementById("tradingview-heatmap-container");
+            if (!container) return;
+            container.innerHTML = ""; // Clear previous script & widget DOM
+
+            const scriptSrc = (type === 'etf')
+                ? "https://s3.tradingview.com/external-embedding/embed-widget-etf-heatmap.js"
+                : "https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js";
+
+            let widgetConfig = {};
+            if (type === 'etf') {
+                widgetConfig = {
+                    "dataSource": "AllUSEtf",
+                    "blockSize": "aum",
+                    "blockColor": "change",
+                    "grouping": "asset_class",
+                    "locale": "zh_TW",
+                    "symbolUrl": "",
+                    "colorTheme": "dark",
+                    "hasTopBar": true,
+                    "isDataSetEnabled": true,
+                    "isZoomEnabled": true,
+                    "hasSymbolTooltip": true,
+                    "isMonoSize": false,
+                    "width": "100%",
+                    "height": "100%"
+                };
+            } else {
+                const dataSourceMap = {
+                    'sp500': 'SPX500',
+                    'nasdaq100': 'NASDAQ100',
+                    'taiwan': 'AllTW'
+                };
+                widgetConfig = {
+                    "exchanges": [],
+                    "dataSource": dataSourceMap[type] || 'SPX500',
+                    "grouping": "sector",
+                    "blockSize": "market_cap_basic",
+                    "blockColor": "change",
+                    "locale": "zh_TW",
+                    "symbolUrl": "",
+                    "colorTheme": "dark",
+                    "hasTopBar": true,
+                    "isDataSetEnabled": true,
+                    "isZoomEnabled": true,
+                    "hasSymbolTooltip": true,
+                    "isMonoSize": false,
+                    "width": "100%",
+                    "height": "100%"
+                };
+            }
+
+            const iframe = document.createElement("iframe");
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            iframe.style.border = "none";
+            iframe.setAttribute("sandbox", "allow-scripts allow-same-origin allow-popups");
+
+            const iframeContent = `<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #030712; }
+  .tradingview-widget-container { width: 100%; height: 100%; }
+</style>
+</head>
+<body>
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget" style="width:100%;height:100%;"></div>
+  <script type="text/javascript" src="${scriptSrc}" async>
+  ${JSON.stringify(widgetConfig)}
+  <\/script>
+</div>
+</body>
+</html>`;
+
+            iframe.srcdoc = iframeContent;
+            container.appendChild(iframe);
+        }
 
         const dangerZonePlugin = {
             id: 'dangerZone',
@@ -927,21 +1079,18 @@
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             
-            // 31-Month Monthly Labels (2024/01 ~ 2026/07)
             const monthlyLabels = [
                 '24/01', '24/02', '24/03', '24/04', '24/05', '24/06', '24/07', '24/08', '24/09', '24/10', '24/11', '24/12',
                 '25/01', '25/02', '25/03', '25/04', '25/05', '25/06', '25/07', '25/08', '25/09', '25/10', '25/11', '25/12',
                 '26/01', '26/02', '26/03', '26/04', '26/05', '26/06', '26/07(當前)'
             ];
 
-            // 31-Month Monthly Forward PE History
             const monthlyPEHistory = [
                 21.8, 22.1, 22.8, 21.5, 21.0, 21.8, 20.8, 20.2, 20.5, 21.2, 20.3, 21.0,
                 20.2, 19.8, 19.5, 18.2, 18.6, 19.2, 20.1, 20.8, 21.0, 21.5, 22.0, 22.8,
                 24.1, 25.0, 26.2, 27.0, 27.5, 28.5, parseFloat(currentPE.toFixed(2))
             ];
 
-            // 31-Month Monthly TAIEX Closing Points
             const monthlyTaiexHistory = [
                 17992, 18935, 20294, 20330, 21174, 23032, 22119, 22244, 22268, 22820, 22266, 23035,
                 23545, 23660, 24450, 22905, 24120, 25210, 26450, 27120, 28110, 29210, 30450, 31850,
