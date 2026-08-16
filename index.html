@@ -47,7 +47,6 @@
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col pb-12">
 
-    <!-- STREAMING_CHUNK:Rendering navigation header... -->
     <!-- Navigation & Branding Header -->
     <header class="border-b border-slate-800/80 bg-slate-950/60 sticky top-0 z-30 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
@@ -77,7 +76,6 @@
         </div>
     </header>
 
-    <!-- STREAMING_CHUNK:Rendering core top KPI metrics... -->
     <!-- Core Market Metrics Summary Cards (5 Cards) -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 flex-grow w-full space-y-6">
         
@@ -145,23 +143,16 @@
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             
             <div class="lg:col-span-3 space-y-6">
-                <!-- Navigation Tabs (4 Tabs) -->
+                <!-- Navigation Tabs (2 Active Tabs) -->
                 <div class="flex overflow-x-auto gap-2 border-b border-slate-800 pb-px no-scrollbar">
                     <button onclick="switchTab('river-tab')" id="tab-btn-river-tab" class="px-5 py-3 text-sm font-semibold border-b-2 border-teal-400 text-teal-400 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
-                        <i class="fa-solid fa-water"></i>本益比河流與走勢分析
+                        <i class="fa-solid fa-chart-line"></i>本益比歷史走勢分析
                     </button>
                     <button onclick="switchTab('risk-tab')" id="tab-btn-risk-tab" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
                         <i class="fa-solid fa-radar text-rose-400"></i>全球大跌前兆風控雷達
                     </button>
-                    <button onclick="switchTab('table-tab')" id="tab-btn-table-tab" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
-                        <i class="fa-solid fa-list-ol"></i>50大權值股 EPS 核心矩陣
-                    </button>
-                    <button onclick="switchTab('sandbox-tab')" id="tab-btn-sandbox-tab" class="px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
-                        <i class="fa-solid fa-sliders"></i>產業盈餘成長模擬沙盒
-                    </button>
                 </div>
 
-                <!-- STREAMING_CHUNK:Rendering Tab 1 (PE Charts)... -->
                 <!-- Tab 1: PE Evaluation Charts -->
                 <div id="river-tab" class="tab-content space-y-6">
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
@@ -173,28 +164,13 @@
                                 <p class="text-xs text-slate-400 mt-1">追蹤台股自 2024 年以來前瞻本益比（左軸，Teal實線）與加權指數實際每週收盤（右軸，Indigo虛線）。</p>
                             </div>
                         </div>
-                        <div class="relative w-full h-[350px]">
+                        <div class="relative w-full h-[380px]">
                             <canvas id="peTrendChart"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                            <div>
-                                <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
-                                    <i class="fa-solid fa-water text-blue-400"></i>本益比河流圖 (PE Bands / River Chart)
-                                </h4>
-                                <p class="text-xs text-slate-400 mt-1">追蹤加權指數實際歷史走勢相對於不同本益比常態帶（18x - 34x）的估值高低。</p>
-                            </div>
-                        </div>
-                        <div class="relative w-full h-[350px]">
-                            <canvas id="peRiverChart"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <!-- STREAMING_CHUNK:Rendering Tab 2 (Expanded Risk Radar Cards)... -->
-                <!-- Tab 2: Global Crash Warning Risk Radar Tab (Expanded Inline Charts) -->
+                <!-- Tab 2: Global Crash Warning Risk Radar Tab (Single-Column Full-Width Charts) -->
                 <div id="risk-tab" class="tab-content hidden space-y-6">
                     
                     <!-- Top Strategy Advice Banner -->
@@ -207,7 +183,7 @@
                                 當宏觀解倒掛、日圓平倉潮與技術面頂背離<strong class="text-rose-400">同時共振觸發 3 個以上警訊</strong>時，市場踩踏大跌機率極高。
                             </p>
                         </div>
-                        <div class="flex items-center gap-3 bg-slate-900/80 border border-slate-800 p-3 rounded-xl">
+                        <div class="flex items-center gap-3 bg-slate-900/80 border border-slate-800 p-3 rounded-xl shrink-0">
                             <span class="text-xs text-slate-400">當前建議資產配置:</span>
                             <span id="risk-recommended-cash" class="text-xs font-bold text-amber-400 font-mono">現金 30% / 股票 70%</span>
                         </div>
@@ -219,9 +195,9 @@
                             <i class="fa-solid fa-globe text-teal-400"></i> 一、 宏觀經濟與資金流動指標 (Macro & Liquidity)
                         </h4>
                         
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 gap-6">
                             <!-- Indicator Card 1 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -236,13 +212,13 @@
                                         10Y-2Y 長短天期公債殖利率結束長期倒掛快速轉正（> 0%），通常預告經濟衰退與資金拋售風險。
                                     </p>
                                 </div>
-                                <div class="relative w-full h-[180px] pt-2">
+                                <div class="relative w-full h-[220px] pt-2">
                                     <canvas id="chart-yield_spread"></canvas>
                                 </div>
                             </div>
 
                             <!-- Indicator Card 2 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -257,13 +233,13 @@
                                         失業率 3 個月均值較近一年低點高出 0.5%，準確度極高的美國經濟硬著陸警訊。
                                     </p>
                                 </div>
-                                <div class="relative w-full h-[180px] pt-2">
+                                <div class="relative w-full h-[220px] pt-2">
                                     <canvas id="chart-sahm"></canvas>
                                 </div>
                             </div>
 
                             <!-- Indicator Card 3 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -278,13 +254,13 @@
                                         日圓急速升值（升破 145/140）逼使跨國槓桿資金拋售台股半導體與美股科技股以平倉還債。
                                     </p>
                                 </div>
-                                <div class="relative w-full h-[180px] pt-2">
+                                <div class="relative w-full h-[220px] pt-2">
                                     <canvas id="chart-usdjpy"></canvas>
                                 </div>
                             </div>
 
                             <!-- Indicator Card 4 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -299,7 +275,7 @@
                                         股市總市值/GDP 超過歷史常態 +2σ（> 200%），市場容錯率極低，微小利空即誘發修正。
                                     </p>
                                 </div>
-                                <div class="relative w-full h-[180px] pt-2">
+                                <div class="relative w-full h-[220px] pt-2">
                                     <canvas id="chart-buffett_indicator"></canvas>
                                 </div>
                             </div>
@@ -312,9 +288,9 @@
                             <i class="fa-solid fa-users text-indigo-400"></i> 二、 市場結構與情緒槓桿指標 (Structure & Sentiment)
                         </h4>
                         
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 gap-6">
                             <!-- Indicator Card 5 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -329,13 +305,13 @@
                                         指數創高但超過半數個股已步入空頭（< 50%），僅靠台積電等少數權值股獨撐大局。
                                     </p>
                                 </div>
-                                <div class="relative w-full h-[180px] pt-2">
+                                <div class="relative w-full h-[220px] pt-2">
                                     <canvas id="chart-breadth_divergence"></canvas>
                                 </div>
                             </div>
 
                             <!-- Indicator Card 6 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -350,13 +326,13 @@
                                         指數創高同時 VIX 不跌反升，代表 Smart Money 在高位大量買入 Put 期權避險。
                                     </p>
                                 </div>
-                                <div class="relative w-full h-[180px] pt-2">
+                                <div class="relative w-full h-[220px] pt-2">
                                     <canvas id="chart-vix"></canvas>
                                 </div>
                             </div>
 
                             <!-- Indicator Card 7 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between lg:col-span-2">
+                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -371,7 +347,7 @@
                                         散戶追高 Call 與融資餘額突破 3,500 億高檔，過度積累的槓桿使得指數拉回時極易爆發斷頭踩踏。
                                     </p>
                                 </div>
-                                <div class="relative w-full h-[180px] pt-2">
+                                <div class="relative w-full h-[220px] pt-2">
                                     <canvas id="chart-margin_leverage"></canvas>
                                 </div>
                             </div>
@@ -384,9 +360,9 @@
                             <i class="fa-solid fa-chart-line text-rose-400"></i> 三、 技術面預警訊號 (Technical Warnings)
                         </h4>
                         
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 gap-6">
                             <!-- Indicator Card 8 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -401,13 +377,13 @@
                                         指數點位刷新歷史新高，但動能指標高點一波比一波低，上漲內部動能衰竭。
                                     </p>
                                 </div>
-                                <div class="relative w-full h-[180px] pt-2">
+                                <div class="relative w-full h-[220px] pt-2">
                                     <canvas id="chart-rsi_divergence"></canvas>
                                 </div>
                             </div>
 
                             <!-- Indicator Card 9 -->
-                            <div class="p-4 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                            <div class="p-5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
                                 <div>
                                     <div class="flex justify-between items-start gap-2 border-b border-slate-800/80 pb-2.5">
                                         <div>
@@ -422,7 +398,7 @@
                                         指數嚴重偏離 200 日均線（年線）超過 18%~20%，像拉緊的橡皮筋易誘發均線回歸修復。
                                     </p>
                                 </div>
-                                <div class="relative w-full h-[180px] pt-2">
+                                <div class="relative w-full h-[220px] pt-2">
                                     <canvas id="chart-taiex_bias"></canvas>
                                 </div>
                             </div>
@@ -431,123 +407,8 @@
 
                 </div>
 
-                <!-- STREAMING_CHUNK:Rendering Tab 3 (Stock Table)... -->
-                <!-- Tab 3: Interactive Stock Matrix -->
-                <div id="table-tab" class="tab-content hidden space-y-4">
-                    <div class="glassmorphism rounded-2xl border border-slate-800/80 overflow-hidden">
-                        <div class="p-5 border-b border-slate-800/80 bg-slate-950/40 flex justify-between items-center flex-wrap gap-4">
-                            <div>
-                                <h3 class="text-base font-bold text-slate-100">權值成分股估值明細矩陣</h3>
-                                <p class="text-xs text-slate-400 mt-1">點擊並修改任何「股價」或「預期 EPS」，系統會動態重新計算大盤點數與整體 EPS。</p>
-                            </div>
-                        </div>
-
-                        <div class="overflow-x-auto custom-scrollbar max-h-[600px]">
-                            <table class="w-full text-left border-collapse">
-                                <thead class="bg-slate-950/80 text-xs font-semibold text-slate-400 uppercase tracking-wider sticky top-0 z-10">
-                                    <tr>
-                                        <th class="py-4 px-5 border-b border-slate-800">代號 / 名稱</th>
-                                        <th class="py-4 px-3 border-b border-slate-800 text-right">權重 %</th>
-                                        <th class="py-4 px-3 border-b border-slate-800 text-right">即時股價 (元)</th>
-                                        <th class="py-4 px-3 border-b border-slate-800 text-right">2025 EPS</th>
-                                        <th class="py-4 px-3 border-b border-slate-800 text-right bg-slate-900/40">2026 EPS (估)</th>
-                                        <th class="py-4 px-3 border-b border-slate-800 text-right">2027 EPS</th>
-                                        <th class="py-4 px-3 border-b border-slate-800 text-right">2026 本益比</th>
-                                        <th class="py-4 px-5 border-b border-slate-800 text-center">產業分類</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="stock-table-body" class="divide-y divide-slate-850 text-sm text-slate-300">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- STREAMING_CHUNK:Rendering Tab 4 (Sandbox)... -->
-                <!-- Tab 4: Scenario Simulator Sandbox -->
-                <div id="sandbox-tab" class="tab-content hidden space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="md:col-span-2 glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-6">
-                            <div>
-                                <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
-                                    <i class="fa-solid fa-sliders text-teal-400"></i>四大範疇 2026 盈餘年成長率預測 (YoY)
-                                </h4>
-                                <p class="text-xs text-slate-400 mt-1">拉動拉桿調整未來各板塊獲利增幅，直接觀察對大盤 EPS 產生的壓力與推升效應。</p>
-                            </div>
-
-                            <div class="space-y-2">
-                                <div class="flex justify-between items-center text-sm">
-                                    <span class="flex items-center gap-1.5 font-medium text-slate-300">
-                                        <span class="w-2.5 h-2.5 rounded-full bg-teal-400"></span> 半導體板塊 (覆蓋 34.50%)
-                                    </span>
-                                    <span id="slider-val-semi" class="font-semibold text-teal-400 font-mono">+60%</span>
-                                </div>
-                                <input type="range" id="slider-semi" min="-50" max="150" value="60" oninput="updateSandboxGrowth('semi', this.value)" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-400">
-                            </div>
-
-                            <div class="space-y-2">
-                                <div class="flex justify-between items-center text-sm">
-                                    <span class="flex items-center gap-1.5 font-medium text-slate-300">
-                                        <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span> 其他電子科技 (覆蓋 16.50%)
-                                    </span>
-                                    <span id="slider-val-electronics" class="font-semibold text-blue-400 font-mono">+35%</span>
-                                </div>
-                                <input type="range" id="slider-electronics" min="-50" max="120" value="35" oninput="updateSandboxGrowth('electronics', this.value)" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-400">
-                            </div>
-
-                            <div class="space-y-2">
-                                <div class="flex justify-between items-center text-sm">
-                                    <span class="flex items-center gap-1.5 font-medium text-slate-300">
-                                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> 金融保險板塊 (覆蓋 10.10%)
-                                    </span>
-                                    <span id="slider-val-finance" class="font-semibold text-amber-400 font-mono">+25%</span>
-                                </div>
-                                <input type="range" id="slider-finance" min="-40" max="80" value="25" oninput="updateSandboxGrowth('finance', this.value)" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400">
-                            </div>
-
-                            <div class="space-y-2">
-                                <div class="flex justify-between items-center text-sm">
-                                    <span class="flex items-center gap-1.5 font-medium text-slate-300">
-                                        <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span> 傳產航運重工 (覆蓋 10.64%)
-                                    </span>
-                                    <span id="slider-val-traditional" class="font-semibold text-slate-400 font-mono">+12%</span>
-                                </div>
-                                <input type="range" id="slider-traditional" min="-50" max="80" value="12" oninput="updateSandboxGrowth('traditional', this.value)" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-slate-400">
-                            </div>
-                        </div>
-
-                        <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 flex flex-col justify-between space-y-6">
-                            <div>
-                                <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
-                                    <i class="fa-solid fa-compass text-indigo-400"></i>模擬大盤目標點預估
-                                </h4>
-                                <p class="text-xs text-slate-400 mt-1">推估在設定之板塊增幅與目標 PE 下的大盤點位。</p>
-                            </div>
-
-                            <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl text-center">
-                                <p class="text-xs text-slate-400">動態計算後大盤 EPS</p>
-                                <h3 id="sim-index-eps" class="text-3xl font-extrabold text-teal-400 mt-1 font-mono">1,682.45 元</h3>
-                            </div>
-
-                            <div class="space-y-2">
-                                <div class="flex justify-between items-center text-sm">
-                                    <span class="font-medium text-slate-300">設定合理目標 PE 乘數</span>
-                                    <span id="sim-pe-multiplier-val" class="font-semibold text-indigo-400 font-mono">25.0 x</span>
-                                </div>
-                                <input type="range" id="sim-pe-multiplier" min="15" max="35" step="0.5" value="25.0" oninput="updateSandboxPE(this.value)" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-400">
-                            </div>
-
-                            <div class="bg-gradient-to-r from-teal-950/30 to-indigo-950/30 border border-indigo-500/20 p-4 rounded-xl text-center">
-                                <p class="text-xs text-slate-400 uppercase tracking-wide">預期大盤加權目標點位</p>
-                                <h3 id="sim-target-index" class="text-3xl font-extrabold text-indigo-300 mt-1 font-mono">42,061 點</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-            <!-- STREAMING_CHUNK:Rendering AI Terminal Sidebar... -->
             <!-- Right Sidebar: Gemini Risk Copilot Console -->
             <div class="lg:col-span-1 space-y-6">
                 
@@ -636,7 +497,6 @@
         </div>
     </div>
 
-    <!-- STREAMING_CHUNK:Initializing JavaScript Engine and Chart Rendering... -->
     <script>
         const originalStocks = [
             { code: "2330", name: "台積電", weight: 34.50, price: 1420, eps_2025: 55.00, eps_2026: 68.00, eps_2027: 80.00, sector: "semi" },
@@ -674,7 +534,7 @@
         let stocks = JSON.parse(JSON.stringify(originalStocks));
         let currentTaiexPrice = 46780;
 
-        // Dynamic Read-Only Risk State
+        // Dynamic Risk Indicator State
         let riskIndicatorState = {
             yield_uninversion: 1, // 0: green, 1: yellow, 2: red
             sahm_rule: 0,
@@ -687,7 +547,6 @@
             extreme_bias: 2
         };
 
-        let peRiverChartInstance = null;
         let peTrendChartInstance = null;
         let indicatorChartInstances = {};
 
@@ -703,6 +562,30 @@
             33120, 33450, 33200, 33900, 34210, 34650, 35120, 34990, 35560, 36120, 36800, 37550, 38100,
             39200, 40150, 41220, 42100, 43450, 44210, 45110, 45900, 46800, 47741, 47120, 46780
         ];
+
+        // Explicit Global Attachment for Tab Switching
+        window.switchTab = function switchTab(tabId) {
+            document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
+            document.querySelectorAll("[id^='tab-btn-']").forEach(el => {
+                el.classList.remove("border-teal-400", "text-teal-400", "font-semibold");
+                el.classList.add("border-transparent", "text-slate-400", "hover:text-slate-200", "font-medium");
+            });
+
+            const targetTab = document.getElementById(tabId);
+            const targetBtn = document.getElementById(`tab-btn-${tabId}`);
+            
+            if (targetTab) targetTab.classList.remove("hidden");
+            if (targetBtn) {
+                targetBtn.classList.add("border-teal-400", "text-teal-400", "font-semibold");
+                targetBtn.classList.remove("border-transparent", "text-slate-400", "font-medium");
+            }
+
+            if (tabId === "river-tab") {
+                setTimeout(() => { calculateIndexMetrics(); }, 50);
+            } else if (tabId === "risk-tab") {
+                setTimeout(() => { renderAllIndicatorCharts(); }, 50);
+            }
+        };
 
         window.onload = function() {
             initApp();
@@ -866,88 +749,9 @@
                 }
             }
 
-            renderTable();
-            renderPERiverChart();
             renderPETrendChart(indexPE2026);
         }
 
-        function renderTable() {
-            const tableBody = document.getElementById("stock-table-body");
-            if (!tableBody) return;
-            tableBody.innerHTML = "";
-
-            stocks.forEach((s, idx) => {
-                const pe2026 = (s.price / s.eps_2026).toFixed(1);
-                let sectorBadge = "";
-                if (s.sector === "semi") {
-                    sectorBadge = `<span class="px-2 py-0.5 bg-teal-950/60 text-teal-400 text-[10px] rounded border border-teal-500/20 font-bold">半導體</span>`;
-                } else if (s.sector === "electronics") {
-                    sectorBadge = `<span class="px-2 py-0.5 bg-blue-950/60 text-blue-400 text-[10px] rounded border border-blue-500/20 font-bold">電子科技</span>`;
-                } else if (s.sector === "finance") {
-                    sectorBadge = `<span class="px-2 py-0.5 bg-amber-950/60 text-amber-400 text-[10px] rounded border border-amber-500/20 font-bold">金融保險</span>`;
-                } else {
-                    sectorBadge = `<span class="px-2 py-0.5 bg-slate-800 text-slate-300 text-[10px] rounded border border-slate-700 font-bold">傳產航運</span>`;
-                }
-
-                const tr = document.createElement("tr");
-                tr.className = "hover:bg-slate-900/40 transition duration-150 group";
-                tr.innerHTML = `
-                    <td class="py-3 px-5 font-medium border-b border-slate-800">
-                        <span class="text-[10px] text-slate-500 font-mono block">${s.code}</span>
-                        <span class="text-slate-100 font-bold">${s.name}</span>
-                    </td>
-                    <td class="py-3 px-3 text-right font-mono font-semibold text-slate-300 border-b border-slate-800">${s.weight.toFixed(2)}%</td>
-                    <td class="py-3 px-3 text-right border-b border-slate-800">
-                        <input type="number" step="any" value="${s.price}" onchange="updateStockCell(${idx}, 'price', this.value)" class="bg-transparent text-right w-20 text-teal-400 font-mono border-b border-transparent group-hover:border-slate-700 focus:border-teal-400 focus:outline-none focus:ring-0 p-0 text-sm">
-                    </td>
-                    <td class="py-3 px-3 text-right border-b border-slate-800">
-                        <input type="number" step="any" value="${s.eps_2025}" onchange="updateStockCell(${idx}, 'eps_2025', this.value)" class="bg-transparent text-right w-16 text-slate-300 font-mono border-b border-transparent group-hover:border-slate-700 focus:border-teal-400 focus:outline-none focus:ring-0 p-0 text-sm">
-                    </td>
-                    <td class="py-3 px-3 text-right bg-slate-900/20 border-b border-slate-800 font-semibold">
-                        <input type="number" step="any" value="${s.eps_2026}" onchange="updateStockCell(${idx}, 'eps_2026', this.value)" class="bg-transparent text-right w-16 text-slate-100 font-mono border-b border-transparent group-hover:border-slate-700 focus:border-teal-400 focus:outline-none focus:ring-0 p-0 text-sm">
-                    </td>
-                    <td class="py-3 px-3 text-right border-b border-slate-800">
-                        <input type="number" step="any" value="${s.eps_2027}" onchange="updateStockCell(${idx}, 'eps_2027', this.value)" class="bg-transparent text-right w-16 text-slate-300 font-mono border-b border-transparent group-hover:border-slate-700 focus:border-teal-400 focus:outline-none focus:ring-0 p-0 text-sm">
-                    </td>
-                    <td class="py-3 px-3 text-right font-mono font-bold text-indigo-400 border-b border-slate-800">${pe2026} x</td>
-                    <td class="py-3 px-5 text-center border-b border-slate-800">${sectorBadge}</td>
-                `;
-                tableBody.appendChild(tr);
-            });
-        }
-
-        function updateStockCell(idx, field, value) {
-            let parsed = parseFloat(value);
-            if (!isNaN(parsed) && parsed >= 0) {
-                stocks[idx][field] = parsed;
-                calculateIndexMetrics();
-            }
-        }
-
-        function switchTab(tabId) {
-            document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
-            document.querySelectorAll("[id^='tab-btn-']").forEach(el => {
-                el.classList.remove("border-teal-400", "text-teal-400", "font-semibold");
-                el.classList.add("border-transparent", "text-slate-400", "hover:text-slate-200", "font-medium");
-            });
-
-            const targetTab = document.getElementById(tabId);
-            const targetBtn = document.getElementById(`tab-btn-${tabId}`);
-            
-            if (targetTab) targetTab.classList.remove("hidden");
-            if (targetBtn) {
-                targetBtn.classList.add("border-teal-400", "text-teal-400", "font-semibold");
-                targetBtn.classList.remove("border-transparent", "text-slate-400", "font-medium");
-            }
-
-            if (tabId === "river-tab") {
-                setTimeout(() => { calculateIndexMetrics(); }, 50);
-            } else if (tabId === "risk-tab") {
-                setTimeout(() => { renderAllIndicatorCharts(); }, 50);
-            }
-        }
-
-        /* STREAMING_CHUNK: Rendering expanded inline 24-month trend charts for all 9 indicators... */
         function renderAllIndicatorCharts() {
             const months = [
                 '24/08', '24/09', '24/10', '24/11', '24/12', 
@@ -1063,7 +867,7 @@
                                 ticks: { 
                                     color: '#64748b', 
                                     font: { size: 9 },
-                                    maxTicksLimit: 6,
+                                    maxTicksLimit: 12,
                                     maxRotation: 0
                                 }
                             },
@@ -1167,89 +971,6 @@
                             grid: { drawOnChartArea: false },
                             ticks: { color: '#818cf8', font: { size: 10 } }
                         }
-                    }
-                }
-            });
-        }
-
-        function renderPERiverChart() {
-            const canvas = document.getElementById('peRiverChart');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-
-            let totalWeightUsed = stocks.reduce((sum, s) => sum + s.weight, 0);
-            let scalingFactor = 100 / totalWeightUsed;
-            let weightedEarningsYield2026 = 0;
-            stocks.forEach(s => {
-                weightedEarningsYield2026 += (s.weight * 0.01) * (s.eps_2026 / s.price);
-            });
-            const indexEPS2026 = currentTaiexPrice * weightedEarningsYield2026 * scalingFactor;
-
-            const labels = Array(realTaiexHistory.length).fill("");
-            labels[0] = '2024Q1';
-            labels[13] = '2024Q2';
-            labels[26] = '2024Q3';
-            labels[39] = '2024Q4';
-            labels[52] = '2025Q1';
-            labels[65] = '2025Q2';
-            labels[78] = '2025Q3';
-            labels[91] = '2025Q4';
-            labels[104] = '2026Q1';
-            labels[117] = '2026Q2';
-            labels[realTaiexHistory.length - 1] = '當前位置';
-
-            const multipliers = [18, 22, 26, 30, 34];
-            const datasets = [];
-
-            const colorSpectrum = [
-                'rgba(148, 163, 184, 0.12)', 'rgba(52, 211, 153, 0.12)',
-                'rgba(251, 191, 36, 0.12)', 'rgba(248, 113, 113, 0.12)', 'rgba(239, 68, 68, 0.12)'
-            ];
-
-            multipliers.forEach((pe, idx) => {
-                const bandData = realTaiexHistory.map((pt, t) => {
-                    const ratio = t / (realTaiexHistory.length - 1);
-                    const simulatedHistoricalEPS = 880 + (indexEPS2026 - 880) * ratio;
-                    return simulatedHistoricalEPS * pe;
-                });
-
-                datasets.push({
-                    label: `${pe}x PE 區間`,
-                    data: bandData,
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
-                    backgroundColor: colorSpectrum[idx],
-                    fill: idx === 0 ? 'origin' : '-1',
-                    borderWidth: 1,
-                    pointRadius: 0
-                });
-            });
-
-            const adjustedTaiexHistory = [...realTaiexHistory];
-            adjustedTaiexHistory[adjustedTaiexHistory.length - 1] = Math.round(currentTaiexPrice);
-
-            datasets.push({
-                label: '加權指數實際走勢',
-                data: adjustedTaiexHistory,
-                borderColor: '#6366f1',
-                backgroundColor: 'rgba(99, 102, 241, 0.05)',
-                borderWidth: 3,
-                pointRadius: function(context) { return context.dataIndex === adjustedTaiexHistory.length - 1 ? 8 : 0; },
-                pointBackgroundColor: '#818cf8',
-                fill: false
-            });
-
-            if (peRiverChartInstance) peRiverChartInstance.destroy();
-
-            peRiverChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: { labels: labels, datasets: datasets },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { position: 'top', labels: { color: '#cbd5e1', font: { size: 10 } } } },
-                    scales: {
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.02)' }, ticks: { color: '#94a3b8', font: { size: 10 } } },
-                        y: { grid: { color: 'rgba(255, 255, 255, 0.03)' }, ticks: { color: '#94a3b8', font: { size: 10 } } }
                     }
                 }
             });
