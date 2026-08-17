@@ -76,10 +76,10 @@
         </div>
     </header>
 
-    <!-- Core Market Metrics Summary Cards (5 Cards) -->
+    <!-- Core Market Metrics Summary Cards (Simplified to 2 Cards) -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 flex-grow w-full space-y-6">
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <!-- Metric 1: Current TAIEX Index -->
             <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 relative overflow-hidden group">
                 <div class="absolute -right-4 -bottom-4 text-slate-800/20 text-6xl group-hover:scale-110 transition duration-300">
@@ -87,54 +87,20 @@
                 </div>
                 <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">加權指數點位 (TAIEX)</p>
                 <div class="mt-2">
-                    <h3 id="display-taiex-price" class="text-2xl font-bold tracking-tight text-teal-400 py-1">46,780 點</h3>
+                    <h3 id="display-taiex-price" class="text-3xl font-bold tracking-tight text-teal-400 py-1">46,780 點</h3>
                 </div>
-                <p class="text-[10px] text-slate-500 mt-2 flex items-center gap-1">
+                <p class="text-[11px] text-slate-500 mt-2 flex items-center gap-1">
                     <i class="fa-solid fa-lock"></i> 唯讀數據 / 由 AI 實時同步
                 </p>
             </div>
 
-            <!-- Metric 2: Dynamic TAIEX EPS 2026 -->
-            <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 relative overflow-hidden group">
-                <div class="absolute -right-4 -bottom-4 text-slate-800/20 text-6xl group-hover:scale-110 transition duration-300">
-                    <i class="fa-solid fa-calculator"></i>
-                </div>
-                <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">大盤 2026 預估 EPS</p>
-                <h3 id="card-index-eps" class="text-2xl font-bold mt-2 tracking-tight text-slate-100">1,682.45 元</h3>
-                <p class="text-xs text-slate-400 mt-1 flex items-center gap-1">
-                    <span>2025: <span id="card-index-eps-2025" class="text-slate-300">1,385.12</span></span>
-                    <span class="mx-1">|</span>
-                    <span>2027: <span id="card-index-eps-2027" class="text-slate-300">1,950.40</span></span>
-                </p>
-            </div>
-
-            <!-- Metric 3: Implied PE Ratio -->
-            <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 relative overflow-hidden group">
-                <div class="absolute -right-4 -bottom-4 text-slate-800/20 text-6xl group-hover:scale-110 transition duration-300">
-                    <i class="fa-solid fa-scale-balanced"></i>
-                </div>
-                <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">大盤前瞻本益比 (PE)</p>
-                <h3 id="card-index-pe" class="text-2xl font-bold mt-2 tracking-tight text-indigo-400">27.80 x</h3>
-                <p class="text-xs text-slate-400 mt-1">當前大盤指數 / 2026 預估 EPS</p>
-            </div>
-
-            <!-- Metric 4: Market Valuation Diagnosis -->
-            <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 relative overflow-hidden group">
-                <div class="absolute -right-4 -bottom-4 text-slate-800/20 text-6xl group-hover:scale-110 transition duration-300">
-                    <i class="fa-solid fa-gauge-high"></i>
-                </div>
-                <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">估值評價狀態</p>
-                <h3 id="card-valuation-diagnosis" class="text-2xl font-bold mt-2 tracking-tight text-amber-400">評價合理 (Fair)</h3>
-                <p class="text-xs text-slate-400 mt-1">依歷史 PE 常態分配判定</p>
-            </div>
-
-            <!-- Metric 5: Risk Index Meter -->
+            <!-- Metric 2: Risk Index Meter -->
             <div class="glassmorphism p-5 rounded-2xl border border-slate-800/80 relative overflow-hidden group bg-gradient-to-br from-slate-900/80 to-rose-950/20">
                 <div class="absolute -right-4 -bottom-4 text-slate-800/20 text-6xl group-hover:scale-110 transition duration-300">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
                 <p class="text-xs font-medium text-slate-400 tracking-wider uppercase">市場脆弱度風險指數</p>
-                <h3 id="card-risk-score" class="text-2xl font-bold mt-2 tracking-tight text-rose-400">73 / 100</h3>
+                <h3 id="card-risk-score" class="text-3xl font-bold mt-2 tracking-tight text-rose-400">73 / 100</h3>
                 <p id="card-risk-level" class="text-xs text-rose-400 mt-1 font-bold animate-pulse">🔴 極高極致風暴警戒 (High Risk)</p>
             </div>
         </div>
@@ -143,7 +109,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             
             <div class="lg:col-span-3 space-y-6">
-                <!-- Navigation Tabs (3 Active Tabs) -->
+                <!-- Navigation Tabs -->
                 <div class="flex overflow-x-auto gap-2 border-b border-slate-800 pb-px no-scrollbar">
                     <button onclick="switchTab('river-tab')" id="tab-btn-river-tab" class="px-5 py-3 text-sm font-semibold border-b-2 border-teal-400 text-teal-400 whitespace-nowrap focus:outline-none transition flex items-center gap-2">
                         <i class="fa-solid fa-chart-line"></i>本益比歷史走勢分析
@@ -159,15 +125,49 @@
                 <!-- Tab 1: PE Evaluation Charts -->
                 <div id="river-tab" class="tab-content space-y-6">
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                            <div>
-                                <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
-                                    <i class="fa-solid fa-chart-line text-teal-400"></i> 大盤歷史本益比與加權指數走勢 (31 個月月線統計)
-                                </h4>
-                                <p class="text-xs text-slate-400 mt-1">追蹤台股自 2024 年 1 月至 2026 年 7 月共 31 個月的大盤前瞻本益比（左軸，Teal實線）與加權指數月底收盤（右軸，Indigo虛線）。</p>
+                        <div class="border-b border-slate-800 pb-3">
+                            <h4 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                                <i class="fa-solid fa-chart-line text-teal-400"></i> 大盤歷史本益比與加權指數走勢 (31 個月月線統計)
+                            </h4>
+                            <p class="text-xs text-slate-400 mt-1">追蹤台股自 2024 年 1 月至 2026 年 7 月共 31 個月的大盤前瞻本益比（左軸，Teal實線）與加權指數月底收盤（右軸，Indigo虛線）。</p>
+                        </div>
+
+                        <!-- Integrated Metrics Bar -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-slate-900/70 rounded-xl border border-slate-800/80">
+                            <!-- Integrated Metric 1: Dynamic TAIEX EPS 2026 -->
+                            <div class="space-y-1">
+                                <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                    <i class="fa-solid fa-calculator text-teal-400"></i> 大盤 2026 預估 EPS
+                                </p>
+                                <h3 id="card-index-eps" class="text-xl font-bold tracking-tight text-slate-100">1,682.45 元</h3>
+                                <p class="text-[10px] text-slate-400 flex items-center gap-1">
+                                    <span>2025: <span id="card-index-eps-2025" class="text-slate-300">1,385.12</span></span>
+                                    <span class="mx-1">|</span>
+                                    <span>2027: <span id="card-index-eps-2027" class="text-slate-300">1,950.40</span></span>
+                                </p>
+                            </div>
+
+                            <!-- Integrated Metric 2: Implied PE Ratio -->
+                            <div class="space-y-1 border-t sm:border-t-0 sm:border-l border-slate-800/80 pt-3 sm:pt-0 sm:pl-4">
+                                <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                    <i class="fa-solid fa-scale-balanced text-indigo-400"></i> 大盤前瞻本益比 (PE)
+                                </p>
+                                <h3 id="card-index-pe" class="text-xl font-bold tracking-tight text-indigo-400">27.80 x</h3>
+                                <p class="text-[10px] text-slate-400">當前加權指數 / 2026 預估 EPS</p>
+                            </div>
+
+                            <!-- Integrated Metric 3: Market Valuation Diagnosis -->
+                            <div class="space-y-1 border-t sm:border-t-0 sm:border-l border-slate-800/80 pt-3 sm:pt-0 sm:pl-4">
+                                <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                    <i class="fa-solid fa-gauge-high text-amber-400"></i> 估值評價狀態
+                                </p>
+                                <h3 id="card-valuation-diagnosis" class="text-xl font-bold tracking-tight text-amber-400">評價合理 (Fair)</h3>
+                                <p class="text-[10px] text-slate-400">依歷史 PE 常態分配判定</p>
                             </div>
                         </div>
-                        <div class="relative w-full h-[380px]">
+
+                        <!-- Main PE Trend Chart Canvas -->
+                        <div class="relative w-full h-[380px] pt-2">
                             <canvas id="peTrendChart"></canvas>
                         </div>
                     </div>
@@ -360,7 +360,7 @@
                     <!-- Dimension 3: Technical Warnings -->
                     <div class="glassmorphism p-6 rounded-2xl border border-slate-800/80 space-y-4">
                         <h4 class="text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
-                            <i class="fa-solid fa-chart-line text-rose-400"></i> 三、 技術面預警訊号 (Technical Warnings)
+                            <i class="fa-solid fa-chart-line text-rose-400"></i> 三、 技術面預警訊號 (Technical Warnings)
                         </h4>
                         
                         <div class="grid grid-cols-1 gap-6">
@@ -579,7 +579,7 @@
                         <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800/50">
                             <p class="text-teal-400 font-bold mb-1">💡 風控系統精靈:</p>
                             <p class="text-slate-300 leading-relaxed">
-                                已修復圖表渲染與分頁切換連論問題！您可以自由切換 **「本益比歷史走勢分析」**、**「全球大跌前兆風控雷達」** 及 **「全球股市熱力圖」**。
+                                已全新更新儀表板版面！頂部卡片專注於大盤點位與風控總分數，而 **「2026預估EPS」**、**「前瞻本益比」** 與 **「估值評價診斷」** 已整合至首頁圖表卡片上方。
                             </p>
                         </div>
                         <div id="chat-stream-destination"></div>
@@ -842,16 +842,16 @@
             const diagnosis = document.getElementById("card-valuation-diagnosis");
             if (indexPE2026 > 29) {
                 diagnosis.innerText = "極致泡沫 (Bubble)";
-                diagnosis.className = "text-2xl font-bold mt-2 tracking-tight text-rose-500 animate-pulse";
+                diagnosis.className = "text-xl font-bold mt-1 tracking-tight text-rose-500 animate-pulse";
             } else if (indexPE2026 > 26) {
                 diagnosis.innerText = "評價偏高 (Premium)";
-                diagnosis.className = "text-2xl font-bold mt-2 tracking-tight text-rose-400";
+                diagnosis.className = "text-xl font-bold mt-1 tracking-tight text-rose-400";
             } else if (indexPE2026 < 20) {
                 diagnosis.innerText = "歷史便宜 (Value)";
-                diagnosis.className = "text-2xl font-bold mt-2 tracking-tight text-emerald-400";
+                diagnosis.className = "text-xl font-bold mt-1 tracking-tight text-emerald-400";
             } else {
                 diagnosis.innerText = "評價合理 (Fair)";
-                diagnosis.className = "text-2xl font-bold mt-2 tracking-tight text-amber-400";
+                diagnosis.className = "text-xl font-bold mt-1 tracking-tight text-amber-400";
             }
 
             let baseRiskScore = 15;
